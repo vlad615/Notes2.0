@@ -1,12 +1,12 @@
-import type { ListType } from "../layout/todoList/components/CardList";
+// import type { ListType } from "../layout/todoList/components/CardList";
 
-type Action = {
-    type: string
-    payload: any
-}
+// type Action = {
+//     type: string
+//     payload: any
+// }
 
-const initialState: ListType[] = []
+// const initialState: ListType[] = []
 
-function todolistReducer(state: ListType[] = initialState, action: Action){
+// function todolistReducer(state: ListType[] = initialState, action: Action){
 
-}
+// }
