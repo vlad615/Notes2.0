@@ -1,0 +1,29 @@
+.wrapper {
+    padding: 10px;
+    background-color: rgb(240, 241, 241);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    max-width: 260px;
+}
+
+
+
+li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.titleWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.done {
+    color: rgba(128, 128, 128, 0.63);
+    text-decoration: line-through;
+}
+
+.active {
+    font-weight: 600;
+}
