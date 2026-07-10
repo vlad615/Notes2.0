@@ -75,10 +75,9 @@ export const ToDoLists = ({ list, tasks }: Props) => {
     return (
         <section>
             <div className="container">
-                <div className={s.tasksWrapper}>
-                    <label className={s.label}>Add new list of Tasks 
-                        <AddItem createItem={createList} label="Name of List" primary/></label>
-                    
+                <div className={s.formWrapper}>
+                    <h2>Add new list of Tasks </h2>
+                    <AddItem createItem={createList} label="Name of List" primary />
                 </div>
                 <div className={s.tasksWrapper}>
                     {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { TaskProps } from "../layout/todoList/components/CardList";
 import { Button } from "./Buttons";
 import { AddItemS } from "./styles/AddItemS";
+import s from "./styles/AddItem.module.css"
 
 type Props = {
     createItem: (title: TaskProps["title"]) => void;
@@ -23,9 +24,9 @@ export const AddItem = ({ createItem, label, primary }: Props) => {
         setValue("")
     }
     return (
-        <>
+        <div className={s.wrapper}>
             <AddItemS type="text" value={value} onChange={changeValue} variant={prim} label={label} />
             <Button name="Add" callBack={newItem} primary={primary} />
-        </>
+        </div>
     )
 }

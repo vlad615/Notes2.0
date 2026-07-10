@@ -1,3 +1,4 @@
+import { Header } from "./layout/header/Header";
 import type { ListType } from "./layout/todoList/components/CardList";
 import { ToDoLists, type TasksType } from "./layout/todoList/ToDoLists"
 import "./styles/index.css"
@@ -37,6 +38,7 @@ export function App() {
 
   return (
     <>
+      <Header />
       <ToDoLists list={toDoLists} tasks={tasks} />
     </>
   )

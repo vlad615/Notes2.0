@@ -8,7 +8,7 @@ type Props = {
 
 
 export function Button({name, callBack, primary}: Props){
-    const prim = primary? "text" : "contained"
+    const prim = primary? "contained" : "text"
     return(
         <ButtonS variant={prim} type="button" onClick={callBack} >{name}</ButtonS>
     )
