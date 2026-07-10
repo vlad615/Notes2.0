@@ -4,19 +4,44 @@ import type { TaskProps } from "./components/CardList";
 import { AddItem } from "../../components/AddItem";
 import s from "./ToDoLists.module.css"
 
+const task1 = crypto.randomUUID()
+const task2 = crypto.randomUUID()
+
+const toDoLists: ListType[] = [
+    {
+        id: task1,
+        title: "Programing",
+        filter: "all"
+    },
+    {
+        id: task2,
+        title: "To be happy",
+        filter: "all"
+    },
+]
+
+const tasks: TasksType =
+{
+    [task1]: [
+        { id: crypto.randomUUID(), title: 'HTML&CSS', isDone: true },
+        { id: crypto.randomUUID(), title: 'JS', isDone: true },
+        { id: crypto.randomUUID(), title: 'ReactJS', isDone: false },
+    ],
+
+    [task2]: [
+        { id: crypto.randomUUID(), title: 'Hello world', isDone: true },
+        { id: crypto.randomUUID(), title: 'I am Happy', isDone: false },
+        { id: crypto.randomUUID(), title: 'Yo', isDone: false },]
+
+}
 
 export type TasksType = {
     [idList: string]: TaskProps[]
 }
 
-type Props = {
-    list: ListType[]
-    tasks: TasksType
-}
 
-
-export const ToDoLists = ({ list, tasks }: Props) => {
-    const [currentLists, setCurrentLists] = useState(list)
+export const ToDoLists = () => {
+    const [currentLists, setCurrentLists] = useState(toDoLists)
     const [currentTasks, setCurrentTasks] = useState(tasks)
 
     function createList(title: ListType["title"]) {
@@ -76,7 +101,7 @@ export const ToDoLists = ({ list, tasks }: Props) => {
         <section>
             <div className="container">
                 <div className={s.formWrapper}>
-                    <h2>Add new list of Tasks </h2>
+                    <h2>Add a new to-do list </h2>
                     <AddItem createItem={createList} label="Name of List" primary />
                 </div>
                 <div className={s.tasksWrapper}>
