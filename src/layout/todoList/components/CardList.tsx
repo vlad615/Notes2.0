@@ -3,6 +3,7 @@ import s from "./CardList.module.css"
 import { AddItem } from "../../../components/AddItem";
 import { EditebleTitle } from "../../../components/EditebleTitle";
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { MenuList } from "./menuList";
 
 
 type Filter = "all" | "complited" | "active"
@@ -73,21 +74,20 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
 
             <div className={s.titleWrapper}>
                 <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2>
-                <Button name="x" callBack={() => delList(id)} />
+                <MenuList deleteList={()=>delList(id)}/>
             </div>
             <span className="counter">{tasks.length} tasks</span>
             <div className={s.addWrapper}>
                 <AddItem createItem={AddTaskHandler} label="New task" /></div>
-
             <div>
                 <ButtonGroup color="secondary" aria-label="Medium-sized button group">
-                    <Button primary={filter === "all" ? false : true}
+                    <Button primary={filter === "all" ? true : false}
                         name="All"
                         callBack={() => updateList({ id, title, filter: "all" })} />
-                    <Button primary={filter === "active" ? false : true}
+                    <Button primary={filter === "active" ? true : false}
                         name="Active"
                         callBack={() => updateList({ id, title, filter: "active" })} />
-                    <Button primary={filter === "complited" ? false : true}
+                    <Button primary={filter === "complited" ? true : false}
                         name="Complited"
                         callBack={() => updateList({ id, title, filter: "complited" })} />
                 </ButtonGroup>

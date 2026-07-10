@@ -1,0 +1,17 @@
+.wrapper {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+
+}
+
+.inputsWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title{
+    margin-bottom: 10px;
+}

@@ -24,9 +24,9 @@ export const AddItem = ({ createItem, label, primary }: Props) => {
         setValue("")
     }
     return (
-        <div className={s.wrapper}>
-            <AddItemS type="text" value={value} onChange={changeValue} variant={prim} label={label} />
+        <>
+            <AddItemS type="text" value={value} onChange={changeValue} variant={prim} label={label} sx={{borderRadius: '20px'}}/>
             <Button name="Add" callBack={newItem} primary={primary} />
-        </div>
+        </>
     )
 }

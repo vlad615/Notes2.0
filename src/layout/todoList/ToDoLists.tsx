@@ -3,6 +3,7 @@ import { CardList, type ListType } from "./components/CardList";
 import type { TaskProps } from "./components/CardList";
 import { AddItem } from "../../components/AddItem";
 import s from "./ToDoLists.module.css"
+import { Form } from "./components/Form";
 
 const task1 = crypto.randomUUID()
 const task2 = crypto.randomUUID()
@@ -100,22 +101,19 @@ export const ToDoLists = () => {
     return (
         <section>
             <div className="container">
-                <div className={s.formWrapper}>
-                    <h2>Add a new to-do list </h2>
-                    <AddItem createItem={createList} label="Name of List" primary />
-                </div>
-                <div className={s.tasksWrapper}>
-                    {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
-                        updateList={updateList}
-                        delList={deleteList}
-                        createTask={createTask}
-                        changeDone={updateTask}
-                        delTask={deleteTask}
-                        changeTitle={updateTaskTitle} />)}
+                <div className={s.wrapper}>
+                    <Form createList={createList} />
+                    <div className={s.tasksWrapper}>
+                        {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
+                            updateList={updateList}
+                            delList={deleteList}
+                            createTask={createTask}
+                            changeDone={updateTask}
+                            delTask={deleteTask}
+                            changeTitle={updateTaskTitle} />)}
+                    </div>
                 </div>
             </div>
         </section>
-
-
     )
 }

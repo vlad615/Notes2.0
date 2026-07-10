@@ -1,3 +1,7 @@
+.wrapper {
+    margin: 0 15px;
+}
+
 .tasksWrapper {
     display: flex;
     gap: 25px;
