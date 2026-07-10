@@ -73,11 +73,12 @@ export const ToDoLists = ({ list, tasks }: Props) => {
     }
 
     return (
-        <div className="container">
-            <section>
+        <section>
+            <div className="container">
                 <div className={s.tasksWrapper}>
-                    <b>New List Tasks:</b>
-                    <AddItem createItem={createList} />
+                    <label className={s.label}>Add new list of Tasks 
+                        <AddItem createItem={createList} label="Name of List" primary/></label>
+                    
                 </div>
                 <div className={s.tasksWrapper}>
                     {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
@@ -88,7 +89,9 @@ export const ToDoLists = ({ list, tasks }: Props) => {
                         delTask={deleteTask}
                         changeTitle={updateTaskTitle} />)}
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
+
     )
 }

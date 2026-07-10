@@ -7,7 +7,10 @@
     max-width: 260px;
 }
 
-
+.addWrapper{
+    display: flex;
+    gap: 5px;
+}
 
 li {
     display: flex;

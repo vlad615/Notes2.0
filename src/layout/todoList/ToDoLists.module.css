@@ -2,3 +2,11 @@
     display: flex;
     gap: 25px;
 }
+
+.label {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}

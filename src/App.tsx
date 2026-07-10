@@ -37,9 +37,7 @@ export function App() {
 
   return (
     <>
-      <section>
-        <ToDoLists list={toDoLists} tasks={tasks} />
-      </section>
+      <ToDoLists list={toDoLists} tasks={tasks} />
     </>
   )
 }

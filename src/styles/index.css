@@ -4,11 +4,12 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
   min-width: 360px;
 }
 
@@ -20,7 +21,6 @@ body {
 section{
   overflow: hidden;
   padding: 0 15px;
-  margin: 50px 0;
 }
 
 code {

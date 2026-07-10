@@ -1,4 +1,4 @@
-import s from "./Buttons.module.css"
+import { ButtonS } from "./styles/Buttons"
 
 type Props = {
     name: string
@@ -6,8 +6,10 @@ type Props = {
     primary?: boolean
 }
 
+
 export function Button({name, callBack, primary}: Props){
+    const prim = primary? "text" : "contained"
     return(
-        <button type="button" onClick={callBack} className={primary? s.primary: ""}>{name}</button>
+        <ButtonS variant={prim} type="button" onClick={callBack} >{name}</ButtonS>
     )
 }
