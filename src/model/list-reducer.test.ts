@@ -1,0 +1,26 @@
+import { beforeEach, expect, test } from 'vitest'
+import { deleteListAC, listReducer } from './list-reducer'
+import type { ListType } from '../layout/todoList/components/CardList'
+
+let todolistId1: string
+let todolistId2: string
+let startState: ListType[]
+
+beforeEach(() => {
+    todolistId1 = crypto.randomUUID()
+    todolistId2 = crypto.randomUUID()
+
+    startState = [
+        { id: todolistId1, title: 'What to learn', filter: 'all' },
+        { id: todolistId2, title: 'What to buy', filter: 'all' },
+    ]
+}
+)
+
+test('correct todolist should be deleted', () => {
+    const action = deleteListAC(todolistId1)
+    const endState = listReducer(startState, action)
+
+    expect(endState.length).toBe(1)
+    expect(endState[0].id).toBe(todolistId2)
+})
