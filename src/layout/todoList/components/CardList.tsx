@@ -7,7 +7,7 @@ import { MenuList } from "./menuList";
 import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-type Filter = "all" | "complited" | "active"
+type Filter = "all" | "completed" | "active"
 
 export type ListType = {
     id: string
@@ -44,7 +44,7 @@ export const CardList = ({ id, title, filter, tasks, updateListFilter, updateLis
             if (!filteredTasks.length) {
                 return <span>All tasks is done!</span>
             }
-        } else if (filter === "complited") {
+        } else if (filter === "completed") {
             filteredTasks = tasks.filter(t => t.isDone)
             if (!filteredTasks.length) {
                 return <span>U have complite no tasks, yet!</span>
@@ -98,9 +98,9 @@ export const CardList = ({ id, title, filter, tasks, updateListFilter, updateLis
                 <Button primary={filter === "active" ? true : false}
                     name="Active"
                     callBack={() => updateListFilter(id, filter = "active")} />
-                <Button primary={filter === "complited" ? true : false}
-                    name="Complited"
-                    callBack={() => updateListFilter(id, filter = "complited")} />
+                <Button primary={filter === "completed" ? true : false}
+                    name="Completed"
+                    callBack={() => updateListFilter(id, filter = "completed")} />
             </ButtonGroup>
             <List sx={{ width: '100%' }}>
                 {tasks.length ? ListItems() : <span>List is empty</span>}

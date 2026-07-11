@@ -28,12 +28,12 @@ export const createListAC = (title: ListType["title"]) => {
     return { type: 'create', payload: { title } } as const
 }
 
-export const updateTitleListAC = (id: ListType["id"], title: ListType["title"]) => {
-    return { type: 'update_title', payload: { title, id } } as const
+export const updateTitleListAC = (data: {id: ListType["id"], title: ListType["title"]}) => {
+    return { type: 'update_title', payload: { title: data.title, id:data.id } } as const
 }
 
-export const updateFilterListAC = (id: ListType["id"], filter: ListType["filter"]) => {
-    return { type: 'update_filter', payload: { filter, id } } as const
+export const updateFilterListAC = (data: {id: ListType["id"], filter: ListType["filter"]}) => {
+    return { type: 'update_filter', payload: { filter: data.filter, id: data.id } } as const
 }
 
 export const deleteListAC = (id: ListType["id"]) => {
