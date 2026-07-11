@@ -90,7 +90,7 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
                     <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2></Badge>
                 <MenuList deleteList={() => delList(id)} />
             </Box>
-            <ButtonGroup sx={{marginBottom: '10px'}} color="secondary" aria-label="Medium-sized button group">
+            <ButtonGroup sx={{marginBottom: '10px'}} aria-label="Medium-sized button group">
                 <Button primary={filter === "all" ? true : false}
                     name="All"
                     callBack={() => updateList({ id, title, filter: "all" })} />

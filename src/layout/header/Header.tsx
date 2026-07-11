@@ -2,7 +2,7 @@ import s from "./Header.module.css"
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { Box, Grid, IconButton, Paper } from "@mui/material";
+import { Box, IconButton, Paper } from "@mui/material";
 
 type Props = {
     dark: boolean

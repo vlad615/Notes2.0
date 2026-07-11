@@ -8,8 +8,8 @@ type Props = {
 
 
 export function Button({name, callBack, primary}: Props){
-    const prim = primary? "contained" : "text"
+    const prim = primary? "contained" : "outlined"
     return(
-        <ButtonS variant={prim} type="button" onClick={callBack} >{name}</ButtonS>
+        <ButtonS variant={prim} type="button" onClick={callBack} sx={primary? {color: "#fff"}: {color: ""}} >{name}</ButtonS>
     )
 }
