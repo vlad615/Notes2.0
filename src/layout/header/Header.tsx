@@ -2,20 +2,25 @@ import s from "./Header.module.css"
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { IconButton } from "@mui/material";
+import { Box, Grid, IconButton, Paper } from "@mui/material";
 
+type Props = {
+    dark: boolean
+    setDark: ()=>void
+}
 
-export const Header = () => {
+export const Header = ({dark, setDark}: Props) => {
     return (
         <header>
             <div className="container">
-                <div className={s.headerWrapper}>
-                    <div className={s.iconWrapper}>
+                <Paper className={s.headerWrapper}>
+                    <Box className={s.iconWrapper}>
                         <CheckBoxOutlinedIcon color='secondary' fontSize='large' />
                         <h1>To Do List</h1>
-                    </div>
-                    <IconButton><LightModeIcon sx= {{fontSize: 30}}/></IconButton>
-                </div>
+                    </Box>
+                    {dark? <IconButton onClick={setDark}><DarkModeIcon sx= {{fontSize: 30}}/></IconButton> 
+                    : <IconButton onClick={setDark}><LightModeIcon sx= {{fontSize: 30}}/></IconButton>}
+                </Paper>
             </div>
         </header>
     )

@@ -4,7 +4,8 @@ import { AddItem } from "../../../components/AddItem";
 import { EditebleTitle } from "../../../components/EditebleTitle";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { MenuList } from "./menuList";
-
+import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type Filter = "all" | "complited" | "active"
 
@@ -49,14 +50,25 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
             }
         }
 
-        const item = (data: TaskProps) => <li key={data.id}>
-            <label className={data.isDone ? s.done : s.active}>
-                <input type="checkbox" checked={data.isDone} onChange={() => changeDone(id, data.id)} />
-                <EditebleTitle title={data.title}
-                    setNewTitle={(title: TaskProps["title"]) => changeTitle(id, data.id, title)} />
-            </label>
-            <Button name="x" callBack={() => delTask(id, data.id)} />
-        </li>
+        const item = (data: TaskProps) =>
+            <ListItem key={data.id} secondaryAction={
+                <IconButton edge="end" aria-label="delete" onClick={() => delTask(id, data.id)}>
+                    <DeleteIcon fontSize="small"/>
+                </IconButton>}>
+                <ListItemButton role={undefined} onClick={() => changeDone(id, data.id)} dense>
+                    <ListItemIcon>
+                        <Checkbox
+                            edge="start"
+                            checked={data.isDone}
+                            tabIndex={-1}
+                            disableRipple
+                        />
+                    </ListItemIcon>
+                    <EditebleTitle title={data.title}
+                        setNewTitle={(title: TaskProps["title"]) => changeTitle(id, data.id, title)} />
+                </ListItemButton>
+            </ListItem>
+
 
         return filteredTasks.length ? filteredTasks.map(t => item(t)) : tasks.map(t => item(t))
     }
@@ -70,34 +82,33 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
     }
 
     return (
-        <div className={s.wrapper}>
+        <Paper className={s.wrapper}>
+            <Box className={s.titleWrapper}>
+                <Badge color="secondary" badgeContent={tasks.length} anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+                    {/* <ArticleOutlinedIcon sx={{ fontSize: 30 }} /> */}
 
-            <div className={s.titleWrapper}>
-                <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2>
-                <MenuList deleteList={()=>delList(id)}/>
-            </div>
-            <span className="counter">{tasks.length} tasks</span>
-            <div className={s.addWrapper}>
-                <AddItem createItem={AddTaskHandler} label="New task" /></div>
-            <div>
-                <ButtonGroup color="secondary" aria-label="Medium-sized button group">
-                    <Button primary={filter === "all" ? true : false}
-                        name="All"
-                        callBack={() => updateList({ id, title, filter: "all" })} />
-                    <Button primary={filter === "active" ? true : false}
-                        name="Active"
-                        callBack={() => updateList({ id, title, filter: "active" })} />
-                    <Button primary={filter === "complited" ? true : false}
-                        name="Complited"
-                        callBack={() => updateList({ id, title, filter: "complited" })} />
-                </ButtonGroup>
+                    <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2></Badge>
+                <MenuList deleteList={() => delList(id)} />
+            </Box>
+            <ButtonGroup sx={{marginBottom: '10px'}} color="secondary" aria-label="Medium-sized button group">
+                <Button primary={filter === "all" ? true : false}
+                    name="All"
+                    callBack={() => updateList({ id, title, filter: "all" })} />
+                <Button primary={filter === "active" ? true : false}
+                    name="Active"
+                    callBack={() => updateList({ id, title, filter: "active" })} />
+                <Button primary={filter === "complited" ? true : false}
+                    name="Complited"
+                    callBack={() => updateList({ id, title, filter: "complited" })} />
+            </ButtonGroup>
 
-            </div>
-
-            <ul>
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {tasks.length ? ListItems() : <span>List is empty</span>}
-            </ul>
+            </List>
+            <Box className={s.addWrapper}>
+                <AddItem createItem={AddTaskHandler} label="New task" />
+            </Box>
 
-        </div>
+        </Paper>
     )
 }

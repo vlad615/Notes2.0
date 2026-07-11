@@ -4,6 +4,7 @@ import type { TaskProps } from "./components/CardList";
 import { AddItem } from "../../components/AddItem";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
+import { Box, Paper } from "@mui/material";
 
 const task1 = crypto.randomUUID()
 const task2 = crypto.randomUUID()
@@ -99,11 +100,11 @@ export const ToDoLists = () => {
     }
 
     return (
-        <section>
-            <div className="container">
-                <div className={s.wrapper}>
+        <Box component={'section'}>
+            <Box className="container">
+                <Box className={s.wrapper}>
                     <Form createList={createList} />
-                    <div className={s.tasksWrapper}>
+                    <Box className={s.tasksWrapper}>
                         {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
                             updateList={updateList}
                             delList={deleteList}
@@ -111,9 +112,9 @@ export const ToDoLists = () => {
                             changeDone={updateTask}
                             delTask={deleteTask}
                             changeTitle={updateTaskTitle} />)}
-                    </div>
-                </div>
-            </div>
-        </section>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
     )
 }

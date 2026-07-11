@@ -1,3 +1,4 @@
+import { Box, Paper } from "@mui/material"
 import { AddItem } from "../../../components/AddItem"
 import type { ListType } from "./CardList"
 import s from "./Form.module.css"
@@ -9,12 +10,12 @@ type Props = {
 export const Form = ({ createList }: Props) => {
 
     return (
-        <div className={s.wrapper}>
+        <Paper className={s.wrapper}>
             <h2 className={s.title}>Add a new to-do list</h2>
-            <div className={s.inputsWrapper}>
+            <Box className={s.inputsWrapper}>
                 <AddItem createItem={createList} label="Name of List..." primary />
-            </div>
+            </Box>
 
-        </div>
+        </Paper>
     )
 }

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import type { ListType } from "../layout/todoList/components/CardList";
+import { TextField } from "@mui/material";
 
 type Props = {
     title: string
@@ -15,14 +16,22 @@ export const EditebleTitle = ({ title, setNewTitle }: Props) => {
         setValue(event.target.value)
     }
 
-    function setTitle(){
+    function setTitle() {
         setIsEdit(false)
         setNewTitle(value)
     }
 
+    function setTitleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.key === 'Enter') {
+            setIsEdit(false)
+            setNewTitle(value)
+        }
+    }
+
     return (
         <span onDoubleClick={() => setIsEdit(true)}>
-            {isEdit ? <input autoFocus value={value} onChange={changeValue} onBlur={setTitle}/> : title}
+            {isEdit ? <TextField autoFocus value={value} onKeyDown={(e) => setTitleEnter(e)} 
+            onChange={changeValue} onBlur={setTitle} /> : title}
         </span>
     )
 }
