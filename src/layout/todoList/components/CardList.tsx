@@ -4,7 +4,7 @@ import { AddItem } from "../../../components/AddItem";
 import { EditebleTitle } from "../../../components/EditebleTitle";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { MenuList } from "./menuList";
-import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
+import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type Filter = "all" | "complited" | "active"

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { CardList, type ListType } from "./components/CardList";
 import type { TaskProps } from "./components/CardList";
-import { AddItem } from "../../components/AddItem";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 
 const task1 = crypto.randomUUID()
 const task2 = crypto.randomUUID()
