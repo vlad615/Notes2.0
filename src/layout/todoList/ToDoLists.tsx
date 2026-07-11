@@ -56,10 +56,14 @@ export const ToDoLists = () => {
         setCurrentTasks(prev => ({ [newId]: [], ...prev }))
     }
 
-    function updateList(data: ListType) {
-        setCurrentLists(currentLists.map(i => i.id === data.id ? { ...i, title: data.title, filter: data.filter } : i))
+    function updateListFilter(id: ListType["id"],filter: ListType["filter"]) {
+        setCurrentLists(currentLists.map(i => i.id === id ? { ...i, filter } : i))
         console.log(currentLists, currentTasks);
+    }
 
+    function updateListTitle(id: ListType["id"], title: ListType["title"]) {
+        setCurrentLists(currentLists.map(i => i.id === id ? { ...i, title } : i))
+        console.log(currentLists, currentTasks);
     }
 
     function deleteList(id: ListType["id"]) {
@@ -105,7 +109,8 @@ export const ToDoLists = () => {
                     <Form createList={createList} />
                     <Box className={s.tasksWrapper}>
                         {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
-                            updateList={updateList}
+                            updateListFilter={updateListFilter}
+                            updateListTitle={updateListTitle}
                             delList={deleteList}
                             createTask={createTask}
                             changeDone={updateTask}

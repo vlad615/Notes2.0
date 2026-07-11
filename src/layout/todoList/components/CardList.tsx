@@ -23,8 +23,8 @@ export type TaskProps = {
 
 type Props = ListType & {
     tasks: TaskProps[],
-    // createList: ()=>void;
-    updateList: (data: ListType) => void;
+    updateListFilter: (id: ListType["id"], filter: ListType["filter"]) => void;
+    updateListTitle: (id: ListType["id"], filter: ListType["title"]) => void;
     delList: (idList: ListType["id"]) => void;
     createTask: (idList: ListType["id"], title: TaskProps["title"]) => void;
     changeDone: (idList: ListType["id"], id: TaskProps["id"]) => void;
@@ -33,7 +33,8 @@ type Props = ListType & {
 }
 
 
-export const CardList = ({ id, title, filter, tasks, updateList, delList, createTask, changeDone, delTask, changeTitle }: Props) => {
+export const CardList = ({ id, title, filter, tasks, updateListFilter, updateListTitle,
+    delList, createTask, changeDone, delTask, changeTitle }: Props) => {
 
     function ListItems() {
         let filteredTasks: Props["tasks"] = [];
@@ -53,7 +54,7 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
         const item = (data: TaskProps) =>
             <ListItem key={data.id} secondaryAction={
                 <IconButton edge="end" aria-label="delete" onClick={() => delTask(id, data.id)}>
-                    <DeleteIcon fontSize="small"/>
+                    <DeleteIcon fontSize="small" />
                 </IconButton>}>
                 <ListItemButton role={undefined} onClick={() => changeDone(id, data.id)} dense>
                     <ListItemIcon>
@@ -78,7 +79,7 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
     }
 
     function EditTitle(title: ListType["title"]) {
-        updateList({ id, filter, title })
+        updateListTitle(id, title)
     }
 
     return (
@@ -90,21 +91,21 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
                     <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2></Badge>
                 <MenuList deleteList={() => delList(id)} />
             </Box>
-            <ButtonGroup sx={{marginBottom: '10px'}} aria-label="Medium-sized button group">
+            <ButtonGroup sx={{ marginBottom: '10px' }} aria-label="Medium-sized button group">
                 <Button primary={filter === "all" ? true : false}
                     name="All"
-                    callBack={() => updateList({ id, title, filter: "all" })} />
+                    callBack={() => updateListFilter(id, filter = "all")} />
                 <Button primary={filter === "active" ? true : false}
                     name="Active"
-                    callBack={() => updateList({ id, title, filter: "active" })} />
+                    callBack={() => updateListFilter(id, filter = "active")} />
                 <Button primary={filter === "complited" ? true : false}
                     name="Complited"
-                    callBack={() => updateList({ id, title, filter: "complited" })} />
+                    callBack={() => updateListFilter(id, filter = "complited")} />
             </ButtonGroup>
             <List sx={{ width: '100%' }}>
                 {tasks.length ? ListItems() : <span>List is empty</span>}
             </List>
-            
+
             <Box className={s.addWrapper}>
                 <AddItem createItem={AddTaskHandler} label="New task" />
             </Box>
