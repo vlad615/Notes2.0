@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { CardList, type ListType } from "./components/CardList";
 import type { TaskProps } from "./components/CardList";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
 import { Box } from "@mui/material";
+import { createListAC, deleteListAC, listReducer, updateFilterListAC, updateTitleListAC } from "../../model/list/list-reducer";
 
 const task1 = crypto.randomUUID()
 const task2 = crypto.randomUUID()
@@ -42,32 +43,27 @@ export type TasksType = {
 
 
 export const ToDoLists = () => {
-    const [currentLists, setCurrentLists] = useState(toDoLists)
+    const [lists, dispatchLists] = useReducer(listReducer, toDoLists)
     const [currentTasks, setCurrentTasks] = useState(tasks)
 
     function createList(title: ListType["title"]) {
-        const newId = crypto.randomUUID()
-        setCurrentLists(prev => [{
-            id: newId,
-            title,
-            filter: "all"
-        }, ...prev])
-
-        setCurrentTasks(prev => ({ [newId]: [], ...prev }))
+        const action = createListAC(title)
+        dispatchLists(action)
+        setCurrentTasks(prev => ({ [action.payload.id]: [], ...prev }))
     }
 
     function updateListFilter(id: ListType["id"],filter: ListType["filter"]) {
-        setCurrentLists(currentLists.map(i => i.id === id ? { ...i, filter } : i))
-        console.log(currentLists, currentTasks);
+        dispatchLists(updateFilterListAC({id, filter}))
+        console.log(lists, currentTasks);
     }
 
     function updateListTitle(id: ListType["id"], title: ListType["title"]) {
-        setCurrentLists(currentLists.map(i => i.id === id ? { ...i, title } : i))
-        console.log(currentLists, currentTasks);
+        dispatchLists(updateTitleListAC({id, title}))
+        console.log(lists, currentTasks);
     }
 
     function deleteList(id: ListType["id"]) {
-        setCurrentLists(currentLists.filter(i => i.id !== id))
+        dispatchLists(deleteListAC(id))
     }
 
     function createTask(idList: ListType["id"], title: TaskProps["title"]) {
@@ -108,7 +104,7 @@ export const ToDoLists = () => {
                 <Box className={s.wrapper}>
                     <Form createList={createList} />
                     <Box className={s.tasksWrapper}>
-                        {currentLists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
+                        {lists.map(l => <CardList key={l.id} tasks={currentTasks[l.id]} {...l}
                             updateListFilter={updateListFilter}
                             updateListTitle={updateListTitle}
                             delList={deleteList}

@@ -3,7 +3,7 @@ import s from "./CardList.module.css"
 import { AddItem } from "../../../components/AddItem";
 import { EditebleTitle } from "../../../components/EditebleTitle";
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { MenuList } from "./menuList";
+import { MenuList } from "./MenuList";
 import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
