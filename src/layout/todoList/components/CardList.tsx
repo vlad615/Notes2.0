@@ -101,10 +101,10 @@ export const CardList = ({ id, title, filter, tasks, updateList, delList, create
                     name="Complited"
                     callBack={() => updateList({ id, title, filter: "complited" })} />
             </ButtonGroup>
-
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%' }}>
                 {tasks.length ? ListItems() : <span>List is empty</span>}
             </List>
+            
             <Box className={s.addWrapper}>
                 <AddItem createItem={AddTaskHandler} label="New task" />
             </Box>
