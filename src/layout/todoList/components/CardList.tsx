@@ -53,11 +53,11 @@ export const CardList = ({ id, title, filter, tasks, updateListFilter, updateLis
         }
 
         const item = (data: TaskProps) =>
-            <ListItem key={data.id} secondaryAction={
+            <ListItem sx={{padding: '3px'}} key={data.id} secondaryAction={
                 <IconButton edge="end" aria-label="delete" onClick={() => delTask(id, data.id)}>
                     <DeleteIcon fontSize="small" />
                 </IconButton>}>
-                <ListItemButton role={undefined} onClick={() => changeDone(id, data.id)} dense>
+                <ListItemButton sx={{padding: '0 0 0 5px'}} role={undefined} onClick={() => changeDone(id, data.id)} dense>
                     <ListItemIcon>
                         <Checkbox
                             edge="start"
