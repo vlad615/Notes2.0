@@ -6,10 +6,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 type Props = {
-    deleteList: () => void
+    deleteList: () => void;
+    deleteAllTasks: () => void;
 }
 
-export const MenuList = ({ deleteList }: Props) => {
+export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,17 +23,13 @@ export const MenuList = ({ deleteList }: Props) => {
     return (
         <div>
             <IconButton
-                aria-label="more"
-                id="long-button"
                 aria-controls={open ? 'long-menu' : undefined}
                 aria-expanded={open}
-                aria-haspopup="true"
                 onClick={handleClick}
             >
                 <MoreVertIcon />
             </IconButton>
             <Menu
-                id="long-menu"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -49,7 +46,7 @@ export const MenuList = ({ deleteList }: Props) => {
             >
 
                 <MenuItem onClick={handleClose}>delete done tasks</MenuItem>
-                <MenuItem onClick={handleClose}>delete all tasks</MenuItem>
+                <MenuItem onClick={() => deleteAllTasks()}>delete all tasks</MenuItem>
                 <MenuItem onClick={() => deleteList()}>delet To-Do List</MenuItem>
             </Menu>
         </div>

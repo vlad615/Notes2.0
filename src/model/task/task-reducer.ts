@@ -7,7 +7,7 @@ type Action = ReturnType<typeof createListTasksAC> | ReturnType<typeof createTas
 export const tasksReducer = (state: TasksType, action: Action): TasksType => {
     switch (action.type) {
         case 'create_list':
-            return { [action.payload.id]: [], ...state }
+            return {...state, [action.payload.id]: []  }
         case 'create':
             return {
                 ...state,

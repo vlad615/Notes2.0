@@ -30,11 +30,12 @@ type Props = ListType & {
     changeDone: (idList: ListType["id"], id: TaskProps["id"]) => void;
     delTask: (idList: ListType["id"], id: TaskProps["id"]) => void;
     changeTitle: (idList: ListType["id"], id: TaskProps["id"], title: TaskProps["title"]) => void;
+    deleteAllTasks: (id: ListType["id"]) => void;
 }
 
 
 export const CardList = ({ id, title, filter, tasks, updateListFilter, updateListTitle,
-    delList, createTask, changeDone, delTask, changeTitle }: Props) => {
+    delList, createTask, changeDone, delTask, changeTitle, deleteAllTasks }: Props) => {
 
     function ListItems() {
         let filteredTasks: Props["tasks"] = [];
@@ -89,7 +90,7 @@ export const CardList = ({ id, title, filter, tasks, updateListFilter, updateLis
                     {/* <ArticleOutlinedIcon sx={{ fontSize: 30 }} /> */}
 
                     <h2><EditebleTitle title={title} setNewTitle={EditTitle} /></h2></Badge>
-                <MenuList deleteList={() => delList(id)} />
+                <MenuList deleteList={() => delList(id)} deleteAllTasks={() => (deleteAllTasks(id))} />
             </Box>
             <ButtonGroup sx={{ marginBottom: '10px' }} aria-label="Medium-sized button group">
                 <Button primary={filter === "all" ? true : false}
