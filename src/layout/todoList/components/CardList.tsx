@@ -103,7 +103,7 @@ export const CardList = ({ id, title, filter, tasks, updateListFilter, updateLis
                     name="Completed"
                     callBack={() => updateListFilter(id, filter = "completed")} />
             </ButtonGroup>
-            <List sx={{ width: '100%' }}>
+            <List sx={{ width: '100%', overflow: 'auto', maxHeight: 260 }} >
                 {tasks.length ? ListItems() : <span>List is empty</span>}
             </List>
 
