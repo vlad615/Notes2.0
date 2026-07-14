@@ -7,14 +7,16 @@ import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, delete
 import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteAllTasksAC, deleteTaskAC } from "../../model/task/tasks-reducer";
 import { useAppSelector } from "../../commun/hooks/useAppSelector";
 import { useAppDispatch } from "../../commun/hooks/useAppDispatch";
+import { selectLists } from "../../model/list/todolist-selector";
+import { selectTasks } from "../../model/task/tasks-selector";
 
 
 export type TasksType = Record<string, TaskProps[]>
 
 
 export const ToDoLists = () => {
-    const lists = useAppSelector((state) => state.todoLists)
-    const tasks = useAppSelector((state) => state.tasks)
+    const lists = useAppSelector(selectLists)
+    const tasks = useAppSelector(selectTasks)
 
     const dispatch = useAppDispatch()
 
@@ -31,7 +33,7 @@ export const ToDoLists = () => {
     }
 
     function deleteList(id: ListType["id"]) {
-        dispatch(deleteTodolistAC(id))
+        dispatch(deleteTodolistAC({id}))
     }
 
     function createTask(idList: ListType["id"], title: TaskProps["title"]) {
