@@ -1,9 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { listReducer } from '../model/list/list-reducer'
-import { tasksReducer } from '../model/task/task-reducer'
+import { tasksReducer } from '../model/task/tasks-reducer'
+import { todolistsReducer } from '../model/list/todolists-reducer'
 
 const rootReducer = combineReducers({
-    todoLists: listReducer,
+    todoLists: todolistsReducer,
     tasks: tasksReducer
 })
 
@@ -14,6 +14,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-if (import.meta.env.DEV) {
-  (window as any).store = store;
-}
+(window as any).store = store;

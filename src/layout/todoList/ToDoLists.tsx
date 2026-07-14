@@ -4,90 +4,56 @@ import type { TaskProps } from "./components/CardList";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
 import { Box } from "@mui/material";
-import { createListAC, deleteListAC, listReducer, updateFilterListAC, updateTitleListAC } from "../../model/list/list-reducer";
-import { createListTasksAC, createTaskAC, deleteListTaskAC, deleteTaskAC, tasksReducer, updateStatusTaskAC, updateTitleTaskAC } from "../../model/task/task-reducer";
 
-const task1 = crypto.randomUUID()
-const task2 = crypto.randomUUID()
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../app/store";
+import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC } from "../../model/list/todolists-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteAllTasksAC, deleteTaskAC } from "../../model/task/tasks-reducer";
 
-const toDoLists: ListType[] = [
-    {
-        id: task1,
-        title: "Programing",
-        filter: "all"
-    },
-    {
-        id: task2,
-        title: "To be happy",
-        filter: "all"
-    },
-]
 
-const tasksInitial: TasksType =
-{
-    [task1]: [
-        { id: crypto.randomUUID(), title: 'HTML&CSS', isDone: true },
-        { id: crypto.randomUUID(), title: 'JS', isDone: true },
-        { id: crypto.randomUUID(), title: 'ReactJS', isDone: false },
-    ],
-
-    [task2]: [
-        { id: crypto.randomUUID(), title: 'Hello world', isDone: true },
-        { id: crypto.randomUUID(), title: 'I am Happy', isDone: false },
-        { id: crypto.randomUUID(), title: 'Yo', isDone: false },]
-
-}
-
-export type TasksType = {
-    [idList: string]: TaskProps[]
-}
+export type TasksType = Record<string, TaskProps[]>
 
 
 export const ToDoLists = () => {
-    const [lists, dispatchLists] = useReducer(listReducer, toDoLists)
-    const [tasks, dispatchTasks] = useReducer(tasksReducer, tasksInitial)
+    const lists = useSelector<RootState, ListType[]>((state) => state.todoLists)
+    const tasks = useSelector<RootState, TasksType>((state) => state.tasks)
+
+    const dispatch = useDispatch()
 
     function createList(title: ListType["title"]) {
-        const action = createListAC(title)
-        dispatchLists(action)
-        dispatchTasks(createListTasksAC(action.payload.id))
+        dispatch(createTodolistAC(title))
     }
 
-    function updateListFilter(id: ListType["id"],filter: ListType["filter"]) {
-        dispatchLists(updateFilterListAC({id, filter}))
-        console.log(lists, tasks);
+    function updateListFilter(id: ListType["id"], filter: ListType["filter"]) {
+        dispatch(changeTodolistFilterAC({ id, filter }))
     }
 
     function updateListTitle(id: ListType["id"], title: ListType["title"]) {
-        dispatchLists(updateTitleListAC({id, title}))
-        console.log(lists, tasks);
+        dispatch(changeTodolistTitleAC({ id, title }))
     }
 
     function deleteList(id: ListType["id"]) {
-        dispatchLists(deleteListAC(id))
-        dispatchTasks(deleteListTaskAC(id))
+        dispatch(deleteTodolistAC(id))
     }
 
     function createTask(idList: ListType["id"], title: TaskProps["title"]) {
-        dispatchTasks(createTaskAC({id: idList, title}))
+        dispatch(createTaskAC({ todolistId: idList, title }))
     }
 
     function updateTask(idList: ListType["id"], id: TaskProps["id"]) {
-        dispatchTasks(updateStatusTaskAC({idList, id}))
+        dispatch(changeTaskStatusAC({ todolistId: idList, taskId: id }))
     }
 
     function updateTaskTitle(idList: ListType["id"], id: TaskProps["id"], title: TaskProps["title"]) {
-        dispatchTasks(updateTitleTaskAC({idList, id, title}))
+        dispatch(changeTaskTitleAC({ todolistId: idList, taskId: id, title }))
     }
 
     function deleteTask(idList: ListType["id"], id: TaskProps["id"]) {
-        let updated = { ...tasks }
-        updated[idList] = updated[idList].filter(t => t.id !== id)
-        dispatchTasks(deleteTaskAC({idList, id}))
+        dispatch(deleteTaskAC({ todolistId: idList, taskId: id }))
     }
 
-    function deleteAllTasks(id: ListType["id"]){
-        dispatchTasks(createListTasksAC(id))
+    function deleteAllTasks(id: ListType["id"]) {
+        dispatch(deleteAllTasksAC({id}))
     }
 
     return (
@@ -103,8 +69,8 @@ export const ToDoLists = () => {
                             createTask={createTask}
                             changeDone={updateTask}
                             delTask={deleteTask}
-                            changeTitle={updateTaskTitle} 
-                            deleteAllTasks={deleteAllTasks}/>)}
+                            changeTitle={updateTaskTitle}
+                            deleteAllTasks={deleteAllTasks} />)}
                     </Box>
                 </Box>
             </Box>

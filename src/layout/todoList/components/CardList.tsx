@@ -7,7 +7,7 @@ import { MenuList } from "./MenuList";
 import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-type Filter = "all" | "completed" | "active"
+export type Filter = "all" | "completed" | "active"
 
 export type ListType = {
     id: string

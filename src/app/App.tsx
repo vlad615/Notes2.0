@@ -1,16 +1,18 @@
-import { Header } from "./layout/header/Header";
-import { ToDoLists } from "./layout/todoList/ToDoLists"
+import { Header } from "../layout/header/Header";
+import { ToDoLists } from "../layout/todoList/ToDoLists"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import "./styles/index.css"
+import "../index.css"
 import { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
       default: '#0B1220',
-      paper: '#111827', 
+      paper: '#111827',
     },
 
     primary: {
@@ -27,7 +29,7 @@ const darkTheme = createTheme({
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
-        background: {
+    background: {
       default: '#F5F7FB',
       paper: '#FFF',
 
@@ -48,11 +50,14 @@ export function App() {
   const [dark, setDark] = useState<boolean>(false)
 
   return (
-    <ThemeProvider theme={dark? darkTheme : lightTheme}>
-      <CssBaseline />
-      <Header dark={dark} setDark={()=>setDark(!dark)}/>
-      <ToDoLists />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={dark ? darkTheme : lightTheme}>
+        <CssBaseline />
+        <Header dark={dark} setDark={() => setDark(!dark)} />
+        <ToDoLists />
+      </ThemeProvider>
+    </Provider>
+
   )
 }
 
