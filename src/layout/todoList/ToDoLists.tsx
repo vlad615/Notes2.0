@@ -3,20 +3,20 @@ import type { TaskProps } from "./components/CardList";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
 import { Box } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../app/store";
 import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC } from "../../model/list/todolists-reducer";
 import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteAllTasksAC, deleteTaskAC } from "../../model/task/tasks-reducer";
+import { useAppSelector } from "../../commun/hooks/useAppSelector";
+import { useAppDispatch } from "../../commun/hooks/useAppDispatch";
 
 
 export type TasksType = Record<string, TaskProps[]>
 
 
 export const ToDoLists = () => {
-    const lists = useSelector<RootState, ListType[]>((state) => state.todoLists)
-    const tasks = useSelector<RootState, TasksType>((state) => state.tasks)
+    const lists = useAppSelector((state) => state.todoLists)
+    const tasks = useAppSelector((state) => state.tasks)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     function createList(title: ListType["title"]) {
         dispatch(createTodolistAC(title))
