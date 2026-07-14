@@ -1,10 +1,8 @@
-import { useReducer } from "react";
 import { CardList, type ListType } from "./components/CardList";
 import type { TaskProps } from "./components/CardList";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
 import { Box } from "@mui/material";
-
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
 import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC } from "../../model/list/todolists-reducer";

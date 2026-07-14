@@ -19,7 +19,10 @@ export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    const delAll = () => {
+        setAnchorEl(null);
+        deleteAllTasks()
+    }
     return (
         <div>
             <IconButton
@@ -46,7 +49,7 @@ export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
             >
 
                 <MenuItem onClick={handleClose}>delete done tasks</MenuItem>
-                <MenuItem onClick={() => deleteAllTasks()}>delete all tasks</MenuItem>
+                <MenuItem onClick={delAll}>delete all tasks</MenuItem>
                 <MenuItem onClick={() => deleteList()}>delet To-Do List</MenuItem>
             </Menu>
         </div>
