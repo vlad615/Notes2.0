@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -24,7 +24,7 @@ export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
         deleteAllTasks()
     }
     return (
-        <div>
+        <>
             <IconButton
                 aria-controls={open ? 'long-menu' : undefined}
                 aria-expanded={open}
@@ -32,26 +32,22 @@ export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
             >
                 <MoreVertIcon />
             </IconButton>
-            <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                slotProps={{
-                    paper: {
-                        style: {
-                            width: '20ch',
-                        },
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose} slotProps={{
+                paper: {
+                    style: {
+                        width: '20ch',
                     },
-                    list: {
-                        'aria-labelledby': 'long-button',
-                    },
-                }}
+                },
+                list: {
+                    'aria-labelledby': 'long-button',
+                },
+            }}
             >
 
                 <MenuItem onClick={handleClose}>delete done tasks</MenuItem>
                 <MenuItem onClick={delAll}>delete all tasks</MenuItem>
                 <MenuItem onClick={() => deleteList()}>delet To-Do List</MenuItem>
             </Menu>
-        </div>
+        </>
     );
 }

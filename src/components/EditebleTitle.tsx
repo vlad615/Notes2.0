@@ -1,6 +1,6 @@
 import { useState } from "react"
-import type { ListType } from "../layout/todoList/components/CardList";
 import { TextField } from "@mui/material";
+import type { ListType } from "@/model/list/todolists-reducer";
 
 type Props = {
     title: string

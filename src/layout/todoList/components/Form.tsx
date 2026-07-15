@@ -1,13 +1,15 @@
 import { Box, Paper } from "@mui/material"
-import { AddItem } from "../../../components/AddItem"
+import { AddItem } from "@/components/AddItem"
 import s from "./Form.module.css"
-import type { ListType } from "../../../model/list/todolists-reducer"
+import { type ListType, createTodolistAC } from "@/model/list/todolists-reducer"
+import { useAppDispatch } from "@/commun/hooks/useAppDispatch"
 
-type Props = {
-    createList: (title: ListType["title"]) => void
-}
+export const Form = () => {
+    const dispatch = useAppDispatch()
 
-export const Form = ({ createList }: Props) => {
+    function createList(title: ListType["title"]) {
+        dispatch(createTodolistAC(title))
+    }
 
     return (
         <Paper className={s.wrapper}>
