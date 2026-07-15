@@ -6,20 +6,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { MenuList } from "./MenuList";
 import { Badge, Box, Checkbox, IconButton, List, ListItem, ListItemButton, ListItemIcon, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import type { ListType } from "../../../model/list/todolists-reducer";
+import type { TaskProps } from "../../../model/task/tasks-reducer";
 
-export type Filter = "all" | "completed" | "active"
 
-export type ListType = {
-    id: string
-    title: string
-    filter: Filter
-}
 
-export type TaskProps = {
-    id: string
-    title: string
-    isDone: boolean
-}
+
 
 type Props = ListType & {
     tasks: TaskProps[],

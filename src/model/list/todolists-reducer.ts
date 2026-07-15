@@ -1,7 +1,11 @@
 import { createAction, createReducer, nanoid } from "@reduxjs/toolkit"
-import type { ListType, Filter } from "../../layout/todoList/components/CardList"
 
-
+export type Filter = "all" | "completed" | "active"
+export type ListType = {
+    id: string
+    title: string
+    filter: Filter
+}
 const initialState: ListType[] = []
 
 export const deleteTodolistAC = createAction<{ id: string }>('todolists/deleteTodolist')

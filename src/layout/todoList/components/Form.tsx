@@ -1,7 +1,7 @@
 import { Box, Paper } from "@mui/material"
 import { AddItem } from "../../../components/AddItem"
-import type { ListType } from "./CardList"
 import s from "./Form.module.css"
+import type { ListType } from "../../../model/list/todolists-reducer"
 
 type Props = {
     createList: (title: ListType["title"]) => void

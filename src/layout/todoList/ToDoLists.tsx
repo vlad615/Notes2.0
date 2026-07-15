@@ -1,17 +1,16 @@
-import { CardList, type ListType } from "./components/CardList";
-import type { TaskProps } from "./components/CardList";
+import { CardList } from "./components/CardList";
 import s from "./ToDoLists.module.css"
 import { Form } from "./components/Form";
 import { Box } from "@mui/material";
-import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC } from "../../model/list/todolists-reducer";
-import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteAllTasksAC, deleteTaskAC } from "../../model/task/tasks-reducer";
+import { changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, type ListType } from "../../model/list/todolists-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteAllTasksAC, deleteTaskAC, type TaskProps } from "../../model/task/tasks-reducer";
 import { useAppSelector } from "../../commun/hooks/useAppSelector";
 import { useAppDispatch } from "../../commun/hooks/useAppDispatch";
 import { selectLists } from "../../model/list/todolist-selector";
 import { selectTasks } from "../../model/task/tasks-selector";
 
 
-export type TasksType = Record<string, TaskProps[]>
+
 
 
 export const ToDoLists = () => {
