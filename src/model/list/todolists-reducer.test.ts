@@ -1,11 +1,11 @@
 import { beforeEach, expect, test } from 'vitest'
-import type { ListType } from '../../layout/todoList/components/CardList'
 import {
   changeTodolistFilterAC,
   changeTodolistTitleAC,
   createTodolistAC,
   deleteTodolistAC,
-  todolistsReducer
+  todolistsReducer,
+  type ListType
 } from './todolists-reducer'
 import { nanoid } from '@reduxjs/toolkit'
 

@@ -9,10 +9,6 @@ import { useAppDispatch } from "../../commun/hooks/useAppDispatch";
 import { selectLists } from "../../model/list/todolist-selector";
 import { selectTasks } from "../../model/task/tasks-selector";
 
-
-
-
-
 export const ToDoLists = () => {
     const lists = useAppSelector(selectLists)
     const tasks = useAppSelector(selectTasks)

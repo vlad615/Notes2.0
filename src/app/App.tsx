@@ -1,63 +1,30 @@
 import { Header } from "../layout/header/Header";
 import { ToDoLists } from "../layout/todoList/ToDoLists"
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "../index.css"
-import { useState } from "react";
-import { Provider } from "react-redux";
-import { store } from "./store";
+import  { changeThemeAC } from "../app/app-reducer";
+import { useAppSelector } from "../commun/hooks/useAppSelector";
+import { selectTheme } from "./app-selector";
+import { useAppDispatch } from "../commun/hooks/useAppDispatch";
+import { getTheme } from "../commun/theme/theme";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#0B1220',
-      paper: '#111827',
-    },
-
-    primary: {
-      main: '#A78BFA',
-    },
-
-    text: {
-      primary: '#F9FAFB',
-      secondary: '#E5E7EB',
-    }
-  },
-});
-
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    background: {
-      default: '#F5F7FB',
-      paper: '#FFF',
-
-    },
-
-    primary: {
-      main: '#A78BFA',
-    },
-
-    text: {
-      primary: '#1F2937',
-      secondary: '#374151',
-    }
-  },
-});
 
 export function App() {
-  const [dark, setDark] = useState<boolean>(false)
-
+  const themeMode = useAppSelector(selectTheme)
+  const theme = getTheme(themeMode)
+  const dispatch = useAppDispatch()
+  function changeMode(){
+    dispatch(changeThemeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
+  }
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={dark ? darkTheme : lightTheme}>
+    <>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header dark={dark} setDark={() => setDark(!dark)} />
+        <Header theme={themeMode} setDark={changeMode} />
         <ToDoLists />
       </ThemeProvider>
-    </Provider>
-
+    </>
   )
 }
 

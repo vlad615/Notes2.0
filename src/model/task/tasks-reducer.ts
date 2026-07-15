@@ -9,11 +9,11 @@ export type TaskProps = {
 export type TasksType = Record<string, TaskProps[]>
 const initialState: TasksType = {}
 
-export const deleteTaskAC = createAction<{ todolistId: string, taskId: string }>('tasks/deleteTaskAC')
-export const createTaskAC = createAction<{ todolistId: string, title: string }>('tasks/createTaskAC')
-export const changeTaskStatusAC = createAction<{ todolistId: string, taskId: string }>('tasks/changeTaskStatusAC')
-export const changeTaskTitleAC = createAction<{ todolistId: string, taskId: string, title: string }>('tasks/changeTaskTitleAC')
-export const deleteAllTasksAC = createAction<{ id: string }>('tasks/deleteAllTasksAC')
+export const deleteTaskAC = createAction<{ todolistId: string, taskId: string }>('tasks/deleteTask')
+export const createTaskAC = createAction<{ todolistId: string, title: string }>('tasks/createTask')
+export const changeTaskStatusAC = createAction<{ todolistId: string, taskId: string }>('tasks/changeTaskStatus')
+export const changeTaskTitleAC = createAction<{ todolistId: string, taskId: string, title: string }>('tasks/changeTaskTitle')
+export const deleteAllTasksAC = createAction<{ id: string }>('tasks/deleteAllTasks')
 
 export const tasksReducer = createReducer(initialState, (builder) => {
   builder
