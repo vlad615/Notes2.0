@@ -1,9 +1,9 @@
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
-import { EditebleTitle } from "@/components/EditebleTitle";
+import { EditebleTitle } from "@/commun/components/EditebleTitle/EditebleTitle";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
-import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskProps } from "@/model/task/tasks-reducer";
-import type { ListType } from "@/model/list/todolists-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskProps } from "@/features/todolists/model/tasks-reducer";
+import type { ListType } from "@/features/todolists/model/todolists-reducer";
 
 type Props = {
     task: TaskProps
@@ -26,7 +26,7 @@ export const TaskItem = ({task, idList}: Props) => {
     }
 
     return (
-        <ListItem sx={{ padding: '3px' }} key={task.id} secondaryAction={
+        <ListItem sx={{ padding: '3px' }} secondaryAction={
             <IconButton edge="end" aria-label="delete" onClick={deleteTask}>
                 <DeleteIcon fontSize="small" />
             </IconButton>}>

@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/commun/hooks/useAppDispatch"
-import { changeTodolistFilterAC, type ListType } from "@/model/list/todolists-reducer"
+import { changeTodolistFilterAC, type ListType } from "@/features/todolists/model/todolists-reducer"
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { Button } from "@/components/Buttons";
+import { Button } from "@/commun/components/Button/Button";
 
 type Props = {
     id: ListType["id"]

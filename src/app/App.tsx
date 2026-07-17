@@ -1,5 +1,5 @@
-import { Header } from "@/layout/header/Header";
-import { ToDoLists } from "@/layout/todoList/ToDoLists"
+import { Header } from "@/commun/components/Header/Header";
+import { ToDoLists } from "@/features/todolists/ui/ToDoLists/ToDoLists"
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "@/index.css"

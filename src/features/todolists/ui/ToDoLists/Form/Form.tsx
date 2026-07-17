@@ -1,7 +1,7 @@
 import { Box, Paper } from "@mui/material"
-import { AddItem } from "@/components/AddItem"
+import { AddItem } from "@/commun/components/AddItem/AddItem"
 import s from "./Form.module.css"
-import { type ListType, createTodolistAC } from "@/model/list/todolists-reducer"
+import { type ListType, createTodolistAC } from "@/features/todolists/model/todolists-reducer"
 import { useAppDispatch } from "@/commun/hooks/useAppDispatch"
 
 export const Form = () => {

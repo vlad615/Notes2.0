@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "./Buttons";
-import { AddItemS } from "./styles/AddItemS";
-import type { TaskProps } from "@/model/task/tasks-reducer";
+import { Button } from "../Button/Button";
+import { AddItemS } from "./AddItemS";
+import type { TaskProps } from "@/features/todolists/model/tasks-reducer";
 
 type Props = {
     createItem: (title: TaskProps["title"]) => void;

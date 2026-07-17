@@ -1,9 +1,9 @@
 import { useAppSelector } from "@/commun/hooks/useAppSelector";
-import type { ListType } from "@/model/list/todolists-reducer";
-import { type TaskProps } from "@/model/task/tasks-reducer";
-import { selectTasks } from "@/model/task/tasks-selector";
+import type { ListType } from "@/features/todolists/model/todolists-reducer";
+import { type TaskProps } from "@/features/todolists/model/tasks-reducer";
+import { selectTasks } from "@/features/todolists/model/tasks-selector";
 import { List } from "@mui/material";
-import { TaskItem } from "./TaskItem";
+import { TaskItem } from "./TaskItem/TaskItem";
 
 type Props = {
     id: ListType['id']
@@ -30,7 +30,7 @@ export const Tasks = ({ id, filter }: Props) => {
     return (
         <List sx={{ width: '100%', overflow: 'auto', maxHeight: 260 }} >
             {!tasks[id].length? <span>List is empty</span> 
-            : Array.isArray(filteredTasks)? filteredTasks.map(task => <TaskItem idList={id} task={task}/>)
+            : Array.isArray(filteredTasks)? filteredTasks.map(task => <TaskItem key={task.id} idList={id} task={task}/>)
             : <span>{filteredTasks}</span>}
         </List>
     )

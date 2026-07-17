@@ -1,14 +1,14 @@
 import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
 import { useAppSelector } from "@/commun/hooks/useAppSelector";
-import { selectLists } from "@/model/list/todolist-selector";
-import { type ListType } from "@/model/list/todolists-reducer";
+import { selectLists } from "@/features/todolists/model/todolist-selector";
+import { type ListType } from "@/features/todolists/model/todolists-reducer";
 import { Box, Paper } from "@mui/material";
-import { CardHeader } from "./components/CardHeader";
 import s from "./CardList.module.css";
-import { Tasks } from "./components/Tasks";
-import { AddItem } from "@/components/AddItem";
-import { createTaskAC, type TaskProps } from "@/model/task/tasks-reducer";
-import { FilterButtons } from "./components/FilterButtons";
+import { AddItem } from "@/commun/components/AddItem/AddItem";
+import { createTaskAC, type TaskProps } from "@/features/todolists/model/tasks-reducer";
+import { FilterButtons } from "@/features/todolists/ui/ToDoLists/CardsList/FilterButtons/FilterButtons";
+import { Tasks } from "./Tasks/Tasks";
+import { CardHeader } from "./CardHeader/CardHeader";
 
 export const CardsList = () => {
     const lists = useAppSelector(selectLists)

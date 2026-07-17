@@ -1,4 +1,4 @@
-import { ButtonS } from './styles/Buttons';
+import { ButtonS } from './Buttons';
 
 type Props = {
     name: string
