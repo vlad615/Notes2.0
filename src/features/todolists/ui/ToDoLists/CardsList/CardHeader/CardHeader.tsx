@@ -1,6 +1,6 @@
 import { MenuList } from "./MenuList/MenuList";
 import { Badge, Box } from "@mui/material";
-import s from "../CardList.module.css";
+import s from "../CardsList.module.css";
 import { EditebleTitle } from "@/commun/components/EditebleTitle/EditebleTitle";
 import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
 import { changeTodolistTitleAC, deleteTodolistAC, type ListType } from "@/features/todolists/model/todolists-reducer";
