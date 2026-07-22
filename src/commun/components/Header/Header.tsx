@@ -3,16 +3,14 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { Box, IconButton, Paper } from "@mui/material";
-import { changeThemeAC } from "@/app/app-reducer";
-import { useAppSelector } from "@/commun/hooks/useAppSelector";
-import { selectTheme } from "@/app/app-selector";
-import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
+import { selectTheme, changeThemeAC } from "@/app";
+import { useAppDispatch, useAppSelector } from "@/commun/hooks";
 
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
     const dispatch = useAppDispatch()
-    
+
     function changeMode() {
         dispatch(changeThemeAC({ themeMode: themeMode === 'light' ? 'dark' : 'light' }))
     }

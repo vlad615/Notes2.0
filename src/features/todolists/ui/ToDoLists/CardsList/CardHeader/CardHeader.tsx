@@ -1,19 +1,16 @@
 import { MenuList } from "./MenuList/MenuList";
 import { Badge, Box } from "@mui/material";
 import s from "../CardsList.module.css";
-import { EditebleTitle } from "@/commun/components/EditebleTitle/EditebleTitle";
-import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
-import { changeTodolistTitleAC, deleteTodolistAC, type ListType } from "@/features/todolists/model/todolists-reducer";
-import { deleteAllTasksAC } from "@/features/todolists/model/tasks-reducer";
-import { useAppSelector } from "@/commun/hooks/useAppSelector";
-import { selectTasks } from "@/features/todolists/model/tasks-selector";
+import { EditebleTitle } from "@/commun/components";
+import { useAppDispatch, useAppSelector } from "@/commun/hooks";
+import { changeTodolistTitleAC, deleteTodolistAC, deleteAllTasksAC, selectTasks, type ListType } from "@/features/todolists/model";
 
 type Props = {
     id: ListType["id"]
     currentTitle: ListType["title"]
 }
 
-export const CardHeader = ({id, currentTitle}: Props) => {
+export const CardHeader = ({ id, currentTitle }: Props) => {
     const tasks = useAppSelector(selectTasks)
     const dispatch = useAppDispatch()
 

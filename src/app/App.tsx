@@ -3,7 +3,7 @@ import { ToDoLists } from "@/features/todolists/ui/ToDoLists/ToDoLists"
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "@/index.css"
-import { useAppSelector } from "@/commun/hooks/useAppSelector";
+import { useAppSelector } from "@/commun/hooks";
 import { selectTheme } from "./app-selector";
 import { getTheme } from "@/commun/theme/theme";
 

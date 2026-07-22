@@ -1,16 +1,15 @@
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
-import { EditebleTitle } from "@/commun/components/EditebleTitle/EditebleTitle";
+import { EditebleTitle } from "@/commun/components";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAppDispatch } from "@/commun/hooks/useAppDispatch";
-import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskProps } from "@/features/todolists/model/tasks-reducer";
-import type { ListType } from "@/features/todolists/model/todolists-reducer";
+import { useAppDispatch } from "@/commun/hooks";
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, type TaskProps, type ListType } from "@/features/todolists/model";
 
 type Props = {
     task: TaskProps
     idList: ListType['id']
 }
 
-export const TaskItem = ({task, idList}: Props) => {
+export const TaskItem = ({ task, idList }: Props) => {
     const dispatch = useAppDispatch()
 
     function updateTaskTitle(title: TaskProps["title"]) {
