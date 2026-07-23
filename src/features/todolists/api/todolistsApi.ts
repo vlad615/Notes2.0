@@ -1,7 +1,6 @@
-import { instance } from "@/commun/instance/instance"
-import type { Todolist } from "./todolistsApi.types"
-import type { BaseResponse } from "@/commun/types/BaseResponse"
-
+import { instance } from '@/commun/instance'
+import type { Todolist } from './todolistsApi.types'
+import type { BaseResponse } from '@/commun/types/BaseResponse'
 
 export const todolistsApi = {
     getTodoLists() {
@@ -9,7 +8,7 @@ export const todolistsApi = {
     },
 
     createTodolist(title: string) {
-        return instance.post<BaseResponse<{item: Todolist}>>('/todo-lists', {title})
+        return instance.post<BaseResponse<{ item: Todolist }>>('/todo-lists', { title })
     },
 
     deleteTodolist(id: string) {
@@ -17,6 +16,6 @@ export const todolistsApi = {
     },
 
     changeTodolistTitle(id: string, title: string) {
-        return instance.put<BaseResponse>(`/todo-lists/${id}`, {title})
-    }
+        return instance.put<BaseResponse>(`/todo-lists/${id}`, { title })
+    },
 }

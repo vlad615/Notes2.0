@@ -1,7 +1,7 @@
-import { CardsList } from "./CardsList/CardsList";
-import s from "./ToDoLists.module.css"
-import { Form } from "./Form/Form";
-import { Box } from "@mui/material";
+import { CardsList } from './CardsList/CardsList'
+import s from './ToDoLists.module.css'
+import { Form } from './Form/Form'
+import { Box } from '@mui/material'
 
 export const ToDoLists = () => {
     return (

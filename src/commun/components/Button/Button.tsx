@@ -1,4 +1,4 @@
-import { ButtonS } from './Buttons';
+import { ButtonS } from './Buttons'
 
 type Props = {
     name: string
@@ -6,10 +6,11 @@ type Props = {
     primary?: boolean
 }
 
-
-export function Button({name, callBack, primary}: Props){
-    const prim = primary? "contained" : "outlined"
-    return(
-        <ButtonS variant={prim} type="button" onClick={callBack} sx={primary? {color: "#fff"}: {color: ""}} >{name}</ButtonS>
+export function Button({ name, callBack, primary }: Props) {
+    const prim = primary ? 'contained' : 'outlined'
+    return (
+        <ButtonS variant={prim} type="button" onClick={callBack} sx={primary ? { color: '#fff' } : { color: '' }}>
+            {name}
+        </ButtonS>
     )
 }

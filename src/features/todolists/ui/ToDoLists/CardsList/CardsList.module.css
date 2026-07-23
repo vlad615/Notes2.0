@@ -6,10 +6,10 @@
     flex-direction: column;
     max-width: 400px;
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(15, 23, 42,0.06);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
-.addWrapper{
+.addWrapper {
     display: flex;
     gap: 5px;
 }

@@ -1,12 +1,11 @@
-import { useState } from "react"
-import { TextField } from "@mui/material";
-import type { ListType } from "@/features/todolists/model";
+import { useState } from 'react'
+import { TextField } from '@mui/material'
+import type { ListType } from '@/features/todolists/model'
 
 type Props = {
     title: string
-    setNewTitle: (title: ListType["title"]) => void;
+    setNewTitle: (title: ListType['title']) => void
 }
-
 
 export const EditebleTitle = ({ title, setNewTitle }: Props) => {
     const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -30,8 +29,17 @@ export const EditebleTitle = ({ title, setNewTitle }: Props) => {
 
     return (
         <span onDoubleClick={() => setIsEdit(true)}>
-            {isEdit ? <TextField autoFocus value={value} onKeyDown={(e) => setTitleEnter(e)} 
-            onChange={changeValue} onBlur={setTitle} /> : title}
+            {isEdit ? (
+                <TextField
+                    autoFocus
+                    value={value}
+                    onKeyDown={(e) => setTitleEnter(e)}
+                    onChange={changeValue}
+                    onBlur={setTitle}
+                />
+            ) : (
+                title
+            )}
         </span>
     )
 }
