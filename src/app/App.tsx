@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import '@/index.css'
 import { useAppSelector } from '@/commun/hooks'
-import { selectTheme } from './app-selector'
+import { selectTheme } from './app-slice'
 import { getTheme } from '@/commun/theme/theme'
 
 export function App() {
@@ -12,12 +12,10 @@ export function App() {
     const theme = getTheme(themeMode)
 
     return (
-        <>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Header />
-                <ToDoLists />
-            </ThemeProvider>
-        </>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Header />
+            <ToDoLists />
+        </ThemeProvider>
     )
 }

@@ -9,6 +9,7 @@ import { CardHeader } from './CardHeader/CardHeader'
 
 export const CardsList = () => {
     const lists = useAppSelector(selectLists)
+
     const dispatch = useAppDispatch()
 
     function createTask(id: ListType['id'], title: TaskProps['title']) {
