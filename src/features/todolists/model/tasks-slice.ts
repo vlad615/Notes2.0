@@ -81,10 +81,7 @@ export const tasksSlice = createSlice({
 
 export const fetchTasksTC = createAsyncThunk(`${tasksSlice.name}/fetchTasks`, async (todolistId: string, {}) => {
     const response = await tasksApi.getTasks(todolistId)
-    if (!response.data.items.length) {
-        return todolistId
-    }
-    return response.data
+    return !response.data.items.length ? todolistId : response.data
 })
 
 export const createTaskTC = createAsyncThunk(
