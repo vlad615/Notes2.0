@@ -47,6 +47,18 @@ export const todolistsSlice = createSlice({
             .addCase(createTodolistTC.fulfilled, (state, action) => {
                 state.todoLists.push({ ...action.payload.data.item, filter: 'all' })
             })
+            .addCase(deleteTodolistTC.fulfilled, (state, action) => {
+                const index = state.todoLists.findIndex((todolist) => todolist.id === action.payload.id)
+                if (index !== -1) {
+                    state.todoLists.splice(index, 1)
+                }
+            })
+            .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+                const task = state.todoLists.find((todolist) => todolist.id === action.payload.id)
+                if (task) {
+                    task.title = action.payload.title
+                }
+            })
     },
 })
 
@@ -60,6 +72,22 @@ export const createTodolistTC = createAsyncThunk(
     async (args: { title: string }, {}) => {
         const res = await todolistsApi.createTodolist(args.title)
         return res.data
+    },
+)
+
+export const deleteTodolistTC = createAsyncThunk(
+    `${todolistsSlice.name}/deleteTodolistTC`,
+    async (args: { id: string }, {}) => {
+        await todolistsApi.deleteTodolist(args.id)
+        return args
+    },
+)
+
+export const changeTodolistTitleTC = createAsyncThunk(
+    `${todolistsSlice.name}/changeTodolistTitleTC`,
+    async (args: { id: string; title: string }, {}) => {
+        await todolistsApi.changeTodolistTitle(args.id, args.title)
+        return args
     },
 )
 

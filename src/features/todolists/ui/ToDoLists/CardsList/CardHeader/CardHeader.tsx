@@ -4,8 +4,8 @@ import s from '../CardsList.module.css'
 import { EditebleTitle } from '@/commun/components'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import {
-    changeTodolistTitleAC,
-    deleteTodolistAC,
+    changeTodolistTitleTC,
+    deleteTodolistTC,
     deleteAllTasksAC,
     selectTasks,
     type ListType,
@@ -21,11 +21,11 @@ export const CardHeader = ({ id, currentTitle }: Props) => {
     const dispatch = useAppDispatch()
 
     function editListTitle(id: ListType['id'], title: ListType['title']) {
-        dispatch(changeTodolistTitleAC({ id, title }))
+        dispatch(changeTodolistTitleTC({ id, title }))
     }
 
     function deleteList(id: ListType['id']) {
-        dispatch(deleteTodolistAC({ id }))
+        dispatch(deleteTodolistTC({ id }))
     }
 
     function deleteAllTasks(id: ListType['id']) {
