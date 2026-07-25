@@ -1,9 +1,10 @@
-import { useAppSelector } from '@/commun/hooks'
-import { type ListType, selectTasks } from '@/features/todolists/model'
+import { useAppDispatch, useAppSelector } from '@/commun/hooks'
+import { fetchTasksTC, type ListType, selectTasks } from '@/features/todolists/model'
 import { List } from '@mui/material'
 import { TaskItem } from './TaskItem/TaskItem'
 import type { DomainTask } from '@/features/todolists/api'
 import { TaskStatus } from '@/commun/enums'
+import { useEffect } from 'react'
 
 type Props = {
     id: ListType['id']
@@ -12,6 +13,13 @@ type Props = {
 
 export const Tasks = ({ id, filter }: Props) => {
     const tasks = useAppSelector(selectTasks)
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        const asyncAction = fetchTasksTC(id)
+        dispatch(asyncAction)
+    }, [])
 
     let filteredTasks: DomainTask[] | string = tasks[id]
 

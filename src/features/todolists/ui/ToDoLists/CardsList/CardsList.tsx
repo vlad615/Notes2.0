@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Box, Paper } from '@mui/material'
 import s from './CardsList.module.css'
 import { AddItem } from '@/commun/components/'
-import { createTaskAC, type ListType, selectLists, fetchTodolistsTC } from '@/features/todolists/model'
+import { type ListType, selectLists, fetchTodolistsTC, createTaskTC } from '@/features/todolists/model'
 import { FilterButtons } from './FilterButtons/FilterButtons'
 import { Tasks } from './Tasks/Tasks'
 import { CardHeader } from './CardHeader/CardHeader'
@@ -19,7 +19,7 @@ export const CardsList = () => {
     }, [])
 
     function createTask(id: ListType['id'], title: DomainTask['title']) {
-        dispatch(createTaskAC({ todolistId: id, title }))
+        dispatch(createTaskTC({ todolistId: id, title }))
     }
 
     return (

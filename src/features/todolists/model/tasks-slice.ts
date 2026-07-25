@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit'
 import { createTodolistAC, deleteTodolistAC } from './todolists-slice'
-import type { DomainTask } from '../api'
+import { tasksApi, type DomainTask } from '../api'
 import { TaskPriority, TaskStatus } from '@/commun/enums'
 
 export const tasksSlice = createSlice({
@@ -15,7 +15,7 @@ export const tasksSlice = createSlice({
         createTaskAC: create.preparedReducer(
             (payload: { todolistId: string; title: string }) => {
                 const newTask: DomainTask = {
-                    id: crypto.randomUUID(),
+                    id: nanoid(),
                     title: payload.title,
                     status: TaskStatus.Active,
                     description: '',
@@ -66,8 +66,34 @@ export const tasksSlice = createSlice({
             .addCase(deleteTodolistAC, (state, action) => {
                 delete state.tasksState[action.payload.id]
             })
+            .addCase(fetchTasksTC.fulfilled, (state, action) => {
+                if (typeof action.payload === 'string') {
+                    state.tasksState[action.payload] = []
+                } else {
+                    state.tasksState[action.payload.items[0].todoListId] = action.payload.items
+                }
+            })
+            .addCase(createTaskTC.fulfilled, (state, action) => {
+                state.tasksState[action.payload.data.item.todoListId].unshift(action.payload.data.item)
+            })
     },
 })
+
+export const fetchTasksTC = createAsyncThunk(`${tasksSlice.name}/fetchTasks`, async (todolistId: string, {}) => {
+    const response = await tasksApi.getTasks(todolistId)
+    if (!response.data.items.length) {
+        return todolistId
+    }
+    return response.data
+})
+
+export const createTaskTC = createAsyncThunk(
+    `${tasksSlice.name}/createTask`,
+    async (payload: { todolistId: string; title: string }, {}) => {
+        const response = await tasksApi.createTask(payload)
+        return response.data
+    },
+)
 
 export const { selectTasks } = tasksSlice.selectors
 export const { createTaskAC, deleteTaskAC, changeTaskStatusAC, changeTaskTitleAC, deleteAllTasksAC } =
