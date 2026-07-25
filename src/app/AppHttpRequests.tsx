@@ -61,7 +61,7 @@ export const AppHttpRequests = () => {
       deadline: task.deadline,
       priority: task.priority,
       startDate: task.startDate,
-      status: e.target.checked ? TaskStatus.Completed : TaskStatus.New,
+      status: e.target.checked ? TaskStatus.Completed : TaskStatus.Active,
       title: task.title,
       description: task.description
     }

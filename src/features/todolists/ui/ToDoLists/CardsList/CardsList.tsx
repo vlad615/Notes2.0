@@ -2,11 +2,12 @@ import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Box, Paper } from '@mui/material'
 import s from './CardsList.module.css'
 import { AddItem } from '@/commun/components/'
-import { createTaskAC, type TaskProps, type ListType, selectLists, fetchTodolistsTC } from '@/features/todolists/model'
+import { createTaskAC, type ListType, selectLists, fetchTodolistsTC } from '@/features/todolists/model'
 import { FilterButtons } from './FilterButtons/FilterButtons'
 import { Tasks } from './Tasks/Tasks'
 import { CardHeader } from './CardHeader/CardHeader'
 import { useEffect } from 'react'
+import type { DomainTask } from '@/features/todolists/api'
 
 export const CardsList = () => {
     const lists = useAppSelector(selectLists)
@@ -17,7 +18,7 @@ export const CardsList = () => {
         dispatch(asyncAction)
     }, [])
 
-    function createTask(id: ListType['id'], title: TaskProps['title']) {
+    function createTask(id: ListType['id'], title: DomainTask['title']) {
         dispatch(createTaskAC({ todolistId: id, title }))
     }
 

@@ -6,19 +6,20 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     deleteTaskAC,
-    type TaskProps,
     type ListType,
 } from '@/features/todolists/model'
+import type { DomainTask } from '@/features/todolists/api/tasksApi.types'
+import { TaskStatus } from '@/commun/enums/'
 
 type Props = {
-    task: TaskProps
+    task: DomainTask
     idList: ListType['id']
 }
 
 export const TaskItem = ({ task, idList }: Props) => {
     const dispatch = useAppDispatch()
 
-    function updateTaskTitle(title: TaskProps['title']) {
+    function updateTaskTitle(title: DomainTask['title']) {
         dispatch(changeTaskTitleAC({ todolistId: idList, taskId: task.id, title }))
     }
 
@@ -26,8 +27,11 @@ export const TaskItem = ({ task, idList }: Props) => {
         dispatch(deleteTaskAC({ todolistId: idList, taskId: task.id }))
     }
 
-    function updateTask() {
-        dispatch(changeTaskStatusAC({ todolistId: idList, taskId: task.id }))
+    function updateTask(event: React.ChangeEvent<HTMLInputElement>) {
+        dispatch(changeTaskStatusAC({
+            todolistId: idList, taskId: task.id,
+            status: event.target.checked ? TaskStatus.Completed : TaskStatus.Active
+        }))
     }
 
     return (
@@ -38,9 +42,10 @@ export const TaskItem = ({ task, idList }: Props) => {
                     <DeleteIcon fontSize="small" />
                 </IconButton>
             }>
-            <ListItemButton sx={{ padding: '0 0 0 5px' }} onClick={updateTask} dense>
+            <ListItemButton sx={{ padding: '0 0 0 5px' }} dense>
                 <ListItemIcon>
-                    <Checkbox edge="start" checked={task.isDone} tabIndex={-1} disableRipple />
+                    <Checkbox edge="start" onChange={(event) => updateTask(event)}
+                        checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple />
                 </ListItemIcon>
                 <EditebleTitle title={task.title} setNewTitle={(title) => updateTaskTitle(title)} />
             </ListItemButton>

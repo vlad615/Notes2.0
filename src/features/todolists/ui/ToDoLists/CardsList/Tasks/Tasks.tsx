@@ -1,7 +1,9 @@
 import { useAppSelector } from '@/commun/hooks'
-import { type ListType, type TaskProps, selectTasks } from '@/features/todolists/model'
+import { type ListType, selectTasks } from '@/features/todolists/model'
 import { List } from '@mui/material'
 import { TaskItem } from './TaskItem/TaskItem'
+import type { DomainTask } from '@/features/todolists/api'
+import { TaskStatus } from '@/commun/enums'
 
 type Props = {
     id: ListType['id']
@@ -11,15 +13,15 @@ type Props = {
 export const Tasks = ({ id, filter }: Props) => {
     const tasks = useAppSelector(selectTasks)
 
-    let filteredTasks: TaskProps[] | string = tasks[id]
+    let filteredTasks: DomainTask[] | string = tasks[id]
 
     if (filter === 'active') {
-        filteredTasks = tasks[id].filter((t) => !t.isDone)
+        filteredTasks = tasks[id].filter((t) => t.status === TaskStatus.Active)
         if (!filteredTasks.length) {
             filteredTasks = 'All tasks is done!'
         }
     } else if (filter === 'completed') {
-        filteredTasks = tasks[id].filter((t) => t.isDone)
+        filteredTasks = tasks[id].filter((t) => t.status === TaskStatus.Completed)
         if (!filteredTasks.length) {
             filteredTasks = 'U have complite no tasks, yet!'
         }

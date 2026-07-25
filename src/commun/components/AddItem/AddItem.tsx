@@ -1,10 +1,10 @@
+import type { DomainTask } from '@/features/todolists/api'
 import { useState } from 'react'
 import { Button } from '../Button/Button'
 import { AddItemS } from './AddItemS'
-import type { TaskProps } from '@/features/todolists/model'
 
 type Props = {
-    createItem: (title: TaskProps['title']) => void
+    createItem: (title: DomainTask['title']) => void
     label: string
     primary?: boolean
 }
