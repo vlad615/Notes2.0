@@ -11,9 +11,9 @@ export const tasksSlice = createSlice({
     },
     reducers: (create) => ({
         createTaskAC: create.preparedReducer(
-            (todolistId: string, title: string) => {
-                const newTask: TaskProps = { id: crypto.randomUUID(), title, isDone: false }
-                return { payload: { todolistId, newTask } }
+            (payload: { todolistId: string; title: string }) => {
+                const newTask: TaskProps = { id: crypto.randomUUID(), title: payload.title, isDone: false }
+                return { payload: { todolistId: payload.todolistId, newTask } }
             },
             (state, action) => {
                 state.tasksState[action.payload.todolistId].unshift(action.payload.newTask)
