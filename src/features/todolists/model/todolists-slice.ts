@@ -45,7 +45,7 @@ export const todolistsSlice = createSlice({
                 todoLists: action.payload.map((td) => ({ ...td, filter: 'all' })),
             }))
             .addCase(createTodolistTC.fulfilled, (state, action) => {
-                state.todoLists.push({ ...action.payload.data.item, filter: 'all' })
+                state.todoLists.unshift({ ...action.payload.data.item, filter: 'all' })
             })
             .addCase(deleteTodolistTC.fulfilled, (state, action) => {
                 const index = state.todoLists.findIndex((todolist) => todolist.id === action.payload.id)
