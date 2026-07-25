@@ -36,7 +36,7 @@ export const CardHeader = ({ id, currentTitle }: Props) => {
         <Box className={s.titleWrapper}>
             <Badge
                 color="secondary"
-                badgeContent={tasks[id].length}
+                badgeContent={tasks[id]?.length}
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
                 <h2>
                     <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(id, title)} />

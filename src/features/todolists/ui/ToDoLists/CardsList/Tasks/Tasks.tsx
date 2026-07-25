@@ -27,7 +27,7 @@ export const Tasks = ({ id, filter }: Props) => {
 
     return (
         <List sx={{ width: '100%', overflow: 'auto', maxHeight: 260 }}>
-            {!tasks[id].length ? (
+            {!tasks[id]?.length ? (
                 <span>List is empty</span>
             ) : Array.isArray(filteredTasks) ? (
                 filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)
