@@ -1,14 +1,14 @@
 import { Box, Paper } from '@mui/material'
 import { AddItem } from '@/commun/components'
 import s from './Form.module.css'
-import { type ListType, createTodolistAC } from '@/features/todolists/model'
+import { type ListType, createTodolistTC } from '@/features/todolists/model'
 import { useAppDispatch } from '@/commun/hooks'
 
 export const Form = () => {
     const dispatch = useAppDispatch()
 
     function createList(title: ListType['title']) {
-        dispatch(createTodolistAC(title))
+        dispatch(createTodolistTC({ title }))
     }
 
     return (
