@@ -27,12 +27,12 @@ export const TaskItem = memo(({ task, idList }: Props) => {
         dispatch(deleteTaskTC({ todolistId: idList, taskId: task.id }))
     }
 
-    function updateTaskStatus(event: React.ChangeEvent<HTMLInputElement>) {
+    function updateTaskStatus() {
         dispatch(updateTaskTC({
             todolistId: idList,
             taskId: task.id,
             domainModel: {
-                status: event.target.checked ? TaskStatus.Completed : TaskStatus.Active
+                status: task.status === TaskStatus.Completed ? TaskStatus.Active : TaskStatus.Completed
             }
         }))
     }
@@ -45,9 +45,9 @@ export const TaskItem = memo(({ task, idList }: Props) => {
                     <DeleteIcon fontSize="small" />
                 </IconButton>
             }>
-            <ListItemButton sx={{ padding: '0 0 0 5px' }} dense>
+            <ListItemButton sx={{ padding: '0 0 0 5px' }} onClick={updateTaskStatus} dense>
                 <ListItemIcon>
-                    <Checkbox edge="start" onChange={(event) => updateTaskStatus(event)}
+                    <Checkbox edge="start" onChange={updateTaskStatus}
                         checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple />
                 </ListItemIcon>
                 <EditebleTitle title={task.title} setNewTitle={(title) => updateTaskTitle(title)} />
