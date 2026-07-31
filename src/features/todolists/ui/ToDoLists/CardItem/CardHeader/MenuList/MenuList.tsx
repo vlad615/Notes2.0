@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -9,7 +9,7 @@ type Props = {
     deleteAllTasks: () => void
 }
 
-export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
+export const MenuList = memo(({ deleteList, deleteAllTasks }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,4 +47,4 @@ export const MenuList = ({ deleteList, deleteAllTasks }: Props) => {
             </Menu>
         </>
     )
-}
+})

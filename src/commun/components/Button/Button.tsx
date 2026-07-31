@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { ButtonS } from './Buttons'
 
 type Props = {
@@ -6,11 +7,11 @@ type Props = {
     primary?: boolean
 }
 
-export function Button({ name, callBack, primary }: Props) {
-    const prim = primary ? 'contained' : 'outlined'
+export const Button = memo(({ name, callBack, primary }: Props) => {
+    const variant = primary ? 'contained' : 'outlined'
     return (
-        <ButtonS variant={prim} type="button" onClick={callBack} sx={primary ? { color: '#fff' } : { color: '' }}>
+        <ButtonS variant={variant} type="button" onClick={callBack} sx={primary ? { color: '#fff' } : { color: '' }}>
             {name}
         </ButtonS>
     )
-}
+})

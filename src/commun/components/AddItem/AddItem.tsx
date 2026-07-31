@@ -1,5 +1,5 @@
 import type { DomainTask } from '@/features/todolists/api'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { Button } from '../Button/Button'
 import { AddItemS } from './AddItemS'
 
@@ -9,30 +9,39 @@ type Props = {
     primary?: boolean
 }
 
-export const AddItem = ({ createItem, label, primary }: Props) => {
+export const AddItem = memo(({ createItem, label, primary }: Props) => {
     const [value, setValue] = useState('')
 
     function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
         setValue(event.target.value)
     }
-    const prim = primary ? 'outlined' : 'standard'
-    function newItem() {
+
+    const variant = primary ? 'outlined' : 'standard'
+    const newItem = () => {
         if (value.trim().length !== 0) {
             createItem(value)
         }
         setValue('')
     }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter') newItem()
+    }
+
+    console.log('additem rerender');
+
     return (
         <>
             <AddItemS
                 type="text"
                 value={value}
                 onChange={changeValue}
-                variant={prim}
+                variant={variant}
                 label={label}
+                onKeyDown={(e) => handleKeyDown(e)}
                 sx={{ borderRadius: '20px' }}
             />
             <Button name="Add" callBack={newItem} primary={primary} />
         </>
     )
-}
+})

@@ -10,7 +10,6 @@ import { getTheme } from '@/commun/theme/theme'
 export function App() {
     const themeMode = useAppSelector(selectTheme)
     const theme = getTheme(themeMode)
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

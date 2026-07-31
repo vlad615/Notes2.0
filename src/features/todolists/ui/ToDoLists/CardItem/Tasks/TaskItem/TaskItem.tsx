@@ -3,20 +3,21 @@ import { EditebleTitle } from '@/commun/components'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useAppDispatch } from '@/commun/hooks'
 import {
-    changeTaskStatusAC,
+    changeTaskStatusTC,
     changeTaskTitleAC,
-    deleteTaskAC,
+    deleteTaskTC,
     type ListType,
 } from '@/features/todolists/model'
 import type { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskStatus } from '@/commun/enums/'
+import { memo } from 'react'
 
 type Props = {
     task: DomainTask
     idList: ListType['id']
 }
 
-export const TaskItem = ({ task, idList }: Props) => {
+export const TaskItem = memo(({ task, idList }: Props) => {
     const dispatch = useAppDispatch()
 
     function updateTaskTitle(title: DomainTask['title']) {
@@ -24,12 +25,12 @@ export const TaskItem = ({ task, idList }: Props) => {
     }
 
     function deleteTask() {
-        dispatch(deleteTaskAC({ todolistId: idList, taskId: task.id }))
+        dispatch(deleteTaskTC({ todolistId: idList, taskId: task.id }))
     }
 
     function updateTask(event: React.ChangeEvent<HTMLInputElement>) {
-        dispatch(changeTaskStatusAC({
-            todolistId: idList, taskId: task.id,
+        dispatch(changeTaskStatusTC({
+            ...task,
             status: event.target.checked ? TaskStatus.Completed : TaskStatus.Active
         }))
     }
@@ -51,4 +52,4 @@ export const TaskItem = ({ task, idList }: Props) => {
             </ListItemButton>
         </ListItem>
     )
-}
+})

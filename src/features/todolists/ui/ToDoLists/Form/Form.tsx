@@ -3,13 +3,14 @@ import { AddItem } from '@/commun/components'
 import s from './Form.module.css'
 import { type ListType, createTodolistTC } from '@/features/todolists/model'
 import { useAppDispatch } from '@/commun/hooks'
+import { memo, useCallback } from 'react'
 
-export const Form = () => {
+export const Form = memo(() => {
     const dispatch = useAppDispatch()
 
-    function createList(title: ListType['title']) {
+    const createList = useCallback((title: ListType['title']) => {
         dispatch(createTodolistTC({ title }))
-    }
+    }, [])
 
     return (
         <Paper className={s.wrapper}>
@@ -19,4 +20,4 @@ export const Form = () => {
             </Box>
         </Paper>
     )
-}
+})

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { TextField } from '@mui/material'
 import type { ListType } from '@/features/todolists/model'
 
@@ -7,7 +7,7 @@ type Props = {
     setNewTitle: (title: ListType['title']) => void
 }
 
-export const EditebleTitle = ({ title, setNewTitle }: Props) => {
+export const EditebleTitle = memo(({ title, setNewTitle }: Props) => {
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [value, setValue] = useState(title)
 
@@ -42,4 +42,4 @@ export const EditebleTitle = ({ title, setNewTitle }: Props) => {
             )}
         </span>
     )
-}
+})

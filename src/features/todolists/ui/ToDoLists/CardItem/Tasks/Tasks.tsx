@@ -4,21 +4,22 @@ import { List } from '@mui/material'
 import { TaskItem } from './TaskItem/TaskItem'
 import type { DomainTask } from '@/features/todolists/api'
 import { TaskStatus } from '@/commun/enums'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
+import { idID } from '@mui/material/locale'
 
 type Props = {
     id: ListType['id']
     filter: ListType['filter']
 }
 
-export const Tasks = ({ id, filter }: Props) => {
+export const Tasks = memo(({ id, filter }: Props) => {
     const tasks = useAppSelector(selectTasks)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        const asyncAction = fetchTasksTC(id)
-        dispatch(asyncAction)
+        // const asyncAction = fetchTasksTC(id)
+        dispatch(fetchTasksTC(id))
     }, [])
 
     let filteredTasks: DomainTask[] | string = tasks[id]
@@ -34,7 +35,6 @@ export const Tasks = ({ id, filter }: Props) => {
             filteredTasks = 'U have complite no tasks, yet!'
         }
     }
-
     return (
         <List sx={{ width: '100%', overflow: 'auto', maxHeight: 260 }}>
             {!tasks[id]?.length ? (
@@ -46,4 +46,4 @@ export const Tasks = ({ id, filter }: Props) => {
             )}
         </List>
     )
-}
+})

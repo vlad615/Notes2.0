@@ -1,6 +1,6 @@
 import { MenuList } from './MenuList/MenuList'
 import { Badge, Box } from '@mui/material'
-import s from '../CardsList.module.css'
+import s from '../CardItem.module.css'
 import { EditebleTitle } from '@/commun/components'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import {
@@ -10,27 +10,28 @@ import {
     selectTasks,
     type ListType,
 } from '@/features/todolists/model'
+import { memo, useCallback } from 'react'
 
 type Props = {
     id: ListType['id']
     currentTitle: ListType['title']
 }
 
-export const CardHeader = ({ id, currentTitle }: Props) => {
+export const CardHeader = memo(({ id, currentTitle }: Props) => {
     const tasks = useAppSelector(selectTasks)
     const dispatch = useAppDispatch()
 
-    function editListTitle(id: ListType['id'], title: ListType['title']) {
+    const editListTitle = useCallback((title: ListType['title']) => {
         dispatch(changeTodolistTitleTC({ id, title }))
-    }
+    }, [dispatch, id])
 
-    function deleteList(id: ListType['id']) {
+    const deleteList = useCallback(() => {
         dispatch(deleteTodolistTC({ id }))
-    }
+    }, [dispatch, id])
 
-    function deleteAllTasks(id: ListType['id']) {
+    const deleteAllTasks = useCallback(() => {
         dispatch(deleteAllTasksAC({ id }))
-    }
+    }, [dispatch, id])
 
     return (
         <Box className={s.titleWrapper}>
@@ -39,10 +40,10 @@ export const CardHeader = ({ id, currentTitle }: Props) => {
                 badgeContent={tasks[id]?.length}
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
                 <h2>
-                    <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(id, title)} />
+                    <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(title)} />
                 </h2>
             </Badge>
-            <MenuList deleteList={() => deleteList(id)} deleteAllTasks={() => deleteAllTasks(id)} />
+            <MenuList deleteList={deleteList} deleteAllTasks={deleteAllTasks} />
         </Box>
     )
-}
+})
