@@ -6,9 +6,10 @@ import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import {
     changeTodolistTitleTC,
     deleteTodolistTC,
-    deleteAllTasksAC,
+    deleteAllTasksTC,
     selectTasks,
     type ListType,
+    deleteAllDoneTasksTC,
 } from '@/features/todolists/model'
 import { memo, useCallback } from 'react'
 
@@ -26,11 +27,15 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
     }, [dispatch, id])
 
     const deleteList = useCallback(() => {
-        dispatch(deleteTodolistTC({ id }))
+        dispatch(deleteTodolistTC(id))
     }, [dispatch, id])
 
     const deleteAllTasks = useCallback(() => {
-        dispatch(deleteAllTasksAC({ id }))
+        dispatch(deleteAllTasksTC(id))
+    }, [dispatch, id])
+
+    const deleteAllDoneTasks = useCallback(() => {
+        dispatch(deleteAllDoneTasksTC(id))
     }, [dispatch, id])
 
     return (
@@ -43,7 +48,7 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
                     <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(title)} />
                 </h2>
             </Badge>
-            <MenuList deleteList={deleteList} deleteAllTasks={deleteAllTasks} />
+            <MenuList deleteList={deleteList} deleteAllTasks={deleteAllTasks} deleteAllDoneTasks={deleteAllDoneTasks} />
         </Box>
     )
 })
