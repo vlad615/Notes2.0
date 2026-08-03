@@ -23,11 +23,11 @@ export const Header = () => {
                     </Box>
                     {themeMode === 'dark' ? (
                         <IconButton onClick={changeMode}>
-                            <DarkModeIcon sx={{ fontSize: 30 }} />
+                            <DarkModeIcon sx={{ iconStyle }} />
                         </IconButton>
                     ) : (
                         <IconButton onClick={changeMode}>
-                            <LightModeIcon sx={{ fontSize: 30 }} />
+                            <LightModeIcon sx={{ iconStyle }} />
                         </IconButton>
                     )}
                 </Paper>
@@ -35,3 +35,5 @@ export const Header = () => {
         </header>
     )
 }
+
+const iconStyle = { fontSize: 30 }

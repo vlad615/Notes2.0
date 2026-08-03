@@ -18,8 +18,12 @@ type Props = {
     currentTitle: ListType['title']
 }
 
+const anchorOrigin = { vertical: 'top', horizontal: 'left' } as const
+
 export const CardHeader = memo(({ id, currentTitle }: Props) => {
-    const tasks = useAppSelector(selectTasks)
+    const EMPTY_TASKS: any[] = []
+    const tasks = useAppSelector((state) => selectTasks(state)[id] ?? EMPTY_TASKS)
+
     const dispatch = useAppDispatch()
 
     const editListTitle = useCallback((title: ListType['title']) => {
@@ -37,13 +41,13 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
     const deleteAllDoneTasks = useCallback(() => {
         dispatch(deleteAllDoneTasksTC(id))
     }, [dispatch, id])
-
+    console.log('render cardHeader')
     return (
         <Box className={s.titleWrapper}>
             <Badge
                 color="secondary"
-                badgeContent={tasks[id]?.length}
-                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+                badgeContent={tasks?.length}
+                anchorOrigin={anchorOrigin}>
                 <h2>
                     <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(title)} />
                 </h2>

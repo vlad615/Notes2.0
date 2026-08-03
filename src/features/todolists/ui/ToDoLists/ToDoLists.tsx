@@ -12,9 +12,9 @@ export const ToDoLists = () => {
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
-    }, [dispatch])
+    }, [])
 
-    console.log('ToDoLists rendered')
+    // console.log('ToDoLists rendered')
     return (
         <Box component={'section'}>
             <Box className="container">

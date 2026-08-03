@@ -24,7 +24,7 @@ export const CardItem = memo((list: ListType) => {
             <FilterButtons id={list.id} filter={list.filter} />
             <Tasks id={list.id} filter={list.filter} />
             <Box className={s.addWrapper}>
-                <AddItem createItem={(title) => createTask(title)} label="New task" />
+                <AddItem createItem={createTask} label="New task" />
             </Box>
         </Paper>
     )

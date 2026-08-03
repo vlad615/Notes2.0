@@ -9,8 +9,10 @@ export const Form = memo(() => {
     const dispatch = useAppDispatch()
 
     const createList = useCallback((title: ListType['title']) => {
-        dispatch(createTodolistTC({ title }))
-    }, [])
+        dispatch(createTodolistTC(title))
+    }, [dispatch])
+
+    console.log('render form');
 
     return (
         <Paper className={s.wrapper}>

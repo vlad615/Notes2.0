@@ -95,9 +95,11 @@ export const tasksSlice = createAppSlice({
             },
             {
                 fulfilled: (state, action) => {
-                    const task = state.tasksState[action.payload.todolistId].find((t) => t.id === action.payload.taskId)
-                    if (task) {
-                        Object.assign(task, action.payload.response)
+                    const index = state.tasksState[action.payload.todolistId].findIndex(
+                        (t) => t.id === action.payload.taskId,
+                    )
+                    if (index !== -1) {
+                        state.tasksState[action.payload.todolistId][index] = action.payload.response
                     }
                 },
             },

@@ -8,7 +8,7 @@ export const todolistsApi = {
     },
 
     createTodolist(title: string) {
-        return instance.post<BaseResponse<{ item: Todolist }>>('/todo-lists', title)
+        return instance.post<BaseResponse<{ item: Todolist }>>('/todo-lists', { title })
     },
 
     deleteTodolist(id: string) {

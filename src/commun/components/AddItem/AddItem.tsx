@@ -39,9 +39,13 @@ export const AddItem = memo(({ createItem, label, primary }: Props) => {
                 variant={variant}
                 label={label}
                 onKeyDown={(e) => handleKeyDown(e)}
-                sx={{ borderRadius: '20px' }}
+                sx={style}
             />
             <Button name="Add" callBack={newItem} primary={primary} />
         </>
     )
 })
+
+const style = {
+    borderRadius: '20px',
+}

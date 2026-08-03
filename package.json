@@ -3,14 +3,13 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
-    "homepage": "https://vlad615.github.io/Notes2.0/",
     "scripts": {
         "dev": "vite",
         "lint": "oxlint",
         "test": "vitest",
         "preview": "vite preview",
-        "build": "tsc -b && vite build",
-        "predeploy": "npm run build",
+        "build": "tsc -b && vite build --base=./",
+        "predeploy": "pnpm run build",
         "deploy": "gh-pages -d dist"
     },
     "dependencies": {

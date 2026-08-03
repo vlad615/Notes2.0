@@ -4,40 +4,45 @@ import { List } from '@mui/material'
 import { TaskItem } from './TaskItem/TaskItem'
 import type { DomainTask } from '@/features/todolists/api'
 import { TaskStatus } from '@/commun/enums'
-import { memo, useEffect } from 'react'
-import { idID } from '@mui/material/locale'
+import { memo, useEffect, useMemo } from 'react'
 
 type Props = {
     id: ListType['id']
     filter: ListType['filter']
 }
 
+const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260 }
+
+const EMPTY_TASKS: DomainTask[] = []
+
 export const Tasks = memo(({ id, filter }: Props) => {
-    const tasks = useAppSelector(selectTasks)
+    const tasks = useAppSelector((state) => selectTasks(state)[id] ?? EMPTY_TASKS)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        // const asyncAction = fetchTasksTC(id)
         dispatch(fetchTasksTC(id))
-    }, [])
+    }, [dispatch, id])
 
-    let filteredTasks: DomainTask[] | string = tasks[id]
+    const filteredTasks = useMemo<DomainTask[] | string>(() => {
+        if (filter === 'active') {
+            const activeTasks = tasks.filter((t) => t.status === TaskStatus.Active)
+            return activeTasks.length ? activeTasks : 'All tasks is done!'
+        }
 
-    if (filter === 'active') {
-        filteredTasks = tasks[id].filter((t) => t.status === TaskStatus.Active)
-        if (!filteredTasks.length) {
-            filteredTasks = 'All tasks is done!'
+        if (filter === 'completed') {
+            const completedTasks = tasks.filter((t) => t.status === TaskStatus.Completed)
+            return completedTasks.length ? completedTasks : 'U have complite no tasks, yet!'
         }
-    } else if (filter === 'completed') {
-        filteredTasks = tasks[id].filter((t) => t.status === TaskStatus.Completed)
-        if (!filteredTasks.length) {
-            filteredTasks = 'U have complite no tasks, yet!'
-        }
-    }
+
+        return tasks
+    }, [filter, tasks])
+
+    console.log('render tasks')
+
     return (
-        <List sx={{ width: '100%', overflow: 'auto', maxHeight: 260 }}>
-            {!tasks[id]?.length ? (
+        <List sx={styleTasks}>
+            {!tasks.length ? (
                 <span>List is empty</span>
             ) : Array.isArray(filteredTasks) ? (
                 filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)
