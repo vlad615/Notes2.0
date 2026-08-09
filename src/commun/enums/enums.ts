@@ -12,3 +12,9 @@ export enum TaskPriority {
     Urgently = 3,
     Later = 4,
 }
+
+export enum ResultCode {
+    Succeeded = 0,
+    Error = 1,
+    CaptchError = 10,
+}

@@ -1,3 +1,5 @@
 export { AddItem } from './AddItem/AddItem'
 export { Button } from './Button/Button'
 export { EditebleTitle } from './EditebleTitle/EditebleTitle'
+export { Header } from './Header/Header'
+export { ErrorAlert } from './ErrorAlert/ErrorAlert'

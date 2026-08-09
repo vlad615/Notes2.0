@@ -1,8 +1,9 @@
 import { createAppSlice } from '@/commun/utils/createAppSlice'
 import { tasksApi, type DomainTask, type UpdateTaskModel } from '../api'
-import { createTodolistTC, deleteTodolistTC } from './todolists-slice'
+import { createTodolistTC, deleteTodolistTC, changeTodolistEntityStatusAC } from './todolists-slice'
 import type { RootState } from '@/app/store'
-import { TaskStatus } from '@/commun/enums'
+import { ResultCode, TaskStatus } from '@/commun/enums'
+import { changeErrorStatus, changeRequestStatus } from '@/app'
 
 export const tasksSlice = createAppSlice({
     name: 'tasks',
@@ -14,10 +15,19 @@ export const tasksSlice = createAppSlice({
     },
     reducers: (create) => ({
         createTaskTC: create.asyncThunk(
-            async (payload: { todolistId: string; title: string }, { rejectWithValue }) => {
+            async (payload: { todolistId: string; title: string }, { rejectWithValue, dispatch }) => {
                 try {
+                    dispatch(changeRequestStatus({ status: 'loading' }))
                     const response = await tasksApi.createTask(payload)
-                    return { task: response.data.data.item }
+                    if (response.data.resultCode === ResultCode.Succeeded) {
+                        dispatch(changeRequestStatus({ status: 'succeeded' }))
+                        return { task: response.data.data.item }
+                    } else {
+                        const error = response.data.messages.length ? response.data.messages[0] : 'Some error occurred'
+                        dispatch(changeRequestStatus({ status: 'failed' }))
+                        dispatch(changeErrorStatus({ error }))
+                        return rejectWithValue(null)
+                    }
                 } catch (error) {
                     return rejectWithValue(null)
                 }
@@ -67,7 +77,7 @@ export const tasksSlice = createAppSlice({
         updateTaskTC: create.asyncThunk(
             async (
                 args: { todolistId: string; taskId: string; domainModel: Partial<UpdateTaskModel> },
-                { rejectWithValue, getState },
+                { rejectWithValue, getState, dispatch },
             ) => {
                 try {
                     const state = getState() as RootState
@@ -82,13 +92,21 @@ export const tasksSlice = createAppSlice({
                         deadline: task.deadline,
                     }
                     Object.assign(model, args.domainModel)
-
+                    dispatch(changeRequestStatus({ status: 'loading' }))
                     const response = await tasksApi.updateTask({
                         todolistId: args.todolistId,
                         taskId: args.taskId,
                         model,
                     })
-                    return { todolistId: args.todolistId, taskId: args.taskId, response: response.data.data.item }
+                    if (response.data.resultCode === ResultCode.Succeeded) {
+                        dispatch(changeRequestStatus({ status: 'succeeded' }))
+                        return { todolistId: args.todolistId, taskId: args.taskId, response: response.data.data.item }
+                    } else {
+                        const error = response.data.messages.length ? response.data.messages[0] : 'Some error occurred'
+                        dispatch(changeRequestStatus({ status: 'failed' }))
+                        dispatch(changeErrorStatus({ error }))
+                        return rejectWithValue(null)
+                    }
                 } catch (error) {
                     return rejectWithValue(null)
                 }
@@ -105,13 +123,16 @@ export const tasksSlice = createAppSlice({
             },
         ),
         deleteAllTasksTC: create.asyncThunk(
-            async (todolistId: string, { rejectWithValue, getState }) => {
+            async (todolistId: string, { rejectWithValue, getState, dispatch }) => {
                 try {
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'loading' }))
                     const state = getState() as RootState
                     const tasks = state.tasks.tasksState[todolistId]
                     const tasksIds = await tasksApi.deleteTasks(todolistId, tasks)
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'succeeded' }))
                     return { todolistId, ids: tasksIds }
                 } catch (error) {
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'failed' }))
                     return rejectWithValue(null)
                 }
             },
@@ -125,16 +146,19 @@ export const tasksSlice = createAppSlice({
             },
         ),
         deleteAllDoneTasksTC: create.asyncThunk(
-            async (todolistId: string, { rejectWithValue, getState }) => {
+            async (todolistId: string, { rejectWithValue, getState, dispatch }) => {
                 try {
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'loading' }))
                     const state = getState() as RootState
                     const tasks = state.tasks.tasksState[todolistId]
                     const tasksIds = await tasksApi.deleteTasks(
                         todolistId,
                         tasks.filter((t) => t.status === TaskStatus.Completed),
                     )
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'succeeded' }))
                     return { todolistId, ids: tasksIds }
                 } catch (error) {
+                    dispatch(changeTodolistEntityStatusAC({ id: todolistId, entityStatus: 'failed' }))
                     return rejectWithValue(null)
                 }
             },

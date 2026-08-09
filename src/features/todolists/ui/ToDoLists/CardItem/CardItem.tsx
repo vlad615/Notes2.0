@@ -19,7 +19,7 @@ export const CardItem = memo((list: ListType) => {
 
     console.log('CardItem rendered')
     return (
-        <Paper className={s.wrapper}>
+        <Paper className={s.wrapper} inert={list.entityStatus === 'loading'}>
             <CardHeader id={list.id} currentTitle={list.title} />
             <FilterButtons id={list.id} filter={list.filter} />
             <Tasks id={list.id} filter={list.filter} />
