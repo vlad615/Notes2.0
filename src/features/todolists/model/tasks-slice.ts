@@ -57,14 +57,18 @@ export const tasksSlice = createAppSlice({
         deleteTaskTC: create.asyncThunk(
             async (args: { todolistId: string; taskId: string }, { rejectWithValue, dispatch }) => {
                 try {
+                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'loading' }))
                     const response = await tasksApi.deleteTask(args)
                     if (response.data.resultCode === ResultCode.Succeeded) {
+                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'succeeded' }))
                         return args
                     } else {
+                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
                         handleServerAppError(response.data, dispatch)
                         return rejectWithValue(null)
                     }
                 } catch (error) {
+                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
                     handleServerNetworkError(error, dispatch)
                     return rejectWithValue(null)
                 }
@@ -86,6 +90,7 @@ export const tasksSlice = createAppSlice({
                 { rejectWithValue, getState, dispatch },
             ) => {
                 try {
+                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'loading' }))
                     const state = getState() as RootState
                     const task = state.tasks.tasksState[args.todolistId].find((t) => t.id === args.taskId)
                     if (!task) return rejectWithValue('Task not found')
@@ -106,12 +111,15 @@ export const tasksSlice = createAppSlice({
                     })
                     if (response.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
+                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
                         return { todolistId: args.todolistId, taskId: args.taskId, response: response.data.data.item }
                     } else {
                         handleServerAppError(response.data, dispatch)
+                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
                         return rejectWithValue(null)
                     }
                 } catch (error) {
+                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
                     handleServerNetworkError(error, dispatch)
                     return rejectWithValue(null)
                 }
