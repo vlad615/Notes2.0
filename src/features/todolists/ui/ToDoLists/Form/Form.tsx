@@ -5,15 +5,14 @@ import { type ListType, createTodolistTC } from '@/features/todolists/model'
 import { useAppDispatch } from '@/commun/hooks'
 import { memo, useCallback } from 'react'
 
-export const Form = memo(() => {
+export const Form = () => {
     const dispatch = useAppDispatch()
 
-    const createList = useCallback((title: ListType['title']) => {
+    const createList = (title: ListType['title']) => {
         dispatch(createTodolistTC(title))
-    }, [dispatch])
+    }
 
-    console.log('render form');
-
+    // console.log('form rendered')
     return (
         <Paper className={s.wrapper}>
             <h2 className={s.title}>Add a new to-do list</h2>
@@ -22,4 +21,4 @@ export const Form = memo(() => {
             </Box>
         </Paper>
     )
-})
+}

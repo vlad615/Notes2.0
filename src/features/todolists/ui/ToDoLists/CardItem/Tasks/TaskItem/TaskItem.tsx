@@ -20,6 +20,7 @@ const stylesButton = { padding: '0 0 0 5px' }
 const stylesListItem = { padding: '3px' }
 
 export const TaskItem = memo(({ task, idList }: Props) => {
+    console.log('taskitem render')
     const dispatch = useAppDispatch()
 
     const updateTaskTitle = useCallback((title: DomainTask['title']) => {
@@ -40,19 +41,18 @@ export const TaskItem = memo(({ task, idList }: Props) => {
         }))
     }, [dispatch, idList, task.id])
 
-    console.log('render task item');
     return (
         <ListItem
             sx={stylesListItem}
             secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={deleteTask}>
+                <IconButton edge="end" aria-label="delete" onClick={deleteTask} disabled={task.updating}>
                     <DeleteIcon fontSize="small" />
                 </IconButton>
             }>
             <ListItemButton sx={stylesButton} dense>
                 <ListItemIcon>
                     <Checkbox edge="start" onChange={(e) => updateTaskStatus(e.target.checked)}
-                        checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple />
+                        checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple disabled={task.updating} />
                 </ListItemIcon>
                 <EditebleTitle title={task.title} setNewTitle={updateTaskTitle} />
             </ListItemButton>

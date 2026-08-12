@@ -1,5 +1,5 @@
 import type { DomainTask } from '@/features/todolists/api'
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { Button } from '../Button/Button'
 import { AddItemS } from './AddItemS'
 
@@ -10,6 +10,7 @@ type Props = {
 }
 
 export const AddItem = memo(({ createItem, label, primary }: Props) => {
+    // console.log('additem rerender');
     const [value, setValue] = useState('')
 
     function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
@@ -17,18 +18,17 @@ export const AddItem = memo(({ createItem, label, primary }: Props) => {
     }
 
     const variant = primary ? 'outlined' : 'standard'
-    const newItem = () => {
+    const newItem = useCallback(() => {
         if (value.trim().length !== 0) {
             createItem(value)
         }
         setValue('')
-    }
+    }, [createItem, value])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') newItem()
     }
 
-    console.log('additem rerender');
 
     return (
         <>

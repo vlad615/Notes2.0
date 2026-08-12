@@ -11,13 +11,13 @@ import { Tasks } from './Tasks/Tasks'
 
 
 export const CardItem = memo((list: ListType) => {
+    console.log('carditem rendered')
     const dispatch = useAppDispatch()
 
-    const createTask = useCallback((title: DomainTask['title']) => {
+    const createTask = (title: DomainTask['title']) => {
         dispatch(createTaskTC({ todolistId: list.id, title }))
-    }, [list.id, dispatch])
+    }
 
-    console.log('CardItem rendered')
     return (
         <Paper className={s.wrapper} inert={list.entityStatus === 'loading'}>
             <CardHeader id={list.id} currentTitle={list.title} />

@@ -13,10 +13,10 @@ type Props = {
 
 const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260 }
 
-const EMPTY_TASKS: DomainTask[] = []
 
-export const Tasks = memo(({ id, filter }: Props) => {
-    const tasks = useAppSelector((state) => selectTasks(state)[id] ?? EMPTY_TASKS)
+export const Tasks = ({ id, filter }: Props) => {
+    const tasks = useAppSelector((state) => selectTasks(state)[id])
+    console.log('tasks render', tasks)
 
     const dispatch = useAppDispatch()
 
@@ -38,11 +38,10 @@ export const Tasks = memo(({ id, filter }: Props) => {
         return tasks
     }, [filter, tasks])
 
-    console.log('render tasks')
 
     return (
         <List sx={styleTasks}>
-            {!tasks.length ? (
+            {!tasks?.length ? (
                 <span>List is empty</span>
             ) : Array.isArray(filteredTasks) ? (
                 filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)
@@ -51,4 +50,4 @@ export const Tasks = memo(({ id, filter }: Props) => {
             )}
         </List>
     )
-})
+}

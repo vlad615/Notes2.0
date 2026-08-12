@@ -8,7 +8,6 @@ root.render(
     <Provider store={store}>
         {/* <StrictMode> */}
         <App />
-        {/* <AppHttpRequests /> */}
         {/* </StrictMode> */}
     </Provider>,
 )

@@ -41,7 +41,7 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
     const deleteAllDoneTasks = useCallback(() => {
         dispatch(deleteAllDoneTasksTC(id))
     }, [dispatch, id])
-    console.log('render cardHeader')
+
     return (
         <Box className={s.titleWrapper}>
             <Badge

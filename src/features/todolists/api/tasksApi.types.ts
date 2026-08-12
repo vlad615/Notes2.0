@@ -11,9 +11,10 @@ export type DomainTask = {
     todoListId: string
     order: number
     addedDate: string
+    updating: boolean
 }
 
-export type UpdateTaskModel = Omit<DomainTask, 'id' | 'todoListId' | 'order' | 'addedDate'>
+export type UpdateTaskModel = Omit<DomainTask, 'id' | 'todoListId' | 'order' | 'addedDate' | 'updating'>
 
 export type GetTasksResponse = {
     error: string | null

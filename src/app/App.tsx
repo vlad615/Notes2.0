@@ -7,11 +7,12 @@ import { useAppSelector } from '@/commun/hooks'
 import { selectTheme, selectStatus } from './app-slice'
 import { getTheme } from '@/commun/theme/theme'
 import { ErrorAlert, Header } from '@/commun/components';
+import { useMemo } from 'react';
 
 export function App() {
     const themeMode = useAppSelector(selectTheme)
     const status = useAppSelector(selectStatus)
-    const theme = getTheme(themeMode)
+    const theme = useMemo(() => getTheme(themeMode), [themeMode])
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

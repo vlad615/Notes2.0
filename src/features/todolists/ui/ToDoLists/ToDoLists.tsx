@@ -1,12 +1,14 @@
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { fetchTodolistsTC, selectLists } from '@/features/todolists/model'
 import { Box } from '@mui/material'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 import { CardItem } from './CardItem/CardItem'
 import { Form } from './Form/Form'
 import s from './ToDoLists.module.css'
 
 export const ToDoLists = () => {
+    // console.log('todolists rerender');
+
     const lists = useAppSelector(selectLists)
     const dispatch = useAppDispatch()
 
@@ -14,7 +16,6 @@ export const ToDoLists = () => {
         dispatch(fetchTodolistsTC())
     }, [])
 
-    // console.log('ToDoLists rendered')
     return (
         <Box component={'section'}>
             <Box className="container">

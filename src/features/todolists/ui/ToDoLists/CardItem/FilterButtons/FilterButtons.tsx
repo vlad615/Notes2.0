@@ -2,7 +2,7 @@ import { useAppDispatch } from '@/commun/hooks'
 import { changeTodolistFilterAC, type ListType } from '@/features/todolists/model'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { Button } from '@/commun/components'
-import { useCallback } from 'react'
+import { memo, useCallback } from 'react'
 
 type Props = {
     id: ListType['id']
@@ -17,6 +17,7 @@ export const FilterButtons = ({ id, filter }: Props) => {
     function updateListFilter(id: ListType['id'], filter: ListType['filter']) {
         dispatch(changeTodolistFilterAC({ id, filter }))
     }
+
     const setAllFilter = useCallback(() => {
         updateListFilter(id, 'all')
     }, [dispatch, id])

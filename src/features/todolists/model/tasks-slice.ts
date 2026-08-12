@@ -57,18 +57,19 @@ export const tasksSlice = createAppSlice({
         deleteTaskTC: create.asyncThunk(
             async (args: { todolistId: string; taskId: string }, { rejectWithValue, dispatch }) => {
                 try {
-                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'loading' }))
+                    dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: true }))
+                    dispatch(changeRequestStatus({ status: 'loading' }))
                     const response = await tasksApi.deleteTask(args)
                     if (response.data.resultCode === ResultCode.Succeeded) {
-                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'succeeded' }))
+                        dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         return args
                     } else {
-                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
+                        dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         handleServerAppError(response.data, dispatch)
                         return rejectWithValue(null)
                     }
                 } catch (error) {
-                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
+                    dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                     handleServerNetworkError(error, dispatch)
                     return rejectWithValue(null)
                 }
@@ -90,7 +91,7 @@ export const tasksSlice = createAppSlice({
                 { rejectWithValue, getState, dispatch },
             ) => {
                 try {
-                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'loading' }))
+                    dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: true }))
                     const state = getState() as RootState
                     const task = state.tasks.tasksState[args.todolistId].find((t) => t.id === args.taskId)
                     if (!task) return rejectWithValue('Task not found')
@@ -111,15 +112,15 @@ export const tasksSlice = createAppSlice({
                     })
                     if (response.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
-                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
+                        dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         return { todolistId: args.todolistId, taskId: args.taskId, response: response.data.data.item }
                     } else {
                         handleServerAppError(response.data, dispatch)
-                        dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
+                        dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         return rejectWithValue(null)
                     }
                 } catch (error) {
-                    dispatch(changeTodolistEntityStatusAC({ id: args.todolistId, entityStatus: 'idle' }))
+                    dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                     handleServerNetworkError(error, dispatch)
                     return rejectWithValue(null)
                 }
@@ -190,6 +191,13 @@ export const tasksSlice = createAppSlice({
                 },
             },
         ),
+        updatingTaskAC: create.reducer<{ todolistId: string; taskId: string; updating: boolean }>((state, action) => {
+            const { todolistId, taskId, updating } = action.payload
+            const task = state.tasksState[todolistId].find((task) => task.id === taskId)
+            if (task) {
+                task.updating = updating
+            }
+        }),
     }),
     extraReducers: (builder) => {
         builder
@@ -203,8 +211,15 @@ export const tasksSlice = createAppSlice({
 })
 
 export const { selectTasks } = tasksSlice.selectors
-export const { deleteTaskTC, updateTaskTC, deleteAllTasksTC, fetchTasksTC, createTaskTC, deleteAllDoneTasksTC } =
-    tasksSlice.actions
+export const {
+    deleteTaskTC,
+    updateTaskTC,
+    deleteAllTasksTC,
+    fetchTasksTC,
+    createTaskTC,
+    deleteAllDoneTasksTC,
+    updatingTaskAC,
+} = tasksSlice.actions
 export const tasksReducer = tasksSlice.reducer
 
 export type TasksType = Record<string, DomainTask[]>

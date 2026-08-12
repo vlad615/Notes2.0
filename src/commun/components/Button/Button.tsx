@@ -8,6 +8,8 @@ type Props = {
 }
 
 export const Button = memo(({ name, callBack, primary }: Props) => {
+    // console.log('button render');
+
     const variant = primary ? 'contained' : 'outlined'
     return (
         <ButtonS variant={variant} type="button" onClick={callBack} sx={primary ? white : none}>
