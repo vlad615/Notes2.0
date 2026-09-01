@@ -1,10 +1,10 @@
+import { TaskStatus } from '@/commun/enums'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
+import type { DomainTask } from '@/features/todolists/api'
 import { fetchTasksTC, type ListType, selectTasks } from '@/features/todolists/model'
 import { List } from '@mui/material'
+import { useEffect, useMemo } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
-import type { DomainTask } from '@/features/todolists/api'
-import { TaskStatus } from '@/commun/enums'
-import { memo, useEffect, useMemo } from 'react'
 
 type Props = {
     id: ListType['id']

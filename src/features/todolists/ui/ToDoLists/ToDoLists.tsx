@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { fetchTodolistsTC, selectLists } from '@/features/todolists/model'
 import { Box } from '@mui/material'
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { CardItem } from './CardItem/CardItem'
 import { Form } from './Form/Form'
 import s from './ToDoLists.module.css'
