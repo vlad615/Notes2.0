@@ -61,6 +61,8 @@ export const tasksSlice = createAppSlice({
                     dispatch(changeRequestStatus({ status: 'loading' }))
                     const response = await tasksApi.deleteTask(args)
                     if (response.data.resultCode === ResultCode.Succeeded) {
+                        dispatch(changeRequestStatus({ status: 'succeeded' }))
+
                         dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         return args
                     } else {

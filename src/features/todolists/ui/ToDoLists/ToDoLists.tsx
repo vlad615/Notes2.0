@@ -7,8 +7,6 @@ import { Form } from './Form/Form'
 import s from './ToDoLists.module.css'
 
 export const ToDoLists = () => {
-    // console.log('todolists rerender');
-
     const lists = useAppSelector(selectLists)
     const dispatch = useAppDispatch()
 

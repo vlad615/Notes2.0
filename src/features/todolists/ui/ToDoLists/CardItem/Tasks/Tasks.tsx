@@ -16,7 +16,6 @@ const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260 }
 
 export const Tasks = ({ id, filter }: Props) => {
     const tasks = useAppSelector((state) => selectTasks(state)[id])
-    console.log('tasks render', tasks)
 
     const dispatch = useAppDispatch()
 

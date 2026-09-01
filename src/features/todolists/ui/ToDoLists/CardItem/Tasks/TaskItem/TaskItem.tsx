@@ -20,7 +20,6 @@ const stylesButton = { padding: '0 0 0 5px' }
 const stylesListItem = { padding: '3px' }
 
 export const TaskItem = memo(({ task, idList }: Props) => {
-    console.log('taskitem render')
     const dispatch = useAppDispatch()
 
     const updateTaskTitle = useCallback((title: DomainTask['title']) => {

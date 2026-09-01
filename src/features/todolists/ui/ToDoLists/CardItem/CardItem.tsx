@@ -11,7 +11,6 @@ import { Tasks } from './Tasks/Tasks'
 
 
 export const CardItem = memo((list: ListType) => {
-    console.log('carditem rendered')
     const dispatch = useAppDispatch()
 
     const createTask = (title: DomainTask['title']) => {

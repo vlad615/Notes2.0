@@ -33,7 +33,6 @@ export const tasksApi = {
         const deletePromises = tasks.map((task) => tasksApi.deleteTask({ todolistId, taskId: task.id }))
 
         const response = await Promise.allSettled(deletePromises)
-        console.log(response)
         let tasksIds: string[] = []
         response.forEach((res) => {
             if (res.status === 'fulfilled') {
@@ -41,7 +40,6 @@ export const tasksApi = {
                 id && tasksIds.push(id)
             }
         })
-        console.log(tasksIds)
         return tasksIds
     },
 }
