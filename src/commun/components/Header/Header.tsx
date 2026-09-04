@@ -2,10 +2,13 @@ import s from './Header.module.css'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
-import { Box, IconButton, Paper } from '@mui/material'
+import { Box, IconButton, Paper, Typography } from '@mui/material'
 import { selectTheme, changeThemeAC } from '@/app'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Button } from '../Button/Button'
+import { NavLink } from 'react-router'
+
+const styleLink = { color: 'text.primary' }
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
@@ -18,9 +21,9 @@ export const Header = () => {
         <header>
             <div className="container">
                 <Paper className={s.headerWrapper}>
-                    <Box className={s.iconWrapper}>
+                    <Box component={NavLink} to='/' className={s.iconWrapper} sx={styleLink}>
                         <CheckBoxOutlinedIcon color="secondary" fontSize="large" />
-                        <h1>To Do List</h1>
+                        <Typography variant='h3' component='h1' >To Do List</Typography>
                     </Box>
 
                     <Box className={s.iconWrapper}>
