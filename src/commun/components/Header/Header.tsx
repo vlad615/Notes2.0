@@ -5,6 +5,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import { Box, IconButton, Paper } from '@mui/material'
 import { selectTheme, changeThemeAC } from '@/app'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
+import { Button } from '../Button/Button'
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
@@ -21,15 +22,20 @@ export const Header = () => {
                         <CheckBoxOutlinedIcon color="secondary" fontSize="large" />
                         <h1>To Do List</h1>
                     </Box>
-                    {themeMode === 'dark' ? (
-                        <IconButton onClick={changeMode}>
-                            <DarkModeIcon sx={{ iconStyle }} />
-                        </IconButton>
-                    ) : (
-                        <IconButton onClick={changeMode}>
-                            <LightModeIcon sx={{ iconStyle }} />
-                        </IconButton>
-                    )}
+
+                    <Box className={s.iconWrapper}>
+                        {themeMode === 'dark' ? (
+                            <IconButton onClick={changeMode}>
+                                <DarkModeIcon sx={{ iconStyle }} />
+                            </IconButton>
+                        ) : (
+                            <IconButton onClick={changeMode}>
+                                <LightModeIcon sx={{ iconStyle }} />
+                            </IconButton>
+                        )}
+                        <Button name='Login' primary href='/login' />
+                    </Box>
+
                 </Paper>
             </div>
         </header>

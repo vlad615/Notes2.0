@@ -1,13 +1,15 @@
-import { ToDoLists } from '@/features/todolists/ui/ToDoLists/ToDoLists'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import LinearProgress from '@mui/material/LinearProgress';
-import '@/index.css'
-import { useAppSelector } from '@/commun/hooks'
-import { selectTheme, selectStatus } from './app-slice'
-import { getTheme } from '@/commun/theme/theme'
+import { ToDoLists } from '@/features/todolists/ui/ToDoLists/ToDoLists';
+import { ThemeProvider } from '@mui/material/styles';
+import { Routes, Route } from 'react-router';
 import { ErrorAlert, Header } from '@/commun/components';
+import { useAppSelector } from '@/commun/hooks';
+import { getTheme } from '@/commun/theme/theme';
+import '@/index.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useMemo } from 'react';
+import { selectStatus, selectTheme } from './app-slice';
+import { Login } from '@/features/auth';
 
 export function App() {
     const themeMode = useAppSelector(selectTheme)
@@ -15,10 +17,14 @@ export function App() {
     const theme = useMemo(() => getTheme(themeMode), [themeMode])
     return (
         <ThemeProvider theme={theme}>
+
             <CssBaseline />
             {status === 'loading' && <LinearProgress />}
             <Header />
-            <ToDoLists />
+            <Routes>
+                <Route path='/' element={<ToDoLists />} />
+                <Route path='/login' element={<Login />} />
+            </Routes>
             <ErrorAlert />
         </ThemeProvider>
     )

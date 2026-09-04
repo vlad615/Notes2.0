@@ -16,17 +16,15 @@ export const ErrorAlert = () => {
     };
 
     return (
-        <div>
-            <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                    sx={alertStyle}
-                >
-                    {error}
-                </Alert>
-            </Snackbar>
-        </div>
+        <Snackbar open={error !== null} autoHideDuration={3000} onClose={handleClose}>
+            <Alert
+                onClose={handleClose}
+                severity="error"
+                variant="filled"
+                sx={alertStyle}
+            >
+                {error}
+            </Alert>
+        </Snackbar>
     );
 }

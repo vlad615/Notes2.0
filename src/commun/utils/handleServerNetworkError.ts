@@ -3,6 +3,8 @@ import type { Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export const handleServerNetworkError = (error: unknown, dispatch: Dispatch) => {
+    console.log('setver error')
+
     let errorMessage
 
     if (axios.isAxiosError(error)) {
