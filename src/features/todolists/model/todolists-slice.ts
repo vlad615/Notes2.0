@@ -1,5 +1,5 @@
 import { createAppSlice } from '@/commun/utils/createAppSlice'
-import { todolistsApi, type Todolist } from '../api'
+import { todolistsApi, todolistShema, type Filter, type ListType } from '../api'
 import { changeRequestStatus } from '@/app/app-slice'
 import { handleServerAppError, handleServerNetworkError } from '@/commun/utils'
 import { ResultCode } from '@/commun/enums'
@@ -20,6 +20,7 @@ export const todolistsSlice = createAppSlice({
                 try {
                     dispatch(changeRequestStatus({ status: 'loading' }))
                     const res = await todolistsApi.getTodoLists()
+                    todolistShema.array().parse(res.data)
                     dispatch(changeRequestStatus({ status: 'succeeded' }))
                     return { todolists: res.data }
                 } catch (error) {
@@ -39,6 +40,7 @@ export const todolistsSlice = createAppSlice({
                 try {
                     dispatch(changeRequestStatus({ status: 'loading' }))
                     const res = await todolistsApi.createTodolist(title)
+                    todolistShema.parse(res.data.data.item)
                     if (res.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
                         return { todolist: res.data.data.item }
@@ -88,12 +90,12 @@ export const todolistsSlice = createAppSlice({
             async (args: { id: string; title: string }, { rejectWithValue, dispatch }) => {
                 try {
                     dispatch(changeRequestStatus({ status: 'loading' }))
-                    const response = await todolistsApi.changeTodolistTitle(args.id, args.title)
-                    if (response.data.resultCode === ResultCode.Succeeded) {
+                    const res = await todolistsApi.changeTodolistTitle(args.id, args.title)
+                    if (res.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
                         return args
                     } else {
-                        handleServerAppError(response.data, dispatch)
+                        handleServerAppError(res.data, dispatch)
                         return rejectWithValue(null)
                     }
                 } catch (error) {
@@ -135,10 +137,3 @@ export const {
 } = todolistsSlice.actions
 export const { selectLists } = todolistsSlice.selectors
 export const todolistsReducer = todolistsSlice.reducer
-
-export type ListType = Todolist & {
-    filter: Filter
-    entityStatus: RequestStatus
-}
-
-export type Filter = 'all' | 'active' | 'completed'

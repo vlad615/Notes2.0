@@ -41,20 +41,25 @@ export const TaskItem = memo(({ task, idList }: Props) => {
     }, [dispatch, idList, task.id])
 
     return (
-        <ListItem
-            sx={stylesListItem}
-            secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={deleteTask} disabled={task.updating}>
-                    <DeleteIcon fontSize="small" />
-                </IconButton>
-            }>
-            <ListItemButton sx={stylesButton} dense>
-                <ListItemIcon>
-                    <Checkbox edge="start" onChange={(e) => updateTaskStatus(e.target.checked)}
-                        checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple disabled={task.updating} />
-                </ListItemIcon>
-                <EditebleTitle title={task.title} setNewTitle={updateTaskTitle} />
-            </ListItemButton>
-        </ListItem>
+        <>
+            <ListItem
+                sx={stylesListItem}
+                secondaryAction={
+                    <IconButton edge="end" aria-label="delete" onClick={deleteTask} disabled={task.updating}>
+                        <DeleteIcon fontSize="small" />
+                    </IconButton>
+                }>
+                <ListItemButton sx={stylesButton} dense>
+                    <ListItemIcon>
+                        <Checkbox edge="start" onChange={(e) => updateTaskStatus(e.target.checked)}
+                            checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple disabled={task.updating} />
+                    </ListItemIcon>
+                    <EditebleTitle title={task.title} setNewTitle={updateTaskTitle} />
+                </ListItemButton>
+            </ListItem>
+            <span>{new Date(task.addedDate).toLocaleDateString()}</span>
+        </>
+
+
     )
 })

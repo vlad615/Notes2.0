@@ -7,6 +7,7 @@ import { selectTheme, changeThemeAC } from '@/app'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Button } from '../Button/Button'
 import { NavLink } from 'react-router'
+import { Path } from '@/commun/instance'
 
 const styleLink = { color: 'text.primary' }
 
@@ -21,7 +22,7 @@ export const Header = () => {
         <header>
             <div className="container">
                 <Paper className={s.headerWrapper}>
-                    <Box component={NavLink} to='/' className={s.iconWrapper} sx={styleLink}>
+                    <Box component={NavLink} to={Path.Main} className={s.iconWrapper} sx={styleLink}>
                         <CheckBoxOutlinedIcon color="secondary" fontSize="large" />
                         <Typography variant='h3' component='h1' >To Do List</Typography>
                     </Box>
@@ -36,7 +37,7 @@ export const Header = () => {
                                 <LightModeIcon sx={{ iconStyle }} />
                             </IconButton>
                         )}
-                        <Button name='Login' primary href='/login' />
+                        <Button name='Login' primary to='/login' />
                     </Box>
 
                 </Paper>

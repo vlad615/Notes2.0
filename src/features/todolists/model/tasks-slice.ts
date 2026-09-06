@@ -1,5 +1,5 @@
 import { createAppSlice } from '@/commun/utils/createAppSlice'
-import { tasksApi, type DomainTask, type UpdateTaskModel } from '../api'
+import { domainTaskSchema, tasksApi, type DomainTask, type UpdateTaskModel } from '../api'
 import { createTodolistTC, deleteTodolistTC, changeTodolistEntityStatusAC } from './todolists-slice'
 import type { RootState } from '@/app/store'
 import { ResultCode, TaskStatus } from '@/commun/enums'
@@ -15,16 +15,34 @@ export const tasksSlice = createAppSlice({
         selectTasks: (state) => state.tasksState,
     },
     reducers: (create) => ({
+        fetchTasksTC: create.asyncThunk(
+            async (todolistid: string, thunkAPI) => {
+                try {
+                    const res = await tasksApi.getTasks(todolistid)
+                    domainTaskSchema.array().parse(res.data.items)
+                    return { todolistid, tasks: res.data.items }
+                } catch (error) {
+                    console.log(error)
+                    return thunkAPI.rejectWithValue(null)
+                }
+            },
+            {
+                fulfilled: (state, action) => {
+                    state.tasksState[action.payload.todolistid] = action.payload.tasks
+                },
+            },
+        ),
         createTaskTC: create.asyncThunk(
             async (payload: { todolistId: string; title: string }, { rejectWithValue, dispatch }) => {
                 try {
                     dispatch(changeRequestStatus({ status: 'loading' }))
-                    const response = await tasksApi.createTask(payload)
-                    if (response.data.resultCode === ResultCode.Succeeded) {
+                    const res = await tasksApi.createTask(payload)
+                    domainTaskSchema.parse(res.data.data.item)
+                    if (res.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
-                        return { task: response.data.data.item }
+                        return { task: res.data.data.item }
                     } else {
-                        handleServerAppError(response.data, dispatch)
+                        handleServerAppError(res.data, dispatch)
                         return rejectWithValue(null)
                     }
                 } catch (error) {
@@ -36,21 +54,6 @@ export const tasksSlice = createAppSlice({
                 fulfilled: (state, action) => {
                     const newTask = action.payload.task
                     state.tasksState[newTask.todoListId].unshift(newTask)
-                },
-            },
-        ),
-        fetchTasksTC: create.asyncThunk(
-            async (todolistid: string, thunkAPI) => {
-                try {
-                    const res = await tasksApi.getTasks(todolistid)
-                    return { todolistid, tasks: res.data.items }
-                } catch (error) {
-                    return thunkAPI.rejectWithValue(null)
-                }
-            },
-            {
-                fulfilled: (state, action) => {
-                    state.tasksState[action.payload.todolistid] = action.payload.tasks
                 },
             },
         ),
@@ -107,17 +110,18 @@ export const tasksSlice = createAppSlice({
                     }
                     Object.assign(model, args.domainModel)
                     dispatch(changeRequestStatus({ status: 'loading' }))
-                    const response = await tasksApi.updateTask({
+                    const res = await tasksApi.updateTask({
                         todolistId: args.todolistId,
                         taskId: args.taskId,
                         model,
                     })
-                    if (response.data.resultCode === ResultCode.Succeeded) {
+                    domainTaskSchema.parse(res.data.data.item)
+                    if (res.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
                         dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
-                        return { todolistId: args.todolistId, taskId: args.taskId, response: response.data.data.item }
+                        return { todolistId: args.todolistId, taskId: args.taskId, response: res.data.data.item }
                     } else {
-                        handleServerAppError(response.data, dispatch)
+                        handleServerAppError(res.data, dispatch)
                         dispatch(updatingTaskAC({ todolistId: args.todolistId, taskId: args.taskId, updating: false }))
                         return rejectWithValue(null)
                     }
