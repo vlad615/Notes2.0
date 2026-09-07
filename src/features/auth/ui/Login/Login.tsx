@@ -9,11 +9,17 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
 import { loginSchema, type LoginInputs } from '../../lib'
+import { authSelect, LoginTC } from '../../model/auth-slice'
+import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import s from './Login.module.css'
+import { Navigate } from 'react-router'
+import { Path } from '@/commun/instance'
 
 export const Login = () => {
+    const dispatch = useAppDispatch()
+    const isLogged = useAppSelector(authSelect)
+
     const {
-        register,
         handleSubmit,
         reset,
         control,
@@ -21,9 +27,12 @@ export const Login = () => {
     } = useForm<LoginInputs>({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '', rememberMe: false } })
 
     const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-        console.log(data);
+        dispatch(LoginTC(data))
         reset()
+    }
 
+    if (isLogged) {
+        return (<Navigate to={Path.Main} />)
     }
 
     return (
@@ -33,13 +42,13 @@ export const Login = () => {
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <FormGroup>
-                                <Controller name='password' control={control} render={({ field }) =>
-                                    <TextField type='email' label='Email' margin='normal'
-                                        helperText={errors && errors.email?.message} onChange={(e) => { field.onChange(e.target.value) }} />}
+                                <Controller name='email' control={control} render={({ field }) =>
+                                    <TextField {...field} type='email' label='Email' margin='normal'
+                                        error={!!errors.email} helperText={errors.email?.message} />}
                                 />
                                 <Controller name='password' control={control} render={({ field }) =>
-                                    <TextField type='password' label='Password' margin='normal'
-                                        helperText={errors && errors.password?.message} onChange={(e) => { field.onChange(e.target.value) }} />} />
+                                    <TextField {...field} type='password' label='Password' margin='normal'
+                                        error={!!errors.password} helperText={errors.password?.message} />} />
                                 <FormControlLabel label="Remember me" control={
                                     <Controller name="rememberMe" control={control} render={({ field }) =>
                                         <Checkbox onChange={(e) => field.onChange(e.target.checked)} checked={field.value} />}
