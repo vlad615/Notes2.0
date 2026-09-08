@@ -2,6 +2,7 @@ import { createAppSlice } from '@/commun/utils/createAppSlice'
 import { todolistsApi, todolistShema, type Filter, type ListType } from '../api'
 import { changeRequestStatus } from '@/app/app-slice'
 import { handleServerAppError, handleServerNetworkError } from '@/commun/utils'
+import { LogoutTC } from '@/features/auth'
 import { ResultCode } from '@/commun/enums'
 import type { RequestStatus } from '@/commun/types/BaseResponse'
 
@@ -127,6 +128,11 @@ export const todolistsSlice = createAppSlice({
             }
         }),
     }),
+    extraReducers: (builder) => {
+        builder.addCase(LogoutTC.fulfilled, (state) => {
+            state.todoLists = []
+        })
+    },
 })
 
 export const {

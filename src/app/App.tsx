@@ -47,7 +47,7 @@ export function App() {
             <Header />
             <Routes>
                 <Route element={<ProtectedRoute isAllowed={isLogged} />}>
-                    {isLogged ? <Route path={Path.Main} element={<ToDoLists />} /> : <Navigate to={Path.Login} />}
+                    <Route path={Path.Main} element={<ToDoLists />} />
                 </Route>
 
                 <Route element={<ProtectedRoute isAllowed={!isLogged} redirectPath={Path.Main} />}>

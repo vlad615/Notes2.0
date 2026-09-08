@@ -5,6 +5,7 @@ import type { RootState } from '@/app/store'
 import { ResultCode, TaskStatus } from '@/commun/enums'
 import { changeRequestStatus } from '@/app'
 import { handleServerAppError, handleServerNetworkError } from '@/commun/utils'
+import { LogoutTC } from '@/features/auth'
 
 export const tasksSlice = createAppSlice({
     name: 'tasks',
@@ -212,6 +213,9 @@ export const tasksSlice = createAppSlice({
             })
             .addCase(deleteTodolistTC.fulfilled, (state, action) => {
                 delete state.tasksState[action.payload.id]
+            })
+            .addCase(LogoutTC.fulfilled, (state) => {
+                state.tasksState = {}
             })
     },
 })
