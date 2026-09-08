@@ -8,15 +8,21 @@ import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Button } from '../Button/Button'
 import { NavLink } from 'react-router'
 import { Path } from '@/commun/instance'
+import { authSelect, LogoutTC } from '@/features/auth'
 
 const styleLink = { color: 'text.primary' }
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
+    const logged = useAppSelector(authSelect)
     const dispatch = useAppDispatch()
 
     function changeMode() {
         dispatch(changeThemeAC({ themeMode: themeMode === 'light' ? 'dark' : 'light' }))
+    }
+
+    function handleLogout() {
+        dispatch(LogoutTC())
     }
     return (
         <header>
@@ -37,7 +43,7 @@ export const Header = () => {
                                 <LightModeIcon sx={{ iconStyle }} />
                             </IconButton>
                         )}
-                        <Button name='Login' primary to='/login' />
+                        {logged ? <Button name='Logout' primary callBack={handleLogout} /> : <Button name='Login' primary to='/login' />}
                     </Box>
 
                 </Paper>

@@ -6,13 +6,16 @@ import { CardItem } from './CardItem/CardItem'
 import { Form } from './Form/Form'
 import s from './ToDoLists.module.css'
 
+
 export const ToDoLists = () => {
     const lists = useAppSelector(selectLists)
+
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [])
+
 
     return (
         <Box component={'section'}>
