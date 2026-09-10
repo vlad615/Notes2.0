@@ -1,7 +1,7 @@
 import { TaskStatus } from '@/commun/enums'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
-import type { DomainTask } from '@/features/todolists/api'
-import { fetchTasksTC, type ListType, selectTasks } from '@/features/todolists/model'
+import type { DomainTask, ListType } from '@/features/todolists/api'
+import { fetchTasksTC, selectTasks } from '@/features/todolists/model'
 import { List } from '@mui/material'
 import { useEffect, useMemo } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
@@ -11,7 +11,7 @@ type Props = {
     filter: ListType['filter']
 }
 
-const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260 }
+const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarWidth: 'thin', }
 
 
 export const Tasks = ({ id, filter }: Props) => {
