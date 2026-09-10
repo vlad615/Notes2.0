@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const appSlice = createSlice({
     name: 'app',
     initialState: {
-        themeMode: 'dark' as ThemeMode,
+        themeMode: localStorage.getItem('themeMode') === 'dark' ? 'dark' : ('light' as ThemeMode),
         status: 'idle' as RequestStatus,
         error: null as ErrorStatus,
     },
@@ -15,6 +15,7 @@ export const appSlice = createSlice({
     },
     reducers: (create) => ({
         changeThemeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
+            localStorage.setItem('themeMode', action.payload.themeMode)
             state.themeMode = action.payload.themeMode
         }),
         changeRequestStatus: create.reducer<{ status: RequestStatus }>((state, action) => {
