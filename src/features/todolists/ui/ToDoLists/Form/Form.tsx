@@ -1,18 +1,15 @@
-import { Box, Paper } from '@mui/material'
 import { AddItem } from '@/commun/components'
+import { useAddTodolistMutation } from '@/features/todolists/api'
+import { Box, Paper } from '@mui/material'
 import s from './Form.module.css'
-import { type ListType, createTodolistTC } from '@/features/todolists/model'
-import { useAppDispatch } from '@/commun/hooks'
-import { memo, useCallback } from 'react'
 
 export const Form = () => {
-    const dispatch = useAppDispatch()
+    const [trigger, { data, error, isLoading }] = useAddTodolistMutation()
 
-    const createList = (title: ListType['title']) => {
-        dispatch(createTodolistTC(title))
+    function createList(title: string) {
+        trigger(title)
     }
 
-    // console.log('form rendered')
     return (
         <Paper className={s.wrapper}>
             <h2 className={s.title}>Add a new to-do list</h2>

@@ -1,17 +1,15 @@
-import { MenuList } from './MenuList/MenuList'
-import { Badge, Box } from '@mui/material'
-import s from '../CardItem.module.css'
 import { EditebleTitle } from '@/commun/components'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
+import { useChangeTodolistTitleMutation, useDeleteTodolistMutation, type ListType } from '@/features/todolists/api'
 import {
-    changeTodolistTitleTC,
-    deleteTodolistTC,
-    deleteAllTasksTC,
-    selectTasks,
-    type ListType,
     deleteAllDoneTasksTC,
+    deleteAllTasksTC,
+    selectTasks
 } from '@/features/todolists/model'
+import { Badge, Box } from '@mui/material'
 import { memo, useCallback } from 'react'
+import s from '../CardItem.module.css'
+import { MenuList } from './MenuList/MenuList'
 
 type Props = {
     id: ListType['id']
@@ -26,12 +24,15 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
 
     const dispatch = useAppDispatch()
 
+    const [changeTitle] = useChangeTodolistTitleMutation()
+    const [deleteTodo] = useDeleteTodolistMutation()
+
     const editListTitle = useCallback((title: ListType['title']) => {
-        dispatch(changeTodolistTitleTC({ id, title }))
+        changeTitle({ id, title })
     }, [dispatch, id])
 
     const deleteList = useCallback(() => {
-        dispatch(deleteTodolistTC(id))
+        deleteTodo(id)
     }, [dispatch, id])
 
     const deleteAllTasks = useCallback(() => {
