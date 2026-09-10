@@ -8,12 +8,13 @@ import { useAppDispatch, useAppSelector } from '@/commun/hooks'
 import { Button } from '../Button/Button'
 import { NavLink } from 'react-router'
 import { Path } from '@/commun/instance'
-import { authSelect, LogoutTC } from '@/features/auth'
+import { authSelect, loginSelect, LogoutTC } from '@/features/auth'
 
 const styleLink = { color: 'text.primary' }
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
+    const login = useAppSelector(loginSelect)
     const logged = useAppSelector(authSelect)
     const dispatch = useAppDispatch()
 
@@ -34,6 +35,7 @@ export const Header = () => {
                     </Box>
 
                     <Box className={s.iconWrapper}>
+                        <span>{login}</span>
                         {themeMode === 'dark' ? (
                             <IconButton onClick={changeMode}>
                                 <DarkModeIcon sx={{ iconStyle }} />

@@ -7,8 +7,11 @@ import type { LoginInputs } from '../lib'
 
 export const AuthReducer = createAppSlice({
     name: 'auth',
-    initialState: { isLogged: false },
-    selectors: { authSelect: (state) => state.isLogged },
+    initialState: { isLogged: false, login: '' },
+    selectors: {
+        authSelect: (state) => state.isLogged,
+        loginSelect: (state) => state.login,
+    },
     reducers: (create) => ({
         initializeAppTC: create.asyncThunk(
             async (_, { dispatch, rejectWithValue }) => {
@@ -17,7 +20,7 @@ export const AuthReducer = createAppSlice({
                     const res = await authApi.me()
                     if (res.data.resultCode === ResultCode.Succeeded) {
                         dispatch(changeRequestStatus({ status: 'succeeded' }))
-                        return { isLogged: true }
+                        return { isLogged: true, login: res.data.data.login }
                     } else {
                         handleServerAppError(res.data, dispatch)
                         return rejectWithValue(null)
@@ -30,6 +33,7 @@ export const AuthReducer = createAppSlice({
             {
                 fulfilled: (state, action) => {
                     state.isLogged = action.payload.isLogged
+                    state.login = action.payload.login
                 },
             },
         ),
@@ -78,6 +82,7 @@ export const AuthReducer = createAppSlice({
             {
                 fulfilled: (state, action) => {
                     state.isLogged = action.payload.isLogged
+                    state.login = ''
                 },
             },
         ),
@@ -85,5 +90,5 @@ export const AuthReducer = createAppSlice({
 })
 
 export const { LoginTC, LogoutTC, initializeAppTC } = AuthReducer.actions
-export const { authSelect } = AuthReducer.selectors
+export const { authSelect, loginSelect } = AuthReducer.selectors
 export const authReducer = AuthReducer.reducer

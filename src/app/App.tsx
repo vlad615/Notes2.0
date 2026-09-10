@@ -5,43 +5,40 @@ import { getTheme } from '@/commun/theme/theme';
 import { authSelect, initializeAppTC, Login } from '@/features/auth';
 import { ToDoLists } from '@/features/todolists/ui/ToDoLists/ToDoLists';
 import '@/index.css';
-import { CircularProgress } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { selectStatus, selectTheme } from './app-slice';
-import s from './App.module.css';
-
-
+import { CircularProgress } from '@mui/material';
 
 export function App() {
-    const [isInitialized, setIsInitialized] = useState(false)
     const themeMode = useAppSelector(selectTheme)
     const status = useAppSelector(selectStatus)
     const isLogged = useAppSelector(authSelect)
-
     const dispatch = useAppDispatch()
-    const theme = useMemo(() => getTheme(themeMode), [themeMode])
+    const [isAuthInitialized, setIsAuthInitialized] = useState(false)
 
     useEffect(() => {
         dispatch(initializeAppTC()).finally(() => {
-            setIsInitialized(true)
+            setIsAuthInitialized(true)
         })
     }, [])
 
-    if (!isInitialized) {
+    const theme = useMemo(() => getTheme(themeMode), [themeMode])
+
+    if (!isAuthInitialized) {
         return (
-            <div className={s.circularProgressContainer}>
-                <CircularProgress size={150} thickness={3} />
-            </div>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <CircularProgress />
+            </ThemeProvider>
         )
     }
 
     return (
         <ThemeProvider theme={theme}>
-
             <CssBaseline />
             {status === 'loading' && <LinearProgress />}
             <Header />

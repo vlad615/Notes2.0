@@ -12,3 +12,10 @@
     font-size: 25px;
     gap: 15px;
 }
+
+.circularProgressContainer {
+    position: fixed;
+    top: 30%;
+    text-align: center;
+    width: 100%;
+}
