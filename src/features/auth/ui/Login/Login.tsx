@@ -1,3 +1,8 @@
+import { setIsLoggedInAC } from '@/app/app-slice'
+import { AUTH_TOKEN } from '@/commun/constants'
+import { ResultCode } from '@/commun/enums'
+import { useAppDispatch, useAppSelector } from '@/commun/hooks'
+import { Path } from '@/commun/instance'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
@@ -8,16 +13,16 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
-import { loginSchema, type LoginInputs } from '../../lib'
-import { authSelect, LoginTC } from '../../model/auth-slice'
-import { useAppDispatch, useAppSelector } from '@/commun/hooks'
-import s from './Login.module.css'
 import { Navigate } from 'react-router'
-import { Path } from '@/commun/instance'
+import { useLoginMutation } from '../../api/authApi'
+import { loginSchema, type LoginInputs } from '../../lib'
+import { authSelect } from '../../model/auth-slice'
+import s from './Login.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isLogged = useAppSelector(authSelect)
+    const [login] = useLoginMutation()
 
     const {
         handleSubmit,
@@ -27,8 +32,13 @@ export const Login = () => {
     } = useForm<LoginInputs>({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '', rememberMe: false } })
 
     const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-        dispatch(LoginTC(data))
-        reset()
+        login(data).unwrap().then((data) => {
+            if (data.resultCode === ResultCode.Succeeded) {
+                dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+                localStorage.setItem(AUTH_TOKEN, data.data.token)
+                reset()
+            }
+        })
     }
 
     if (isLogged) {

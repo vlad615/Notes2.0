@@ -1,8 +1,9 @@
-import { useAppDispatch } from '@/commun/hooks'
-import { changeTodolistFilterAC, type ListType } from '@/features/todolists/model'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import { Button } from '@/commun/components'
-import { memo, useCallback } from 'react'
+import { useAppDispatch } from '@/commun/hooks'
+import type { ListType } from '@/features/todolists/api'
+import { changeTodolistFilterAC } from '@/features/todolists/model'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import { useCallback } from 'react'
 
 type Props = {
     id: ListType['id']

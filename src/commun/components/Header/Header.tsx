@@ -1,21 +1,25 @@
-import s from './Header.module.css'
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import { Box, IconButton, Paper, Typography } from '@mui/material'
-import { selectTheme, changeThemeAC } from '@/app'
+import { changeThemeAC, selectIsLoggedIn, selectTheme, setIsLoggedInAC } from '@/app'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
-import { Button } from '../Button/Button'
-import { NavLink } from 'react-router'
 import { Path } from '@/commun/instance'
-import { authSelect, loginSelect, LogoutTC } from '@/features/auth'
+import { loginSelect, LogoutTC } from '@/features/auth'
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import { Box, IconButton, Paper, Typography } from '@mui/material'
+import { NavLink } from 'react-router'
+import { ResultCode } from '@/commun/enums';
+import { Button } from '../Button/Button'
+import s from './Header.module.css'
+import { AUTH_TOKEN } from '@/commun/constants'
+import { useLogoutMutation } from '@/features/auth/api/authApi'
 
 const styleLink = { color: 'text.primary' }
 
 export const Header = () => {
     const themeMode = useAppSelector(selectTheme)
     const login = useAppSelector(loginSelect)
-    const logged = useAppSelector(authSelect)
+    const logged = useAppSelector(selectIsLoggedIn)
+    const [logout] = useLogoutMutation()
     const dispatch = useAppDispatch()
 
     function changeMode() {
@@ -23,7 +27,12 @@ export const Header = () => {
     }
 
     function handleLogout() {
-        dispatch(LogoutTC())
+        logout().unwrap().then((data) => {
+            if (data.resultCode === ResultCode.Succeeded) {
+                dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+                localStorage.removeItem(AUTH_TOKEN)
+            }
+        })
     }
     return (
         <header>

@@ -1,30 +1,36 @@
 import { ErrorAlert, Header, PageNotFound, ProtectedRoute } from '@/commun/components';
+import { ResultCode } from '@/commun/enums';
 import { useAppDispatch, useAppSelector } from '@/commun/hooks';
 import { Path } from '@/commun/instance';
 import { getTheme } from '@/commun/theme/theme';
-import { authSelect, initializeAppTC, Login } from '@/features/auth';
+import { Login } from '@/features/auth';
+import { useMeQuery } from '@/features/auth/api/authApi';
 import { ToDoLists } from '@/features/todolists/ui/ToDoLists/ToDoLists';
 import '@/index.css';
+import { CircularProgress } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
-import { selectStatus, selectTheme } from './app-slice';
-import { CircularProgress } from '@mui/material';
+import { selectIsLoggedIn, selectStatus, selectTheme, setIsLoggedInAC } from './app-slice';
 
 export function App() {
     const themeMode = useAppSelector(selectTheme)
     const status = useAppSelector(selectStatus)
-    const isLogged = useAppSelector(authSelect)
+    const { data, isLoading } = useMeQuery()
+    const isLogged = useAppSelector(selectIsLoggedIn)
     const dispatch = useAppDispatch()
     const [isAuthInitialized, setIsAuthInitialized] = useState(false)
 
     useEffect(() => {
-        dispatch(initializeAppTC()).finally(() => {
-            setIsAuthInitialized(true)
-        })
-    }, [])
+        if (isLoading) return
+        if (data?.resultCode == ResultCode.Succeeded) {
+            dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+        }
+        setIsAuthInitialized(true)
+
+    }, [isLoading])
 
     const theme = useMemo(() => getTheme(themeMode), [themeMode])
 
