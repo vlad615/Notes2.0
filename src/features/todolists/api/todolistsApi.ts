@@ -1,4 +1,4 @@
-import { baseApi, instance } from '@/commun/instance'
+import { baseApi } from '@/commun/instance'
 import type { BaseResponse } from '@/commun/types/BaseResponse'
 import type { ListType, Todolist } from './todolistsApi.types'
 
@@ -49,21 +49,3 @@ export const {
     useChangeTodolistTitleMutation,
     useDeleteTodolistMutation,
 } = todolistsApi
-
-export const _todolistsApi = {
-    getTodoLists() {
-        return instance.get<Todolist[]>('/todo-lists')
-    },
-
-    createTodolist(title: string) {
-        return instance.post<BaseResponse<{ item: Todolist }>>('/todo-lists', { title })
-    },
-
-    deleteTodolist(id: string) {
-        return instance.delete<BaseResponse>(`/todo-lists/${id}`)
-    },
-
-    changeTodolistTitle(id: string, title: string) {
-        return instance.put<BaseResponse>(`/todo-lists/${id}`, { title })
-    },
-}

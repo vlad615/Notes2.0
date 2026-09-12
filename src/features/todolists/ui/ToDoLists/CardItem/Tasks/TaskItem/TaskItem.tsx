@@ -1,14 +1,10 @@
-import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon } from '@mui/material'
 import { EditebleTitle } from '@/commun/components'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { useAppDispatch } from '@/commun/hooks'
-import {
-    updateTaskTC,
-    deleteTaskTC,
-    type ListType,
-} from '@/features/todolists/model'
-import type { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskStatus } from '@/commun/enums/'
+import { useAppDispatch } from '@/commun/hooks'
+import type { DomainTask, ListType } from '@/features/todolists/api/'
+import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasksApi'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon } from '@mui/material'
 import { memo, useCallback } from 'react'
 
 type Props = {
@@ -21,23 +17,27 @@ const stylesListItem = { padding: '3px' }
 
 export const TaskItem = memo(({ task, idList }: Props) => {
     const dispatch = useAppDispatch()
+    const [deleteTask] = useDeleteTaskMutation()
+    const [updateTask] = useUpdateTaskMutation()
+
 
     const updateTaskTitle = useCallback((title: DomainTask['title']) => {
-        dispatch(updateTaskTC({ todolistId: idList, taskId: task.id, domainModel: { title } }))
+        updateTask({ todolistId: idList, taskId: task.id, model: { ...task, title } })
     }, [dispatch, idList, task.id])
 
-    const deleteTask = useCallback(() => {
-        dispatch(deleteTaskTC({ todolistId: idList, taskId: task.id }))
+    const deleteTaskHandler = useCallback(() => {
+        deleteTask({ todolistId: idList, taskId: task.id })
     }, [dispatch, idList, task.id])
 
     const updateTaskStatus = useCallback((checked: boolean) => {
-        dispatch(updateTaskTC({
+        updateTask({
             todolistId: idList,
             taskId: task.id,
-            domainModel: {
+            model: {
+                ...task,
                 status: checked ? TaskStatus.Completed : TaskStatus.Active
             }
-        }))
+        })
     }, [dispatch, idList, task.id])
 
     return (
@@ -45,7 +45,7 @@ export const TaskItem = memo(({ task, idList }: Props) => {
             <ListItem
                 sx={stylesListItem}
                 secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={deleteTask} disabled={task.updating}>
+                    <IconButton edge="end" aria-label="delete" onClick={deleteTaskHandler} disabled={task.updating}>
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 }>

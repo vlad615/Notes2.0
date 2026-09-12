@@ -1,7 +1,6 @@
 import { AddItem } from '@/commun/components/'
-import { useAppDispatch } from '@/commun/hooks'
 import type { DomainTask, ListType } from '@/features/todolists/api'
-import { createTaskTC } from '@/features/todolists/model'
+import { useCreateTaskMutation } from '@/features/todolists/api/tasksApi'
 import { Box, Paper } from '@mui/material'
 import { memo } from 'react'
 import { CardHeader } from './CardHeader/CardHeader'
@@ -11,10 +10,10 @@ import { Tasks } from './Tasks/Tasks'
 
 
 export const CardItem = memo((list: ListType) => {
-    const dispatch = useAppDispatch()
+    const [createTask] = useCreateTaskMutation()
 
-    const createTask = (title: DomainTask['title']) => {
-        dispatch(createTaskTC({ todolistId: list.id, title }))
+    const createTaskHandler = (title: DomainTask['title']) => {
+        createTask({ todolistId: list.id, title })
     }
 
     return (
@@ -23,7 +22,7 @@ export const CardItem = memo((list: ListType) => {
             <FilterButtons id={list.id} filter={list.filter} />
             <Tasks id={list.id} filter={list.filter} />
             <Box className={s.addWrapper}>
-                <AddItem createItem={createTask} label="New task" />
+                <AddItem createItem={createTaskHandler} label="New task" />
             </Box>
         </Paper>
     )

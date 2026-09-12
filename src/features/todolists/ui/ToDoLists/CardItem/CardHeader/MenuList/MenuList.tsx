@@ -6,8 +6,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 type Props = {
     deleteList: () => void
-    deleteAllTasks: () => void
-    deleteAllDoneTasks: () => void
 }
 
 const slotProps = {
@@ -15,7 +13,7 @@ const slotProps = {
     list: { 'aria-labelledby': 'long-button', },
 }
 
-export const MenuList = memo(({ deleteList, deleteAllTasks, deleteAllDoneTasks }: Props) => {
+export const MenuList = memo(({ deleteList, }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,15 +23,6 @@ export const MenuList = memo(({ deleteList, deleteAllTasks, deleteAllDoneTasks }
         setAnchorEl(null)
     }, [])
 
-    const delAll = useCallback(() => {
-        setAnchorEl(null)
-        deleteAllTasks()
-    }, [])
-
-    const delAllDone = useCallback(() => {
-        setAnchorEl(null)
-        deleteAllDoneTasks()
-    }, [])
 
     return (
         <>
@@ -45,8 +34,6 @@ export const MenuList = memo(({ deleteList, deleteAllTasks, deleteAllDoneTasks }
                 open={open}
                 onClose={handleClose}
                 slotProps={slotProps}>
-                <MenuItem onClick={delAllDone}>delete done tasks</MenuItem>
-                <MenuItem onClick={delAll}>delete all tasks</MenuItem>
                 <MenuItem onClick={deleteList}>delet To-Do List</MenuItem>
             </Menu>
         </>

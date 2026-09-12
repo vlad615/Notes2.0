@@ -8,22 +8,26 @@ export function getTheme(theme: ThemeMode) {
         components: {
             MuiCssBaseline: {
                 styleOverrides: {
-                    body: {
+                    html: {
                         scrollbarWidth: 'thin',
                         scrollbarColor: `${primaryColor} transparent`,
-                        '&::-webkit-scrollbar': {
-                            width: 3,
-                            height: 3,
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            background: 'transparent',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
+                    },
+                    '*': {
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: `${primaryColor} transparent`,
+                    },
+                    '*::-webkit-scrollbar': {
+                        width: 3,
+                        height: 3,
+                    },
+                    '*::-webkit-scrollbar-track': {
+                        background: 'transparent',
+                    },
+                    '*::-webkit-scrollbar-thumb': {
+                        backgroundColor: `${primaryColor}`,
+                        borderRadius: 999,
+                        '&:hover': {
                             backgroundColor: `${primaryColor}`,
-                            borderRadius: 999,
-                            '&:hover': {
-                                backgroundColor: `${primaryColor}`,
-                            },
                         },
                     },
                 },
