@@ -1,12 +1,11 @@
 import { AddItem } from '@/commun/components/'
-import type { DomainTask, ListType } from '@/features/todolists/api'
-import { useCreateTaskMutation } from '@/features/todolists/api/tasksApi'
+import { useCreateTaskMutation, type DomainTask, type ListType } from '@/features/todolists/api'
 import { Box, Paper } from '@mui/material'
 import { memo } from 'react'
-import { CardHeader } from './CardHeader/CardHeader'
+import { CardHeader } from './CardHeader/'
 import s from './CardItem.module.css'
-import { FilterButtons } from './FilterButtons/FilterButtons'
-import { Tasks } from './Tasks/Tasks'
+import { FilterButtons } from './FilterButtons/'
+import { Tasks } from './Tasks/'
 
 
 export const CardItem = memo((list: ListType) => {

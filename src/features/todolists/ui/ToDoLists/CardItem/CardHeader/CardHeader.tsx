@@ -4,7 +4,7 @@ import { useChangeTodolistTitleMutation, useDeleteTodolistMutation, useGetTasksQ
 import { Badge, Box } from '@mui/material'
 import { memo, useCallback } from 'react'
 import s from '../CardItem.module.css'
-import { MenuList } from './MenuList/MenuList'
+import { MenuList } from './MenuList/'
 
 type Props = {
     id: ListType['id']

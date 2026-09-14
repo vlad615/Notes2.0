@@ -1,51 +1,68 @@
-import type { DomainTask } from '@/features/todolists/api'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useRef, useState } from 'react'
 import { Button } from '../Button/Button'
-import { AddItemS } from './AddItemS'
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
 
-type Props = {
-    createItem: (title: DomainTask['title']) => void
-    label: string
-    primary?: boolean
+const style = {
+    maxWidth: '380px',
+    width: '100%',
+    marginRight: '15px',
+    borderRadius: '20px',
 }
 
-export const AddItem = memo(({ createItem, label, primary }: Props) => {
-    // console.log('additem rerender');
-    const [value, setValue] = useState('')
+type Props = TextFieldProps & {
+    createItem: (title: string) => void
+    primary?: boolean
+    maxLength?: number
+}
 
-    function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
-        setValue(event.target.value)
-    }
+const MIN_LENGTH = 3
 
-    const variant = primary ? 'outlined' : 'standard'
+export const AddItem = memo(({ createItem, label, primary, maxLength = 30 }: Props) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [error, setError] = useState('')
+
+    const clearError = useCallback(() => {
+        setError('')
+    }, [])
+
     const newItem = useCallback(() => {
-        if (value.trim().length !== 0) {
-            createItem(value)
+        const value = inputRef.current?.value ?? ''
+        const trimmedValue = value.trim()
+
+        if (trimmedValue.length < MIN_LENGTH || trimmedValue.length > maxLength) {
+            setError(`Длина не должна быть меньше 3 и больше ${maxLength} симовлов.`)
+            return
         }
-        setValue('')
-    }, [createItem, value])
+
+        createItem(trimmedValue)
+        setError('')
+
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
+    }, [createItem, maxLength])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === 'Enter') newItem()
+        if (e.key === 'Enter') {
+            newItem()
+        }
     }
-
 
     return (
         <>
-            <AddItemS
+            <TextField
+                inputRef={inputRef}
                 type="text"
-                value={value}
-                onChange={changeValue}
-                variant={variant}
+                variant={primary ? 'outlined' : 'standard'}
                 label={label}
-                onKeyDown={(e) => handleKeyDown(e)}
+                onKeyDown={handleKeyDown}
+                onBlur={clearError}
                 sx={style}
+                error={Boolean(error)}
+                helperText={error}
             />
             <Button name="Add" callBack={newItem} primary={primary} />
         </>
     )
 })
 
-const style = {
-    borderRadius: '20px',
-}

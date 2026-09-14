@@ -2,12 +2,12 @@ import { ErrorAlert, Header, PageNotFound, ProtectedRoute } from '@/commun/compo
 import { ResultCode } from '@/commun/enums';
 import { useAppDispatch, useAppSelector } from '@/commun/hooks';
 import { Path } from '@/commun/instance';
-import { getTheme } from '@/commun/theme/theme';
+import { getTheme } from '@/commun/theme/';
 import { Login } from '@/features/auth';
-import { useMeQuery } from '@/features/auth/api/authApi';
-import { ToDoLists } from '@/features/todolists/ui/ToDoLists/ToDoLists';
-import '@/index.css';
-import { CircularProgress } from '@mui/material';
+import { useMeQuery } from '@/features/auth/api/';
+import { ToDoLists } from '@/features/todolists/ui/';
+import './App.css';
+import { Box, CircularProgress } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ThemeProvider } from '@mui/material/styles';
@@ -15,13 +15,21 @@ import { useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import { selectIsLoggedIn, selectStatus, selectTheme, setIsLoggedInAC } from './app-slice';
 
+const loaderStyle = {
+    position: "fixed",
+    top: "50%",
+    left: "50%", transform: 'translate(-50%, -50%)'
+}
+
 export function App() {
+    const [isAuthInitialized, setIsAuthInitialized] = useState(false)
+
     const themeMode = useAppSelector(selectTheme)
     const status = useAppSelector(selectStatus)
-    const { data, isLoading } = useMeQuery()
     const isLogged = useAppSelector(selectIsLoggedIn)
+
+    const { data, isLoading } = useMeQuery()
     const dispatch = useAppDispatch()
-    const [isAuthInitialized, setIsAuthInitialized] = useState(false)
 
     useEffect(() => {
         if (isLoading) return
@@ -29,7 +37,6 @@ export function App() {
             dispatch(setIsLoggedInAC({ isLoggedIn: true }))
         }
         setIsAuthInitialized(true)
-
     }, [isLoading])
 
     const theme = useMemo(() => getTheme(themeMode), [themeMode])
@@ -38,7 +45,10 @@ export function App() {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <CircularProgress />
+                <Box sx={loaderStyle}>
+                    <CircularProgress />
+                </Box>
+
             </ThemeProvider>
         )
     }

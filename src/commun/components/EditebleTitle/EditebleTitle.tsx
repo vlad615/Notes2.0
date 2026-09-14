@@ -1,44 +1,62 @@
-import type { ListType } from '@/features/todolists/model'
-import { TextField } from '@mui/material'
-import { memo, useState } from 'react'
+import type { ListType } from '@/features/todolists/api'
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
+import { memo, useCallback, useRef, useState } from 'react'
 
-type Props = {
+type Props = TextFieldProps & {
     title: string
+    maxLength?: number
     setNewTitle: (title: ListType['title']) => void
 }
 
-export const EditebleTitle = memo(({ title, setNewTitle }: Props) => {
-    // console.log('editebletitle render');
+const MIN_LENGTH = 3
 
+export const EditebleTitle = memo(({ title, setNewTitle, maxLength = 30 }: Props) => {
     const [isEdit, setIsEdit] = useState<boolean>(false)
-    const [value, setValue] = useState(title)
+    const [error, setError] = useState('')
+    const inputRef = useRef<HTMLInputElement>(null)
 
 
-    function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
-        setValue(event.target.value)
-    }
-
-    function setTitle() {
+    const clearError = useCallback(() => {
         setIsEdit(false)
-        setNewTitle(value)
-    }
+        setError('')
+    }, [])
 
-    function setTitleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
+    const newItem = useCallback(() => {
+        const value = inputRef.current?.value ?? ''
+        const trimmedValue = value.trim()
+
+        if (trimmedValue.length < MIN_LENGTH || trimmedValue.length > maxLength) {
+            setError(`Длина не должна быть меньше 3 и больше ${maxLength} симовлов.`)
+            return
+        }
+
+        setNewTitle(trimmedValue)
+        setIsEdit(false)
+        setError('')
+
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
+    }, [setNewTitle, maxLength])
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') {
-            setIsEdit(false)
-            setNewTitle(value)
+            newItem()
         }
     }
+
 
     return (
         <span onDoubleClick={() => setIsEdit(true)}>
             {isEdit ? (
                 <TextField
+                    inputRef={inputRef}
+                    defaultValue={title}
                     autoFocus
-                    value={value}
-                    onKeyDown={(e) => setTitleEnter(e)}
-                    onChange={changeValue}
-                    onBlur={setTitle}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    onBlur={clearError}
+                    error={Boolean(error)}
+                    helperText={error}
                 />
             ) : (
                 title

@@ -1,5 +1,5 @@
 import { baseApi } from '@/commun/instance'
-import type { BaseResponse } from '@/commun/types/BaseResponse'
+import type { BaseResponse } from '@/commun/types/'
 import type { ListType, Todolist } from './todolistsApi.types'
 
 export const todolistsApi = baseApi.injectEndpoints({

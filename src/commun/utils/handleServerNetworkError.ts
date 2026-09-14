@@ -4,8 +4,6 @@ import axios from 'axios'
 import { z } from 'zod/v4'
 
 export const handleServerNetworkError = (error: unknown, dispatch: Dispatch) => {
-    console.log('setver error')
-
     let errorMessage
 
     switch (true) {

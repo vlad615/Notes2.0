@@ -1,6 +1,6 @@
-import { baseApi, instance } from '@/commun/instance'
+import { baseApi } from '@/commun/instance'
 import type { DomainTask, GetTasksResponse, UpdateTaskModel } from './tasksApi.types'
-import type { BaseResponse } from '@/commun/types/BaseResponse'
+import type { BaseResponse } from '@/commun/types/'
 
 export const tasksApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -41,40 +41,3 @@ export const tasksApi = baseApi.injectEndpoints({
 })
 
 export const { useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useUpdateTaskMutation } = tasksApi
-
-export const _tasksApi = {
-    getTasks(todolistid: string) {
-        return instance.get<GetTasksResponse>(`todo-lists/${todolistid}/tasks`)
-    },
-
-    createTask(payload: { todolistId: string; title: string }) {
-        return instance.post<BaseResponse<{ item: DomainTask }>>(`todo-lists/${payload.todolistId}/tasks`, {
-            title: payload.title,
-        })
-    },
-
-    deleteTask(payload: { todolistId: string; taskId: string }) {
-        return instance.delete<BaseResponse>(`todo-lists/${payload.todolistId}/tasks/${payload.taskId}`)
-    },
-
-    updateTask(payload: { todolistId: string; taskId: string; model: UpdateTaskModel }) {
-        return instance.put<BaseResponse<{ item: DomainTask }>>(
-            `todo-lists/${payload.todolistId}/tasks/${payload.taskId}`,
-            payload.model,
-        )
-    },
-
-    async deleteTasks(todolistId: string, tasks: DomainTask[]) {
-        const deletePromises = tasks.map((task) => this.deleteTask({ todolistId, taskId: task.id }))
-
-        const response = await Promise.allSettled(deletePromises)
-        let tasksIds: string[] = []
-        response.forEach((res) => {
-            if (res.status === 'fulfilled') {
-                const id = res.value.config.url?.split('/').pop()
-                id && tasksIds.push(id)
-            }
-        })
-        return tasksIds
-    },
-}

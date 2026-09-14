@@ -1,7 +1,7 @@
 import { useGetTodolistsQuery } from '@/features/todolists/api'
 import { Box } from '@mui/material'
-import { CardItem } from './CardItem/CardItem'
-import { Form } from './Form/Form'
+import { CardItem } from './CardItem/'
+import { Form } from './Form/'
 import s from './ToDoLists.module.css'
 
 export const ToDoLists = () => {

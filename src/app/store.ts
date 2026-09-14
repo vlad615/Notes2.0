@@ -1,17 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { appReducer } from './app-slice'
-import { authReducer } from '@/features/auth'
-import { todolistsApi } from '@/features/todolists/api'
 import { baseApi } from '@/commun/instance'
+import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
+import { appReducer } from './app-slice'
 
 export const store = configureStore({
     reducer: {
         app: appReducer,
-        auth: authReducer,
         [baseApi.reducerPath]: baseApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(todolistsApi.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([baseApi.middleware]),
 })
 
 setupListeners(store.dispatch)

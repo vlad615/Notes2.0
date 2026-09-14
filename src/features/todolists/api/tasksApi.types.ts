@@ -1,4 +1,4 @@
-import { TaskStatus, TaskPriority } from '@/commun/enums/enums'
+import { TaskStatus, TaskPriority } from '@/commun/enums/'
 import { z } from 'zod/v4'
 
 export const domainTaskSchema = z.object({

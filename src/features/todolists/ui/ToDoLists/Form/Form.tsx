@@ -4,7 +4,7 @@ import { Box, Paper } from '@mui/material'
 import s from './Form.module.css'
 
 export const Form = () => {
-    const [trigger, { data, error, isLoading }] = useAddTodolistMutation()
+    const [trigger] = useAddTodolistMutation()
 
     function createList(title: string) {
         trigger(title)

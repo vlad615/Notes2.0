@@ -1,5 +1,5 @@
-import { baseApi, instance } from '@/commun/instance'
-import type { BaseResponse } from '@/commun/types/BaseResponse'
+import { baseApi } from '@/commun/instance'
+import type { BaseResponse } from '@/commun/types/'
 import type { LoginInputs } from '../lib'
 
 export const authApi = baseApi.injectEndpoints({
@@ -24,15 +24,3 @@ export const authApi = baseApi.injectEndpoints({
 })
 
 export const { useMeQuery, useLoginMutation, useLogoutMutation } = authApi
-
-export const _authApi = {
-    login(payload: LoginInputs) {
-        return instance.post<BaseResponse<{ userId: number; token: string }>>('/auth/login', payload)
-    },
-    logout() {
-        return instance.delete<BaseResponse>('/auth/login')
-    },
-    me() {
-        return instance.get<BaseResponse<{ id: number; email: string; login: string }>>('/auth/me')
-    },
-}

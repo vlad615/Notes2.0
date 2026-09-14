@@ -1,4 +1,4 @@
-import { setIsLoggedInAC } from '@/app/app-slice'
+import { selectIsLoggedIn, setIsLoggedInAC } from '@/app/app-slice'
 import { AUTH_TOKEN } from '@/commun/constants'
 import { ResultCode } from '@/commun/enums'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
@@ -16,12 +16,11 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
 import { Navigate } from 'react-router'
 import { useLoginMutation } from '../../api/authApi'
 import { loginSchema, type LoginInputs } from '../../lib'
-import { authSelect } from '../../model/auth-slice'
 import s from './Login.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isLogged = useAppSelector(authSelect)
+    const isLogged = useAppSelector(selectIsLoggedIn)
     const [login] = useLoginMutation()
 
     const {
@@ -47,51 +46,49 @@ export const Login = () => {
 
     return (
         <Box component={'section'}>
-            <Box className="container">
-                <Box className={s.wrapper}>
-                    <FormControl>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <FormGroup>
-                                <Controller name='email' control={control} render={({ field }) =>
-                                    <TextField {...field} type='email' label='Email' margin='normal'
-                                        error={!!errors.email} helperText={errors.email?.message} />}
-                                />
-                                <Controller name='password' control={control} render={({ field }) =>
-                                    <TextField {...field} type='password' label='Password' margin='normal'
-                                        error={!!errors.password} helperText={errors.password?.message} />} />
-                                <FormControlLabel label="Remember me" control={
-                                    <Controller name="rememberMe" control={control} render={({ field }) =>
-                                        <Checkbox onChange={(e) => field.onChange(e.target.checked)} checked={field.value} />}
-                                    />}
-                                />
-                                <Button type="submit" variant="contained" color="primary">
-                                    Login
-                                </Button>
-                            </FormGroup>
-                        </form>
+            <Box className={s.wrapper}>
+                <FormControl>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <FormGroup>
+                            <Controller name='email' control={control} render={({ field }) =>
+                                <TextField {...field} type='email' label='Email' margin='normal'
+                                    error={!!errors.email} helperText={errors.email?.message} />}
+                            />
+                            <Controller name='password' control={control} render={({ field }) =>
+                                <TextField {...field} type='password' label='Password' margin='normal'
+                                    error={!!errors.password} helperText={errors.password?.message} />} />
+                            <FormControlLabel label="Remember me" control={
+                                <Controller name="rememberMe" control={control} render={({ field }) =>
+                                    <Checkbox onChange={(e) => field.onChange(e.target.checked)} checked={field.value} />}
+                                />}
+                            />
+                            <Button type="submit" variant="contained" color="primary">
+                                Login
+                            </Button>
+                        </FormGroup>
+                    </form>
 
 
-                        <FormLabel>
-                            <p>
-                                To login get registered
-                                <a
-                                    href="https://social-network.samuraijs.com"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    here
-                                </a>
-                            </p>
-                            <p>or use common test account credentials:</p>
-                            <p>
-                                <b>Email:</b> free@samuraijs.com
-                            </p>
-                            <p>
-                                <b>Password:</b> free
-                            </p>
-                        </FormLabel>
-                    </FormControl>
-                </Box>
+                    <FormLabel>
+                        <p>
+                            To login get registered
+                            <a
+                                href="https://social-network.samuraijs.com"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                here
+                            </a>
+                        </p>
+                        <p>or use common test account credentials:</p>
+                        <p>
+                            <b>Email:</b> free@samuraijs.com
+                        </p>
+                        <p>
+                            <b>Password:</b> free
+                        </p>
+                    </FormLabel>
+                </FormControl>
             </Box>
         </Box>
     )
