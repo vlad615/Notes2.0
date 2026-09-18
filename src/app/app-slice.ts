@@ -1,5 +1,5 @@
 import type { ErrorStatus, RequestStatus } from '@/commun/types/BaseResponse'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 
 export const appSlice = createSlice({
     name: 'app',
@@ -30,6 +30,12 @@ export const appSlice = createSlice({
             state.isLoggedIn = action.payload.isLoggedIn
         }),
     }),
+    extraReducers: (builder) => {
+        builder
+        .addMatcher(isPending, (state) => { state.status = 'loading'})
+        .addMatcher(isFulfilled, (state) => { state.status = 'succeeded'})
+        .addMatcher(isRejected, (state) => { state.status = 'failed' })
+    }
 })
 
 export const { changeThemeAC, changeRequestStatus, changeErrorStatus, setIsLoggedInAC } = appSlice.actions

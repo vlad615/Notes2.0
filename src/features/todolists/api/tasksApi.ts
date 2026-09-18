@@ -15,7 +15,7 @@ export const tasksApi = baseApi.injectEndpoints({
             query: ({ todolistId, title }) => ({
                 url: `todo-lists/${todolistId}/tasks`,
                 method: 'POST',
-                body: title,
+                body: { title},
             }),
             invalidatesTags: ['Task'],
         }),

@@ -24,14 +24,12 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
 
     const editListTitle = useCallback((title: ListType['title']) => {
         changeEntityStatus(id, 'loading', dispatch)
-        changeTitle({ id, title })
-        changeEntityStatus(id, 'idle', dispatch)
+        changeTitle({ id, title }).finally(() => {changeEntityStatus(id, 'idle', dispatch)})
     }, [dispatch, id])
 
     const deleteList = useCallback(() => {
         changeEntityStatus(id, 'loading', dispatch)
-        deleteTodo(id)
-        changeEntityStatus(id, 'idle', dispatch)
+        deleteTodo(id).finally(() => {changeEntityStatus(id, 'idle', dispatch)})
     }, [dispatch, id])
 
     return (

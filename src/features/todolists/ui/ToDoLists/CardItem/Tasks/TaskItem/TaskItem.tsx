@@ -6,6 +6,7 @@ import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/features/todolis
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon } from '@mui/material'
 import { memo, useCallback } from 'react'
+import { updatingTask } from '@/features/todolists/utils'
 
 type Props = {
     task: DomainTask
@@ -22,14 +23,17 @@ export const TaskItem = memo(({ task, idList }: Props) => {
 
 
     const updateTaskTitle = useCallback((title: DomainTask['title']) => {
-        updateTask({ todolistId: idList, taskId: task.id, model: { ...task, title } })
-    }, [dispatch, idList, task.id])
+        updatingTask(idList, task.id, true, dispatch)
+        updateTask({ todolistId: idList, taskId: task.id, model: { ...task, title } }).finally(() => updatingTask(idList, task.id, false, dispatch))
+    }, [idList, task.id])
 
     const deleteTaskHandler = useCallback(() => {
-        deleteTask({ todolistId: idList, taskId: task.id })
-    }, [dispatch, idList, task.id])
+        updatingTask(idList, task.id, true, dispatch)
+        deleteTask({ todolistId: idList, taskId: task.id }).finally(() => updatingTask(idList, task.id, false, dispatch))
+    }, [idList, task.id])
 
     const updateTaskStatus = useCallback((checked: boolean) => {
+        updatingTask(idList, task.id, true, dispatch)
         updateTask({
             todolistId: idList,
             taskId: task.id,
@@ -37,8 +41,8 @@ export const TaskItem = memo(({ task, idList }: Props) => {
                 ...task,
                 status: checked ? TaskStatus.Completed : TaskStatus.Active
             }
-        })
-    }, [dispatch, idList, task.id])
+        }).finally(() => updatingTask(idList, task.id, false, dispatch))
+    }, [idList, task.id])
 
     return (
         <>

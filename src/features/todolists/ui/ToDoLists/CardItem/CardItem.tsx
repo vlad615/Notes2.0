@@ -12,9 +12,9 @@ export const CardItem = memo((list: ListType) => {
     const [createTask] = useCreateTaskMutation()
 
     const createTaskHandler = (title: DomainTask['title']) => {
-        createTask({ todolistId: list.id, title })
+        createTask({ todolistId: list.id, title: title })
     }
-
+    
     return (
         <Paper className={s.wrapper} inert={list.entityStatus === 'loading'}>
             <CardHeader id={list.id} currentTitle={list.title} />
