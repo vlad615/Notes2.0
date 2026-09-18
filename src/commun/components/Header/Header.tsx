@@ -2,7 +2,7 @@ import { changeThemeAC, selectIsLoggedIn, selectTheme, setIsLoggedInAC } from '@
 import { AUTH_TOKEN } from '@/commun/constants'
 import { ResultCode } from '@/commun/enums'
 import { useAppDispatch, useAppSelector } from '@/commun/hooks'
-import { Path } from '@/commun/instance'
+import { baseApi, Path } from '@/commun/instance'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api/'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
@@ -33,7 +33,10 @@ export const Header = () => {
             if (data.resultCode === ResultCode.Succeeded) {
                 dispatch(setIsLoggedInAC({ isLoggedIn: false }))
                 localStorage.removeItem(AUTH_TOKEN)
+                // dispatch(baseApi.util.resetApiState())
             }
+        }).then(() => {
+            dispatch(baseApi.util.invalidateTags(["Task", "Todolist"]))
         })
     }, [dispatch, logout])
 
