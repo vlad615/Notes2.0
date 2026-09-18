@@ -3,6 +3,7 @@ import { useGetTasksQuery, type DomainTask, type ListType } from '@/features/tod
 import { List } from '@mui/material'
 import { useMemo } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
+import { TasksSkeleton } from './TasksSkeleton/TasksSkeleton'
 
 type Props = {
     id: ListType['id']
@@ -13,7 +14,11 @@ const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarW
 
 
 export const Tasks = ({ id, filter }: Props) => {
-    const { data: tasks = [] } = useGetTasksQuery(id)
+    const { data: tasks = [], isLoading } = useGetTasksQuery(id)
+
+    if (isLoading) {
+        return (<TasksSkeleton />)
+    }
 
     const filteredTasks = useMemo<DomainTask[] | string>(() => {
         if (filter === 'active') {
