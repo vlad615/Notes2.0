@@ -10,7 +10,7 @@ type Props = TextFieldProps & {
 
 const MIN_LENGTH = 3
 
-export const EditebleTitle = memo(({ title, setNewTitle, maxLength = 30 }: Props) => {
+export const EditebleTitle = memo(({ title, setNewTitle, maxLength = 30, disabled }: Props) => {
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [error, setError] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
@@ -47,7 +47,7 @@ export const EditebleTitle = memo(({ title, setNewTitle, maxLength = 30 }: Props
 
 
     return (
-        <span onDoubleClick={() => setIsEdit(true)}>
+        <span onDoubleClick={() => setIsEdit(true)} style={{ pointerEvents: disabled ? 'none' : 'auto', cursor: 'text' }}>
             {isEdit ? (
                 <TextField
                     inputRef={inputRef}

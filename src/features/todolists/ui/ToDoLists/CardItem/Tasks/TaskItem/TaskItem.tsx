@@ -58,7 +58,7 @@ export const TaskItem = memo(({ task, idList }: Props) => {
                         <Checkbox edge="start" onChange={(e) => updateTaskStatus(e.target.checked)}
                             checked={task.status === TaskStatus.Completed} tabIndex={-1} disableRipple disabled={task.updating} />
                     </ListItemIcon>
-                    <EditebleTitle title={task.title} setNewTitle={updateTaskTitle} />
+                    <EditebleTitle title={task.title} setNewTitle={updateTaskTitle} disabled={task.updating} />
                 </ListItemButton>
             </ListItem>
             <span>{new Date(task.addedDate).toLocaleDateString()}</span>
