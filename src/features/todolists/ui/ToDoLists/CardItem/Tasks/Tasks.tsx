@@ -1,9 +1,10 @@
 import { TaskStatus } from '@/commun/enums'
 import { useGetTasksQuery, type DomainTask, type ListType } from '@/features/todolists/api'
 import { List } from '@mui/material'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
 import { TasksSkeleton } from './TasksSkeleton/TasksSkeleton'
+import { TasksPagination } from './TasksPagination'
 
 type Props = {
     id: ListType['id']
@@ -14,37 +15,48 @@ const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarW
 
 
 export const Tasks = ({ id, filter }: Props) => {
-    const { data: tasks = [], isLoading } = useGetTasksQuery(id)
+    const [page, setPage] = useState(1)
+    const { data, isLoading } = useGetTasksQuery({
+        todolistId: id,
+        params: { page },
+    })
 
     if (isLoading) {
         return (<TasksSkeleton />)
     }
 
     const filteredTasks = useMemo<DomainTask[] | string>(() => {
+        if (!data) {
+            return 'No tasks!'
+        }
+
         if (filter === 'active') {
-            const activeTasks = tasks.filter((t: DomainTask) => t.status === TaskStatus.Active)
+            const activeTasks = data.items.filter((t: DomainTask) => t.status === TaskStatus.Active)
             return activeTasks.length ? activeTasks : 'All tasks is done!'
         }
 
         if (filter === 'completed') {
-            const completedTasks = tasks?.filter((t: DomainTask) => t.status === TaskStatus.Completed)
+            const completedTasks = data.items.filter((t: DomainTask) => t.status === TaskStatus.Completed)
             return completedTasks.length ? completedTasks : 'U have complite no tasks, yet!'
         }
 
-        return tasks
-
-    }, [filter, tasks])
+        return data.items
+    }, [filter, data])
 
 
     return (
-        <List sx={styleTasks}>
-            {!tasks.length ? (
-                <span>List is empty</span>
-            ) : Array.isArray(filteredTasks) ? (
-                filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)
+        <>
+            {Array.isArray(filteredTasks) ? (
+                <>
+                    <List sx={styleTasks}>
+                        {filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)}
+                    </List>
+
+                </>
             ) : (
                 <span>{filteredTasks}</span>
             )}
-        </List>
+            <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+        </>
     )
 }

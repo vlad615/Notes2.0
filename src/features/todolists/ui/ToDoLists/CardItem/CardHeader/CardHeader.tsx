@@ -15,7 +15,10 @@ type Props = {
 const anchorOrigin = { vertical: 'top', horizontal: 'left' } as const
 
 export const CardHeader = memo(({ id, currentTitle }: Props) => {
-    const { data: tasks = [] } = useGetTasksQuery(id)
+    const { data } = useGetTasksQuery({
+        todolistId: id,
+        params: { page: 1 },
+    })
 
     const dispatch = useAppDispatch()
 
@@ -24,19 +27,19 @@ export const CardHeader = memo(({ id, currentTitle }: Props) => {
 
     const editListTitle = useCallback((title: ListType['title']) => {
         changeEntityStatus(id, 'loading', dispatch)
-        changeTitle({ id, title }).finally(() => {changeEntityStatus(id, 'idle', dispatch)})
+        changeTitle({ id, title }).finally(() => { changeEntityStatus(id, 'idle', dispatch) })
     }, [dispatch, id])
 
     const deleteList = useCallback(() => {
         changeEntityStatus(id, 'loading', dispatch)
-        deleteTodo(id).finally(() => {changeEntityStatus(id, 'idle', dispatch)})
+        deleteTodo(id).finally(() => { changeEntityStatus(id, 'idle', dispatch) })
     }, [dispatch, id])
 
     return (
         <Box className={s.titleWrapper}>
             <Badge
                 color="secondary"
-                badgeContent={tasks?.length}
+                badgeContent={data?.totalCount}
                 anchorOrigin={anchorOrigin}>
                 <h2>
                     <EditebleTitle title={currentTitle} setNewTitle={(title) => editListTitle(title)} />

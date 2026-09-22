@@ -1,15 +1,19 @@
 import { baseApi } from '@/commun/instance'
 import type { DomainTask, GetTasksResponse, UpdateTaskModel } from './tasksApi.types'
 import type { BaseResponse } from '@/commun/types/'
+import { PAGE_SIZE } from '@/commun/constants'
 
 export const tasksApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
-        getTasks: build.query<DomainTask[], string>({
-            query: (todolistId) => `todo-lists/${todolistId}/tasks`,
+        getTasks: build.query<GetTasksResponse, { todolistId: string; params: { page: number } }>({
+            query: ({ todolistId, params }) => ({
+                url: `todo-lists/${todolistId}/tasks`,
+                params: { ...params, count: PAGE_SIZE },
+            }),
             transformResponse: (res: GetTasksResponse) => {
-                return [...res.items.map((task) => ({ ...task, updating: false }))]
+                return { ...res, items: [...res.items.map((task) => ({ ...task, updating: false }))] }
             },
-            providesTags: (_result, _error, todolistId) => [{ type: 'Task', id: todolistId }],
+            providesTags: (_result, _error, { todolistId: id }) => [{ type: 'Task', id: id }],
         }),
         createTask: build.mutation<BaseResponse<{ item: DomainTask }>, { todolistId: string; title: string }>({
             query: ({ todolistId, title }) => ({
