@@ -29,15 +29,18 @@ export const Header = () => {
     }, [dispatch, themeMode])
 
     const handleLogout = useCallback(() => {
-        logout().unwrap().then((data) => {
-            if (data.resultCode === ResultCode.Succeeded) {
-                dispatch(setIsLoggedInAC({ isLoggedIn: false }))
-                localStorage.removeItem(AUTH_TOKEN)
-                // dispatch(baseApi.util.resetApiState())
-            }
-        }).then(() => {
-            dispatch(baseApi.util.invalidateTags(["Task", "Todolist"]))
-        })
+        logout()
+            .unwrap()
+            .then((data) => {
+                if (data.resultCode === ResultCode.Succeeded) {
+                    dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+                    localStorage.removeItem(AUTH_TOKEN)
+                    // dispatch(baseApi.util.resetApiState())
+                }
+            })
+            .then(() => {
+                dispatch(baseApi.util.invalidateTags(['Task', 'Todolist']))
+            })
     }, [dispatch, logout])
 
     return (
@@ -46,7 +49,9 @@ export const Header = () => {
                 <Paper className={s.headerWrapper}>
                     <Box component={NavLink} to={Path.Main} className={s.iconWrapper} sx={styleLink}>
                         <CheckBoxOutlinedIcon color="secondary" fontSize="large" />
-                        <Typography variant='h3' component='h1' >To Do List</Typography>
+                        <Typography variant="h3" component="h1">
+                            To Do List
+                        </Typography>
                     </Box>
 
                     <Box className={s.iconWrapper}>
@@ -62,9 +67,12 @@ export const Header = () => {
                                 <LightModeIcon sx={{ iconStyle }} />
                             </IconButton>
                         )}
-                        {logged ? <Button name='Logout' primary callBack={handleLogout} /> : <Button name='Login' primary to='/login' />}
+                        {logged ? (
+                            <Button name="Logout" primary callBack={handleLogout} />
+                        ) : (
+                            <Button name="Login" primary to="/login" />
+                        )}
                     </Box>
-
                 </Paper>
             </div>
         </header>
