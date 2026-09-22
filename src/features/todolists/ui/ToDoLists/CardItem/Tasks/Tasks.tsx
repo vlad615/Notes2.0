@@ -11,16 +11,14 @@ type Props = {
     filter: ListType['filter']
 }
 
-const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarWidth: 'thin', }
-
+const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarWidth: 'thin' }
 
 export const Tasks = memo(({ id, filter }: Props) => {
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page }, },
-        {refetchOnFocus: true})
+    const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page } }, { refetchOnFocus: true })
 
     if (isLoading) {
-        return (<TasksSkeleton />)
+        return <TasksSkeleton />
     }
 
     const filteredTasks = useMemo<DomainTask[] | string>(() => {
@@ -41,20 +39,22 @@ export const Tasks = memo(({ id, filter }: Props) => {
         return data.items
     }, [filter, data])
 
+    const totalCount = data?.totalCount || 0
 
     return (
         <>
             {Array.isArray(filteredTasks) ? (
                 <>
                     <List sx={styleTasks}>
-                        {filteredTasks.map((task) => <TaskItem key={task.id} idList={id} task={task} />)}
+                        {filteredTasks.map((task) => (
+                            <TaskItem key={task.id} idList={id} task={task} />
+                        ))}
                     </List>
-
                 </>
             ) : (
                 <span>{filteredTasks}</span>
             )}
-            <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+            {totalCount && <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />}
         </>
     )
 })
