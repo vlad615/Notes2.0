@@ -5,9 +5,12 @@ import { Form } from './Form/'
 import { TodoSkeleton } from './TodoSkeleton'
 import s from './ToDoLists.module.css'
 import { Fragment } from 'react/jsx-runtime'
+import { _NEVER } from '@reduxjs/toolkit/query'
 
 export const ToDoLists = () => {
-    const { data, isLoading } = useGetTodolistsQuery()
+    const { data, isLoading } = useGetTodolistsQuery(undefined, 
+        // {pollingInterval: 5000, skipPollingIfUnfocused: true}
+    )
 
     if (isLoading) {
         return(

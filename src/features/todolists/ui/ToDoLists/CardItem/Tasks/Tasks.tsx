@@ -1,7 +1,7 @@
 import { TaskStatus } from '@/commun/enums'
 import { useGetTasksQuery, type DomainTask, type ListType } from '@/features/todolists/api'
 import { List } from '@mui/material'
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
 import { TasksSkeleton } from './TasksSkeleton/TasksSkeleton'
 import { TasksPagination } from './TasksPagination'
@@ -14,12 +14,10 @@ type Props = {
 const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarWidth: 'thin', }
 
 
-export const Tasks = ({ id, filter }: Props) => {
+export const Tasks = memo(({ id, filter }: Props) => {
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetTasksQuery({
-        todolistId: id,
-        params: { page },
-    })
+    const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page }, },
+        {refetchOnFocus: true})
 
     if (isLoading) {
         return (<TasksSkeleton />)
@@ -59,4 +57,4 @@ export const Tasks = ({ id, filter }: Props) => {
             <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
         </>
     )
-}
+})
