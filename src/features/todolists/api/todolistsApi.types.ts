@@ -1,4 +1,3 @@
-import type { RequestStatus } from '@/commun/types/'
 import { z } from 'zod/v4'
 
 export const todolistShema = z.object({
