@@ -1,6 +1,5 @@
 import { PAGE_SIZE } from '@/commun/constants'
 import Pagination from '@mui/material/Pagination'
-import Typography from '@mui/material/Typography'
 import { type ChangeEvent } from 'react'
 import styles from './TasksPagination.module.css'
 

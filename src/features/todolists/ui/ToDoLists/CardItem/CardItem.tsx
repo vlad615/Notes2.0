@@ -14,9 +14,9 @@ export const CardItem = memo((list: ListType) => {
     const createTaskHandler = (title: DomainTask['title']) => {
         createTask({ todolistId: list.id, title: title })
     }
-    
+
     return (
-        <Paper className={s.wrapper} inert={list.entityStatus === 'loading'}>
+        <Paper className={s.wrapper}>
             <CardHeader id={list.id} currentTitle={list.title} />
             <FilterButtons id={list.id} filter={list.filter} />
             <Tasks id={list.id} filter={list.filter} />

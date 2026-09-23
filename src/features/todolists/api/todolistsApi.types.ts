@@ -12,7 +12,6 @@ export type Todolist = z.infer<typeof todolistShema>
 
 export type ListType = Todolist & {
     filter: Filter
-    entityStatus: RequestStatus
 }
 
 export type Filter = 'all' | 'active' | 'completed'

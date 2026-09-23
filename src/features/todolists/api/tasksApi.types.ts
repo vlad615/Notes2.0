@@ -14,9 +14,7 @@ export const domainTaskSchema = z.object({
     priority: z.enum(TaskPriority),
 })
 
-export type DomainTask = z.infer<typeof domainTaskSchema> & {
-    updating: boolean
-}
+export type DomainTask = z.infer<typeof domainTaskSchema>
 
 export type UpdateTaskModel = Omit<DomainTask, 'id' | 'todoListId' | 'order' | 'addedDate' | 'updating'>
 
