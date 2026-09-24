@@ -5,6 +5,7 @@ import { memo, useMemo, useState } from 'react'
 import { TaskItem } from './TaskItem/TaskItem'
 import { TasksSkeleton } from './TasksSkeleton/TasksSkeleton'
 import { TasksPagination } from './TasksPagination'
+import { PAGE_SIZE } from '@/commun/constants'
 
 type Props = {
     id: ListType['id']
@@ -15,14 +16,18 @@ const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarW
 
 export const Tasks = memo(({ id, filter }: Props) => {
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page } }, { refetchOnFocus: true })
+    const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page } },
+        // { refetchOnFocus: true }
+    )
 
     if (isLoading) {
         return <TasksSkeleton />
     }
 
+    const totalCount = data?.totalCount || 0
+
     const filteredTasks = useMemo<DomainTask[] | string>(() => {
-        if (!data) {
+        if (!data || !totalCount) {
             return 'No tasks!'
         }
 
@@ -39,22 +44,18 @@ export const Tasks = memo(({ id, filter }: Props) => {
         return data.items
     }, [filter, data])
 
-    const totalCount = data?.totalCount || 0
+    console.log(id, totalCount, data?.totalCount, data?.items, (typeof filteredTasks === 'string' && filteredTasks.length && filteredTasks));
 
     return (
         <>
-            {Array.isArray(filteredTasks) ? (
-                <>
-                    <List sx={styleTasks}>
-                        {filteredTasks.map((task) => (
-                            <TaskItem key={task.id} idList={id} task={task} />
-                        ))}
-                    </List>
-                </>
-            ) : (
-                <span>{filteredTasks}</span>
-            )}
-            {totalCount && <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />}
+            {Array.isArray(filteredTasks) &&
+                <List sx={styleTasks}>
+                    {filteredTasks.map((task) => (
+                        <TaskItem key={task.id} idList={id} task={task} />
+                    ))}
+                </List>}
+            {typeof filteredTasks === 'string' && filteredTasks}
+            {totalCount > PAGE_SIZE && <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />}
         </>
     )
 })
