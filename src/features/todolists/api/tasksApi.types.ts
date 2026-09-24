@@ -16,7 +16,7 @@ export const domainTaskSchema = z.object({
 
 export type DomainTask = z.infer<typeof domainTaskSchema>
 
-export type UpdateTaskModel = Omit<DomainTask, 'id' | 'todoListId' | 'order' | 'addedDate' | 'updating'>
+export type UpdateTaskModel = Omit<DomainTask, 'id' | 'todoListId' | 'addedDate' | 'updating'>
 
 export type GetTasksResponse = {
     error: string | null
