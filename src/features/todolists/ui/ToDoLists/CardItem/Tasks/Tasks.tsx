@@ -17,11 +17,11 @@ const styleTasks = { width: '100%', overflow: 'auto', maxHeight: 260, scrollbarW
 
 export const Tasks = memo(({ id, filter }: Props) => {
     const [page, setPage] = useState(1)
+    const lastOverElement = useRef(null);
     const [reorderTask] = useReorderTaskMutation()
     const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page } },
         // { refetchOnFocus: true }
     )
-    const lastOverElement = useRef(null);
 
     if (isLoading) {
         return <TasksSkeleton />
@@ -29,11 +29,13 @@ export const Tasks = memo(({ id, filter }: Props) => {
 
     function onDragOver(operation: any) {
         const { source, target } = operation;
-        if (source.id !== target.id) lastOverElement.current = source.id
+        if (target && source && source.id !== target.id) lastOverElement.current = target.id
     }
 
     function onDragEnd(operation: any) {
         const { target } = operation
+        console.log(target.id, lastOverElement.current);
+
         if (lastOverElement.current) reorderTask({ todolistId: id, taskId: target.id, after: lastOverElement.current })
         lastOverElement.current = null
     }
@@ -58,7 +60,6 @@ export const Tasks = memo(({ id, filter }: Props) => {
         return data.items
     }, [filter, data])
 
-    console.log(filteredTasks);
 
     return (
         <>

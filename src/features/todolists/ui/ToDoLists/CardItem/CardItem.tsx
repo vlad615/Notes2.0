@@ -6,9 +6,16 @@ import { CardHeader } from './CardHeader/'
 import s from './CardItem.module.css'
 import { FilterButtons } from './FilterButtons/'
 import { Tasks } from './Tasks/'
+import { useSortable } from '@dnd-kit/react/sortable'
 
+type Props = {
+    list: ListType
+    index: number
+}
 
-export const CardItem = memo((list: ListType) => {
+export const CardItem = memo(({ list, index }: Props) => {
+    const { ref } = useSortable({ id: list.id, index });
+
     const [createTask] = useCreateTaskMutation()
 
     const createTaskHandler = (title: DomainTask['title']) => {
@@ -16,7 +23,7 @@ export const CardItem = memo((list: ListType) => {
     }
 
     return (
-        <Paper className={s.wrapper}>
+        <Paper className={s.wrapper} ref={ref}>
             <CardHeader id={list.id} currentTitle={list.title} />
             <FilterButtons id={list.id} filter={list.filter} />
             <Tasks id={list.id} filter={list.filter} />

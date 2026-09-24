@@ -97,10 +97,7 @@ export const tasksApi = baseApi.injectEndpoints({
             },
             invalidatesTags: (_result, _error, { todolistId }) => [{ type: 'Task', id: todolistId }],
         }),
-        reorderTask: build.mutation<
-            BaseResponse<{ item: DomainTask }>,
-            { todolistId: string; taskId: string; after: string }
-        >({
+        reorderTask: build.mutation<BaseResponse, { todolistId: string; taskId: string; after: string }>({
             query: ({ todolistId, taskId, after }) => ({
                 url: `todo-lists/${todolistId}/tasks/${taskId}/reorder`,
                 method: 'PUT',
